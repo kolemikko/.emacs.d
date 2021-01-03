@@ -160,7 +160,7 @@
   (org-indent-mode)
   (variable-pitch-mode 1)
   (visual-line-mode 1)
-  (setq org-agenda-files '("~/Dropbox/Org/todo.org")))
+  (setq org-agenda-files '("~/Dropbox/Org/")))
 
 (defun org-font-setup ()
   (font-lock-add-keywords 'org-mode
