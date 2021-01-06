@@ -130,9 +130,9 @@
   :commands (dired dired-jump)
   :custom ((dired-listing-switches "-agho --group-directories-first"))
   :config
-  (evil-collection-define-key 'normal 'dired-mode-map
-    "l" 'dired-single-up-directory
-    "h" 'dired-single-buffer))
+  (define-key dired-mode-map [remap dired-find-file] 'dired-single-buffer)
+  (define-key dired-mode-map [remap dired-mouse-find-file-other-window] 'dired-single-buffer-mouse)
+  (define-key dired-mode-map [remap dired-up-directory] 'dired-single-up-directory))
 
 (use-package dired-single
   :ensure t
@@ -140,6 +140,12 @@
 
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "H" 'dired-hide-dotfiles-mode))
 
 (use-package projectile
   :diminish projectile-mode
@@ -159,8 +165,7 @@
 (defun org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
-  (visual-line-mode 1)
-  (setq org-agenda-files '("~/Dropbox/Org/")))
+  (visual-line-mode 1))
 
 (defun org-font-setup ()
   (font-lock-add-keywords 'org-mode
@@ -181,6 +186,42 @@
   :hook (org-mode . org-mode-setup)
   :config
   (setq org-ellipsis " ▾")
+
+  (setq org-directory "~/Dropbox/Org")
+  (setq org-default-notes-file (concat org-directory "todo.org"))
+  (setq org-agenda-files '("~/Dropbox/Org/todo.org" "~/Dropbox/Org/notes.org"))
+
+  (setq org-deadline-warning-days 7)
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+
+  (setq org-todo-keywords
+    '((sequence "TODO(t)" "INPROGRESS(i)" "DONE(d!)")))
+
+  (setq org-tag-alist
+    '((:startgroup)
+       ("home" . ?H)
+       ("work" . ?W)
+       ("planning" . ?p)
+       ("idea" . ?i)
+       (:endgroup)))
+
+  (setq org-capture-templates
+    '(("t" "Tasks")
+      ("tt" "Task" entry (file+olp "~/Dropbox/Org/todo.org") 
+        "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+
+      ("tn" "Note" entry (file+olp+datetree "~/Dropbox/Org/notes.org")
+        "\n* %<%I:%M %p> - :notes:\n\n%?\n\n"
+           :clock-in :clock-resume
+           :empty-lines 1)
+
+      ("tm" "Meeting" entry (file+olp "~/Dropbox/Org/todo.org")
+        "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
+           :clock-in :clock-resume
+           :empty-lines 1)))
+
   (org-font-setup))
 
 (use-package org-bullets
@@ -237,6 +278,13 @@
 (use-package ccls
   :hook ((c-mode c++-mode) .
          (lambda () (require 'ccls) (lsp))))
+
+(use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp))))
 
 (use-package company
   :after lsp-mode
@@ -305,9 +353,13 @@
     "oc" '(org-capture :which-key "capture")
     "oa" '(org-agenda :which-key "agenda")
     "os" '(org-schedule :which-key "schedule")
+    "od" '(org-deadline :which-key "set deadline")
+    "ot" '(org-time-stamp :which-key "set time stamp")
 
     "p"  '(projectile-command-map :which-key "projectile")
     "pg"  '(counsel-projectile-grep :which-key "counsel-projectile-grep")
+
+    "s"  '(eshell :which-key "eshell")
 
     "t"  '(:ignore t :which-key "toggles")
     "tt" '(counsel-load-theme :which-key "choose theme")
@@ -325,8 +377,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files '("inbox.org" "notes.org"))
  '(package-selected-packages
-   '(dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
+   '(lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
