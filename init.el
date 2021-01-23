@@ -213,15 +213,30 @@
         "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
       ("tn" "Note" entry (file+olp+datetree "~/Dropbox/Org/notes.org")
-        "\n* %<%I:%M %p> - :notes:\n\n%?\n\n"
-           :clock-in :clock-resume
+        "\n* %<%H:%M> - :notes:\n\n%?\n\n"
            :empty-lines 1)
 
       ("tm" "Meeting" entry (file+olp "~/Dropbox/Org/todo.org")
-        "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
-           :clock-in :clock-resume
+        "* %<%H:%M> - %a :meetings:\n\n%?\n\n"
+           :empty-lines 1)
+
+      ("j" "Journal")
+      ("jj" "Journal Entry" entry
+           (file+olp+datetree "~/Dropbox/Org/Journal.org")
+           "\n* %<%H:%M> - Journal :journal:\n\n%?\n\n"
            :empty-lines 1)))
 
+(setq org-agenda-custom-commands
+   '(("d" "Dashboard"
+     ((agenda "" ((org-deadline-warning-days 7)))
+
+     (todo "TODO"
+            ((org-agenda-overriding-header "TODO")
+             (org-agenda-files org-agenda-files)))
+     (todo "INPROGRESS"
+            ((org-agenda-overriding-header "INPROGRESS")
+             (org-agenda-files org-agenda-files)))))))
+  
   (org-font-setup))
 
 (use-package org-bullets
@@ -377,7 +392,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files '("inbox.org" "notes.org"))
  '(package-selected-packages
    '(lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
 (custom-set-faces
