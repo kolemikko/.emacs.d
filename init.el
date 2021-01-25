@@ -203,6 +203,7 @@
     '((:startgroup)
        ("home" . ?H)
        ("work" . ?W)
+       ("meeting" . ?m)
        ("planning" . ?p)
        ("idea" . ?i)
        (:endgroup)))
@@ -222,7 +223,7 @@
 
       ("j" "Journal")
       ("jj" "Journal Entry" entry
-           (file+olp+datetree "~/Dropbox/Org/Journal.org")
+           (file+olp+datetree "~/Dropbox/Org/journal.org")
            "\n* %<%H:%M> - Journal :journal:\n\n%?\n\n"
            :empty-lines 1)))
 
