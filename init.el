@@ -211,21 +211,21 @@
   (setq org-capture-templates
     '(("t" "Tasks")
       ("tt" "Task" entry (file+olp "~/Dropbox/Org/todo.org") 
-        "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+        "\n* TODO %?\n" :empty-lines 1)
+
+      ("tl" "Linked task" entry (file+olp "~/Dropbox/Org/todo.org") 
+        "\n* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
       ("tn" "Note" entry (file+olp+datetree "~/Dropbox/Org/notes.org")
-        "\n* %<%H:%M> - :notes:\n\n%?\n\n"
-           :empty-lines 1)
+        "\n* %<%H:%M> - :notes:\n\n%?\n\n" :empty-lines 1)
 
       ("tm" "Meeting" entry (file+olp "~/Dropbox/Org/todo.org")
-        "* %<%H:%M> - %a :meetings:\n\n%?\n\n"
-           :empty-lines 1)
+        "\n* %<%H:%M> - %a :meetings:\n\n%?\n\n" :empty-lines 1)
 
       ("j" "Journal")
       ("jj" "Journal Entry" entry
            (file+olp+datetree "~/Dropbox/Org/journal.org")
-           "\n* %<%H:%M> - Journal :journal:\n\n%?\n\n"
-           :empty-lines 1)))
+           "\n* %<%H:%M> - Journal :journal:\n\n%?\n\n" :empty-lines 1)))
 
 (setq org-agenda-custom-commands
    '(("d" "Dashboard"
