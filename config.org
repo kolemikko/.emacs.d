@@ -1,9 +1,11 @@
 #+title: Emacs configuration 2021
-#+PROPERTY: header-args:emacs-lisp :tangle ./init-new.el
+#+PROPERTY: header-args:emacs-lisp :tangle ./init.el
 
 * Basic UI
 
 #+begin_src emacs-lisp
+;;This init.el file was generated from config.org file 
+
 (setq inhibit-startup-message t)
 
 (scroll-bar-mode -1)
@@ -26,9 +28,9 @@
 * Fonts
 
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :font "Source Code Pro" :height 100)
+(set-face-attribute 'default nil :font "Source Code Pro" :height 120)
 
-(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 120 :weight 'regular)
+(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 140 :weight 'regular)
 #+end_src
 
 * Package handling
@@ -355,11 +357,12 @@
 
 #+begin_src emacs-lisp
 (defun tangle-config ()
-    (when (string-equal (buffer-file-name) (expand-file-name "~/.emacs.d/config.org"))
-    (let ((org-confim-babel-evaluate nil))
-        (org-babel-tangle)))
-        
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'tangle-config))))
+  (when (string-equal (buffer-file-name)
+                      (expand-file-name "~/.emacs.d/config.org"))
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'tangle-config)))
 #+end_src
 
 * LSP
@@ -467,8 +470,7 @@
     "fo" '(find-file-other-window :which-key "open file in new window")
     "fr" '(counsel-recentf :which-key "find from recent files")
 
-    "g"  '(:ignore g :which-key "git")
-    "gs"  '(magit-status :which-key "magit-status")
+    "g"  '(magit-status :which-key "magit-status")
 
     "o"  '(:ignore o :which-key "org")
     "oc" '(org-capture :which-key "capture")
@@ -506,3 +508,5 @@
    '(lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
 (custom-set-faces)
  #+end_src
+
+test
