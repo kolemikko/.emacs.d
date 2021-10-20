@@ -157,43 +157,6 @@
 
 (use-package magit)
 
-(use-package org-roam
-  :straight t
-  :hook
-  (after-init . org-roam-mode)
-  :custom
-  (org-roam-directory "~/Org/")
-  (org-roam-completion-everywhere t)
-  (org-roam-completion-system 'default)
-
-  ;; (org-roam-capture-templates
-  ;;   '(("d" "default" plain
-  ;;      #'org-roam-capture--get-point
-  ;;      "%?"
-  ;;      :file-name "%<%Y%m%d%H%M%S>-${slug}"
-  ;;      :head "#+title: ${title}\n"
-  ;;      :unnarrowed t)
-  ;;     ("ll" "link note" plain
-  ;;      #'org-roam-capture--get-point
-  ;;      "* %^{Link}"
-  ;;      :file-name "Inbox"
-  ;;      :olp ("Links")
-  ;;      :unnarrowed t
-  ;;      :immediate-finish)
-  ;;     ("lt" "link task" entry
-  ;;      #'org-roam-capture--get-point
-  ;;      "* TODO %^{Link}"
-  ;;      :file-name "Inbox"
-  ;;      :olp ("Tasks")
-  ;;      :unnarrowed t
-  ;;      :immediate-finish))))
-
-(require 'org-tempo)
-(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-(add-to-list 'org-structure-template-alist '("py" . "src python"))
-(add-to-list 'org-structure-template-alist '("go" . "src go"))
-(add-to-list 'org-structure-template-alist '("json" . "src json"))
-
 (defun org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
@@ -261,7 +224,43 @@
 (use-package visual-fill-column
   :hook (org-mode . org-mode-visual-fill))
 
+(use-package org-roam
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/Org/")
+  (org-roam-completion-everywhere t)
+  (org-roam-completion-system 'default))
 
+  ;; (org-roam-capture-templates
+  ;;   '(("d" "default" plain
+  ;;      #'org-roam-capture--get-point
+  ;;      "%?"
+  ;;      :file-name "%<%Y%m%d%H%M%S>-${slug}"
+  ;;      :head "#+title: ${title}\n"
+  ;;      :unnarrowed t)
+  ;;     ("ll" "link note" plain
+  ;;      #'org-roam-capture--get-point
+  ;;      "* %^{Link}"
+  ;;      :file-name "Inbox"
+  ;;      :olp ("Links")
+  ;;      :unnarrowed t
+  ;;      :immediate-finish)
+  ;;     ("lt" "link task" entry
+  ;;      #'org-roam-capture--get-point
+  ;;      "* TODO %^{Link}"
+  ;;      :file-name "Inbox"
+  ;;      :olp ("Tasks")
+  ;;      :unnarrowed t
+  ;;      :immediate-finish))))
+
+
+
+(require 'org-tempo)
+(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("py" . "src python"))
+(add-to-list 'org-structure-template-alist '("go" . "src go"))
+(add-to-list 'org-structure-template-alist '("json" . "src json"))
 
 (defun tangle-config ()
   (when (string-equal (buffer-file-name)
