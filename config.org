@@ -212,15 +212,53 @@
 (use-package magit)
 #+end_src
 
-* Org-mode
+* Org-mode & Org-Roam
+** Org Roam
+
+#+begin_src emacs-lisp
+(use-package org-roam
+  :straight t
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/Org/")
+  (org-roam-completion-everywhere t)
+  (org-roam-completion-system 'default)
+
+  ;; (org-roam-capture-templates
+  ;;   '(("d" "default" plain
+  ;;      #'org-roam-capture--get-point
+  ;;      "%?"
+  ;;      :file-name "%<%Y%m%d%H%M%S>-${slug}"
+  ;;      :head "#+title: ${title}\n"
+  ;;      :unnarrowed t)
+  ;;     ("ll" "link note" plain
+  ;;      #'org-roam-capture--get-point
+  ;;      "* %^{Link}"
+  ;;      :file-name "Inbox"
+  ;;      :olp ("Links")
+  ;;      :unnarrowed t
+  ;;      :immediate-finish)
+  ;;     ("lt" "link task" entry
+  ;;      #'org-roam-capture--get-point
+  ;;      "* TODO %^{Link}"
+  ;;      :file-name "Inbox"
+  ;;      :olp ("Tasks")
+  ;;      :unnarrowed t
+  ;;      :immediate-finish))))
+#+end_src
+
 ** Structure templates
 
 #+begin_src emacs-lisp
 (require 'org-tempo)
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("py" . "src python"))
+(add-to-list 'org-structure-template-alist '("go" . "src go"))
+(add-to-list 'org-structure-template-alist '("json" . "src json"))
 #+end_src
 
-** Org UI
+** Org
 
 #+begin_src emacs-lisp
 (defun org-mode-setup ()
@@ -228,25 +266,59 @@
   (variable-pitch-mode 1)
   (visual-line-mode 1))
 
-(defun org-font-setup ()
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "(0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+(use-package org
+  :defer t
+  :hook (org-mode . org-mode-setup)
+  :config
+  (setq org-ellipsis " ▾"
+        org-hide-emphasis-markers t
+        org-src-fontify-natively t
+        org-fontify-quote-and-verse-blocks t
+        org-src-tab-acts-natively t
+        org-edit-src-content-indentation 2
+        org-hide-block-startup nil
+        org-src-preserve-indentation nil
+        org-startup-folded 'content
+        org-cycle-separator-lines 2)
 
-  (dolist (face '((org-level-1 . 1.2)
-                  (org-level-2 . 1.1)
-                  (org-level-3 . 1.05)
-                  (org-level-4 . 1.0)
-                  (org-level-5 . 1.1)
-                  (org-level-6 . 1.1)
-                  (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face))))
+  (setq org-modules
+    '(org-crypt
+        org-habit
+        org-bookmark
+        org-eshell
+        org-irc)))
 
-(use-package org-bullets
+(use-package org-superstar
   :after org
-  :hook (org-mode . org-bullets-mode)
+  :hook (org-mode . org-superstar-mode)
   :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+  (org-superstar-remove-leading-stars t)
+  (org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+(require 'org-indent)
+
+(set-face-attribute 'org-document-title nil :font "Cantarell" :weight 'bold :height 1.3)
+(dolist (face '((org-level-1 . 1.2)
+                (org-level-2 . 1.1)
+                (org-level-3 . 1.05)
+                (org-level-4 . 1.0)
+                (org-level-5 . 1.1)
+                (org-level-6 . 1.1)
+                (org-level-7 . 1.1)
+                (org-level-8 . 1.1)))
+  (set-face-attribute (car face) nil :font "Cantarell" :weight 'medium :height (cdr face)))
+
+(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
+(set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-column nil :background nil)
+(set-face-attribute 'org-column-title nil :background nil)
 
 (defun org-mode-visual-fill ()
   (setq visual-fill-column-width 100
@@ -257,100 +329,10 @@
   :hook (org-mode . org-mode-visual-fill))
 #+end_src
 
-** Org
-
-#+begin_src emacs-lisp
-(use-package org
-  :hook (org-mode . org-mode-setup)
-  :config
-  (setq org-ellipsis " ▾")
-
-  (setq org-directory "~/Dropbox/Org")
-  (setq org-default-notes-file (concat org-directory "todo.org"))
-  (setq org-agenda-files '("~/Dropbox/Org/todo.org" "~/Dropbox/Org/notes.org"))
-
-  (setq org-deadline-warning-days 7)
-  (setq org-agenda-start-with-log-mode t)
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
-
-  (setq org-todo-keywords
-    '((sequence "TODO(t)" "INPROGRESS(i)" "DONE(d!)")))
-
-  (setq org-tag-alist
-    '((:startgroup)
-       ("home" . ?H)
-       ("work" . ?W)
-       ("meeting" . ?m)
-       ("planning" . ?p)
-       ("idea" . ?i)
-       (:endgroup)))
-
-  (setq org-capture-templates
-    '(("t" "Tasks")
-      ("tt" "Task" entry (file+olp "~/Dropbox/Org/todo.org") 
-        "\n* TODO %?\n" :empty-lines 1)
-
-      ("tl" "Linked task" entry (file+olp "~/Dropbox/Org/todo.org") 
-        "\n* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
-
-      ("tn" "Note" entry (file+olp+datetree "~/Dropbox/Org/notes.org")
-        "\n* %<%H:%M> - :notes:\n\n%?\n\n" :empty-lines 1)
-
-      ("tm" "Meeting" entry (file+olp "~/Dropbox/Org/todo.org")
-        "\n* %<%H:%M> - %a :meetings:\n\n%?\n\n" :empty-lines 1)
-
-      ("j" "Journal")
-      ("jj" "Journal Entry" entry
-           (file+olp+datetree "~/Dropbox/Org/journal.org")
-           "\n* %<%H:%M> - Journal :journal:\n\n%?\n\n" :empty-lines 1)))
-
-(setq org-agenda-custom-commands
-   '(("a" "All agenda"
-     ((agenda "" ((org-deadline-warning-days 7)))
-
-     (todo "TODO"
-            ((org-agenda-overriding-header "TODO")
-             (org-agenda-files org-agenda-files)))
-     (todo "INPROGRESS"
-            ((org-agenda-overriding-header "INPROGRESS")
-             (org-agenda-files org-agenda-files))))))))
-  
-(org-font-setup)
-#+end_src
-
 ** Presentation
 
 #+begin_src emacs-lisp
-(defun org-start-presentation ()
-  (interactive)
-  (org-tree-slide-mode 1)
-  (setq text-scale-mode-amount 3)
-  (text-scale-mode 1))
 
-(defun org-end-presentation ()
-  (interactive)
-  (text-scale-mode 0)
-  (org-tree-slide-mode 0))
-
-(use-package org-tree-slide
-  :defer t
-  :after org
-  :commands org-tree-slide-mode
-  :hook ((org-tree-slide-play . org-start-presentation)
-	 (org-tree-slide-stop . org-end-presentation))
-  :config
-  (evil-define-key 'normal org-tree-slide-mode-map
-    (kbd "q") 'org-end-presentation
-    (kbd "<down>") 'org-tree-slide-move-next-tree
-    (kbd "<right>") 'org-tree-slide-move-next-tree
-    (kbd "<up>") 'org-tree-slide-move-previous-tree
-    (kbd "<left>") 'org-tree-slide-move-previous-tree)
-  (setq org-tree-slide-slide-in-effect nil
-        org-tree-slide-activate-message "Presentation started."
-        org-tree-slide-deactivate-message "Presentation ended."
-        org-tree-slide-header t
-	org-tree-slide-breadcrumbs " // "))
 #+end_src
 
 ** Auto-tangle config
@@ -478,6 +460,7 @@
     "os" '(org-schedule :which-key "schedule")
     "od" '(org-deadline :which-key "set deadline")
     "ot" '(org-time-stamp :which-key "set time stamp")
+    "op" '(org-start-presentation :which-key "presentation mode")
 
     "p"  '(projectile-command-map :which-key "projectile")
     "pg"  '(counsel-projectile-grep :which-key "counsel-projectile-grep")
