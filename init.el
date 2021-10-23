@@ -1,22 +1,23 @@
 ;;This init.el file was generated from config.org file 
 
+(server-start)
 (setq inhibit-startup-message t)
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (set-fringe-mode 10)
-
 (menu-bar-mode -1)
-
 (column-number-mode)
 (global-display-line-numbers-mode t)
 
-(dolist (mode '(org-mode-hook
-		term-mode-hook
-		shell-mode-hook
-		eshell-mode-hook))
+(dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(set-default-coding-systems 'utf-8)
 
 (set-face-attribute 'default nil :font "Source Code Pro" :height 120)
 
@@ -25,8 +26,8 @@
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa/")
-			 ("elpa" . "https://elpa.gnu.org/packages/")))
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -40,7 +41,7 @@
 
 (use-package doom-themes
   :init (load-theme 'doom-gruvbox t))
-  
+
 (use-package doom-modeline
   :after eshell
   :init (doom-modeline-mode 1)
@@ -89,13 +90,19 @@
 
 (use-package command-log-mode)
 
+(setq global-auto-revert-non-file-buffers t)
+
+(global-auto-revert-mode 1)
+
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package which-key
   :init (which-key-mode)
-  :diminish w:hich-key-mode
+  :diminish which-key-mode
   :config (setq which-key-idle-delay 0.1))
+
+(setq tramp-default-method "ssh")
 
 (use-package evil
   :init
@@ -207,9 +214,9 @@
 (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
 (set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
 (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-code nil   :inherit '(fixed-pitch))
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-verbatim nil :inherit '(fixed-pitch))
 (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
@@ -295,9 +302,9 @@
   :after lsp-mode
   :hook (lsp-mode . company-mode)
   :bind ((:map company-active-map
-	      ("<tab>" . company-complete-selection))
-	 (:map lsp-mode-map
-	       ("<tab>" . company-indent-or-complete-common)))
+              ("<tab>" . company-complete-selection))
+         (:map lsp-mode-map
+               ("<tab>" . company-indent-or-complete-common)))
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.5))
@@ -335,13 +342,13 @@
     :keymaps '(normal visual emacs dired)
     :prefix "SPC"
     :global-prefix "SPC")
-  
+
   (custom-keys
     "k"  '(kill-buffer :which-key "select and kill buffer")
     "q"  '(kill-buffer-and-window :which-key "kill current buffer and window")
     "."  '(switch-to-buffer :which-key "switch to buffer")
     "d" '(dired :which-key "dired") 
-    
+
     "e"  '(:ignore e :which-key "evaluate")
     "eb" '(eval-buffer :which-key "evaluate current buffer")
     "ee" '(eval-expression :which-key "evaluate expression")
@@ -360,7 +367,6 @@
     "os" '(org-schedule :which-key "schedule")
     "od" '(org-deadline :which-key "set deadline")
     "ot" '(org-time-stamp :which-key "set time stamp")
-    "op" '(org-start-presentation :which-key "presentation mode")
 
     "p"  '(projectile-command-map :which-key "projectile")
     "pg"  '(counsel-projectile-grep :which-key "counsel-projectile-grep")
