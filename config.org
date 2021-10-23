@@ -64,7 +64,7 @@
 #+begin_src emacs-lisp
   (use-package doom-themes
     :init (load-theme 'doom-gruvbox t))
-  
+
   (use-package doom-modeline
     :after eshell
     :init (doom-modeline-mode 1)
@@ -386,6 +386,14 @@
   (use-package ccls
     :hook ((c-mode c++-mode) .
            (lambda () (require 'ccls) (lsp))))
+
+  (use-package csharp-mode
+    :ensure t
+    :init
+    (defun csharp-mode-setup ()
+      (setq-local lsp-auto-guess-root t)
+      (lsp))
+    (add-hook 'csharp-mode-hook #'csharp-mode-setup))
 
   (use-package lsp-python-ms
     :ensure t
