@@ -175,12 +175,12 @@
   :config
   (setq org-ellipsis " ▾"
         org-hide-emphasis-markers t
-        org-src-fontify-natively t
-        org-fontify-quote-and-verse-blocks t
-        org-src-tab-acts-natively t
-        org-edit-src-content-indentation 2
         org-hide-block-startup nil
+        org-fontify-quote-and-verse-blocks t
+        org-src-fontify-natively t
+        org-src-tab-acts-natively nil
         org-src-preserve-indentation nil
+        org-edit-src-content-indentation 2
         org-startup-folded 'content
         org-cycle-separator-lines 2)
 
@@ -232,6 +232,9 @@
   :hook (org-mode . org-mode-visual-fill))
 
 (use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
   :hook
   (after-init . org-roam-mode)
   :custom
@@ -355,7 +358,7 @@
     "k"  '(kill-buffer :which-key "select and kill buffer")
     "q"  '(kill-buffer-and-window :which-key "kill current buffer and window")
     "."  '(switch-to-buffer :which-key "switch to buffer")
-    "d" '(dired :which-key "dired") 
+    "d"  '(dired :which-key "dired") 
 
     "e"  '(:ignore e :which-key "evaluate")
     "eb" '(eval-buffer :which-key "evaluate current buffer")
@@ -370,19 +373,18 @@
     "g"  '(magit-status :which-key "magit-status")
 
     "o"  '(:ignore o :which-key "org")
-    "oc" '(org-capture :which-key "capture")
     "oa" '(org-agenda :which-key "agenda")
     "os" '(org-schedule :which-key "schedule")
     "od" '(org-deadline :which-key "set deadline")
     "ot" '(org-time-stamp :which-key "set time stamp")
 
     "p"  '(projectile-command-map :which-key "projectile")
-    "pg"  '(counsel-projectile-grep :which-key "counsel-projectile-grep")
+    "pg" '(counsel-projectile-grep :which-key "counsel-projectile-grep")
 
     "s"  '(eshell :which-key "eshell")
 
     "t"  '(:ignore t :which-key "toggles")
-    "tt" '(counsel-load-theme :which-key "choose theme")
+    "tt" '(treemacs :which-key "toggle treemacs")
 
     "w"  '(:ignore w :which-key "window")
     "TAB"'(other-window :which-key "switch window")
@@ -398,10 +400,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(csharp-mode lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+   '(lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
+(custom-set-faces)
