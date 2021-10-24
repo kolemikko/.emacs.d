@@ -3,26 +3,6 @@
 (server-start)
 (setq inhibit-startup-message t)
 
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(set-fringe-mode 10)
-(menu-bar-mode -1)
-(column-number-mode)
-(global-display-line-numbers-mode t)
-
-(dolist (mode '(org-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
-(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-(set-default-coding-systems 'utf-8)
-
-(set-face-attribute 'default nil :font "Source Code Pro" :height 120)
-
-(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 140 :weight 'regular)
-
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -39,6 +19,28 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(set-fringe-mode 10)
+(menu-bar-mode -1)
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
+(dolist (mode '(org-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(setq visible-bell 1)
+
+(set-default-coding-systems 'utf-8)
+
+(set-face-attribute 'default nil :font "Source Code Pro" :height 120)
+
+(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 140 :weight 'regular)
+
 (use-package doom-themes
   :init (load-theme 'doom-gruvbox t))
 
@@ -47,16 +49,47 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 
+(setq tramp-default-method "ssh")
+
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config (setq which-key-idle-delay 0.1))
+
+(setq global-auto-revert-non-file-buffers t)
+
+(global-auto-revert-mode 1)
+
 (use-package no-littering)
 
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
+(use-package helpful
+  :ensure t
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+
+(use-package ws-butler
+:hook ((text-mode . ws-butler-mode)
+        (prog-mode . ws-butler-mode)))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package command-log-mode)
+
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)	
+         ("TAB" . ivy-alt-done)
          ("C-l" . ivy-alt-done)
          :map ivy-switch-buffer-map
          ("C-l" . ivy-done)
@@ -76,37 +109,6 @@
          ("C-M-l" . counsel-imenu)
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history)))
-
-(use-package helpful
-  :ensure t
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
-
-(use-package command-log-mode)
-
-(setq global-auto-revert-non-file-buffers t)
-
-(global-auto-revert-mode 1)
-
-(use-package ws-butler
-:hook ((text-mode . ws-butler-mode)
-        (prog-mode . ws-butler-mode)))
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-(use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config (setq which-key-idle-delay 0.1))
-
-(setq tramp-default-method "ssh")
 
 (use-package evil
   :init
@@ -166,6 +168,17 @@
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
 
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind ((:map company-active-map
+              ("<tab>" . company-complete-selection))
+         (:map lsp-mode-map
+               ("<tab>" . company-indent-or-complete-common)))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.5))
+
 (use-package magit)
 
 (defun org-mode-setup ()
@@ -182,7 +195,7 @@
         org-hide-block-startup nil
         org-fontify-quote-and-verse-blocks t
         org-src-fontify-natively t
-        org-src-tab-acts-natively nil
+        org-src-tab-acts-natively t
         org-src-preserve-indentation nil
         org-edit-src-content-indentation 2
         org-startup-folded 'content
@@ -227,7 +240,7 @@
 (set-face-attribute 'org-column-title nil :background nil)
 
 (defun org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
+  (setq visual-fill-column-width 90
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
@@ -267,7 +280,14 @@
   ;;      :unnarrowed t
   ;;      :immediate-finish))))
 
+(defun org-present-quit-hook ()
+  (setq-local face-remapping-alist '((default variable-pitch default)))
+  (setq header-line-format nil)
+  (org-present-small)
+  (org-remove-inline-images))
 
+(use-package org-present
+  :hook (org-present-mode-quit . org-present-quit-hook))
 
 (require 'org-tempo)
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
@@ -293,6 +313,10 @@
 (use-package lsp-treemacs
   :after lsp)
 
+(use-package flycheck
+  :defer t
+  :hook (lsp-mode . flycheck-mode))
+
 (use-package ccls
   :hook ((c-mode c++-mode) .
          (lambda () (require 'ccls) (lsp))))
@@ -311,21 +335,6 @@
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
                           (lsp))))
-
-(use-package company
-  :after lsp-mode
-  :hook (lsp-mode . company-mode)
-  :bind ((:map company-active-map
-              ("<tab>" . company-complete-selection))
-         (:map lsp-mode-map
-               ("<tab>" . company-indent-or-complete-common)))
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.5))
-
-(use-package flycheck
-  :defer t
-  :hook (lsp-mode . flycheck-mode))
 
 (defun configure-eshell ()
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
@@ -363,6 +372,9 @@
     "."  '(switch-to-buffer :which-key "switch to buffer")
     "d"  '(dired :which-key "dired")
 
+    "b"  '(:ignore b :which-key "buffer")
+    "br" '(revert-buffer :which-key "revert buffer")
+
     "e"  '(:ignore e :which-key "evaluate")
     "eb" '(eval-buffer :which-key "evaluate current buffer")
     "ee" '(eval-expression :which-key "evaluate expression")
@@ -380,6 +392,7 @@
     "os" '(org-schedule :which-key "schedule")
     "od" '(org-deadline :which-key "set deadline")
     "ot" '(org-time-stamp :which-key "set time stamp")
+    "op" '(org-present :which-key "presentation mode")
 
     "oc" '(org-roam-capture :which-key "capture")
     "of" '(org-roam-node-find :which-key "find node")
@@ -409,10 +422,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(ws-butler lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+   '(lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
+(custom-set-faces)

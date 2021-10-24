@@ -10,35 +10,6 @@
   (setq inhibit-startup-message t)
 #+end_src
 
-* Basic UI
-
-#+begin_src emacs-lisp
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
-  (tooltip-mode -1)
-  (set-fringe-mode 10)
-  (menu-bar-mode -1)
-  (column-number-mode)
-  (global-display-line-numbers-mode t)
-
-  (dolist (mode '(org-mode-hook))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
-  (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-#+end_src
-
-* Fonts and coding
-
-#+begin_src emacs-lisp
-  (set-default-coding-systems 'utf-8)
-
-  (set-face-attribute 'default nil :font "Source Code Pro" :height 120)
-
-  (set-face-attribute 'variable-pitch nil :font "Cantarell" :height 140 :weight 'regular)
-#+end_src
-
 * Package handling
 
 #+begin_src emacs-lisp
@@ -59,7 +30,38 @@
   (setq use-package-always-ensure t)
 #+end_src
 
-* Theme
+* UI
+** General
+
+#+begin_src emacs-lisp
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (tooltip-mode -1)
+  (set-fringe-mode 10)
+  (menu-bar-mode -1)
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+
+  (dolist (mode '(org-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+  (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+  (setq visible-bell 1)
+#+end_src
+
+** Fonts and coding
+
+#+begin_src emacs-lisp
+  (set-default-coding-systems 'utf-8)
+
+  (set-face-attribute 'default nil :font "Source Code Pro" :height 120)
+
+  (set-face-attribute 'variable-pitch nil :font "Cantarell" :height 140 :weight 'regular)
+#+end_src
+
+** Theme
 
 #+begin_src emacs-lisp
   (use-package doom-themes
@@ -71,13 +73,73 @@
     :custom ((doom-modeline-height 15)))
 #+end_src
 
-* No littering
+* Useful misc
+** Tramp
+
+#+begin_src emacs-lisp
+  (setq tramp-default-method "ssh")
+#+end_src
+
+** Which-key
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config (setq which-key-idle-delay 0.1))
+#+end_src
+
+** Auto-revert
+
+#+begin_src emacs-lisp
+  (setq global-auto-revert-non-file-buffers t)
+
+  (global-auto-revert-mode 1)
+#+end_src
+
+** No littering
 
 #+begin_src emacs-lisp
   (use-package no-littering)
 
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+#+end_src
+
+** Helpful
+
+#+begin_src emacs-lisp
+  (use-package helpful
+    :ensure t
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
+#+end_src
+
+** WS-butler
+
+#+begin_src emacs-lisp
+  (use-package ws-butler
+  :hook ((text-mode . ws-butler-mode)
+          (prog-mode . ws-butler-mode)))
+#+end_src
+
+** Rainbow delimiters
+
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Command log
+
+#+begin_src emacs-lisp
+  (use-package command-log-mode)
 #+end_src
 
 * Ivy
@@ -87,7 +149,7 @@
     :diminish
     :bind (("C-s" . swiper)
            :map ivy-minibuffer-map
-           ("TAB" . ivy-alt-done)	
+           ("TAB" . ivy-alt-done)
            ("C-l" . ivy-alt-done)
            :map ivy-switch-buffer-map
            ("C-l" . ivy-done)
@@ -107,61 +169,6 @@
            ("C-M-l" . counsel-imenu)
            :map minibuffer-local-map
            ("C-r" . 'counsel-minibuffer-history)))
-#+end_src
-
-* Useful stuff
-
-#+begin_src emacs-lisp
-  (use-package helpful
-    :ensure t
-    :custom
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
-    :bind
-    ([remap describe-function] . counsel-describe-function)
-    ([remap describe-command] . helpful-command)
-    ([remap describe-variable] . counsel-describe-variable)
-    ([remap describe-key] . helpful-key))
-
-  (use-package command-log-mode)
-#+end_src
-
-* Auto-revert
-
-#+begin_src emacs-lisp
-  (setq global-auto-revert-non-file-buffers t)
-
-  (global-auto-revert-mode 1)
-#+end_src
-
-* WS-butler
-
-#+begin_src emacs-lisp
-  (use-package ws-butler
-  :hook ((text-mode . ws-butler-mode)
-          (prog-mode . ws-butler-mode)))
-#+end_src
-
-* Rainbow delimiters
-
-#+begin_src emacs-lisp
-  (use-package rainbow-delimiters
-    :hook (prog-mode . rainbow-delimiters-mode))
-#+end_src
-
-* Which-key
-
-#+begin_src emacs-lisp
-  (use-package which-key
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config (setq which-key-idle-delay 0.1))
-#+end_src
-
-* Tramp
-
-#+begin_src emacs-lisp
-  (setq tramp-default-method "ssh")
 #+end_src
 
 * Evil-mode
@@ -234,6 +241,21 @@
     :config (counsel-projectile-mode))
 #+end_src
 
+* Company
+
+#+begin_src emacs-lisp
+  (use-package company
+    :after lsp-mode
+    :hook (lsp-mode . company-mode)
+    :bind ((:map company-active-map
+                ("<tab>" . company-complete-selection))
+           (:map lsp-mode-map
+                 ("<tab>" . company-indent-or-complete-common)))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.5))
+#+end_src
+
 * Magit
 
 #+begin_src emacs-lisp
@@ -241,7 +263,7 @@
 #+end_src
 
 * Org-mode & Org-Roam
-** Org
+** Org-mode
 
 #+begin_src emacs-lisp
   (defun org-mode-setup ()
@@ -258,7 +280,7 @@
           org-hide-block-startup nil
           org-fontify-quote-and-verse-blocks t
           org-src-fontify-natively t
-          org-src-tab-acts-natively nil
+          org-src-tab-acts-natively t
           org-src-preserve-indentation nil
           org-edit-src-content-indentation 2
           org-startup-folded 'content
@@ -303,7 +325,7 @@
   (set-face-attribute 'org-column-title nil :background nil)
 
   (defun org-mode-visual-fill ()
-    (setq visual-fill-column-width 100
+    (setq visual-fill-column-width 90
           visual-fill-column-center-text t)
     (visual-fill-column-mode 1))
 
@@ -311,7 +333,7 @@
     :hook (org-mode . org-mode-visual-fill))
 #+end_src
 
-** Org Roam
+** Org-Roam
 
 #+begin_src emacs-lisp
   (use-package org-roam
@@ -351,7 +373,14 @@
 ** Presentation
 
 #+begin_src emacs-lisp
+  (defun org-present-quit-hook ()
+    (setq-local face-remapping-alist '((default variable-pitch default)))
+    (setq header-line-format nil)
+    (org-present-small)
+    (org-remove-inline-images))
 
+  (use-package org-present
+    :hook (org-present-mode-quit . org-present-quit-hook))
 #+end_src
 
 ** Structure templates
@@ -390,13 +419,26 @@
     :after lsp)
 #+end_src
 
+* Flycheck
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :defer t
+    :hook (lsp-mode . flycheck-mode))
+#+end_src
+
 * Language modes
+** C++
 
 #+begin_src emacs-lisp
   (use-package ccls
     :hook ((c-mode c++-mode) .
            (lambda () (require 'ccls) (lsp))))
+#+end_src
 
+** C#
+
+#+begin_src emacs-lisp
   (use-package csharp-mode
     :ensure t
     :init
@@ -404,36 +446,17 @@
       (setq-local lsp-auto-guess-root t)
       (lsp))
     (add-hook 'csharp-mode-hook #'csharp-mode-setup))
+#+end_src
 
+** Python
+
+#+begin_src emacs-lisp
   (use-package lsp-python-ms
     :ensure t
     :init (setq lsp-python-ms-auto-install-server t)
     :hook (python-mode . (lambda ()
                             (require 'lsp-python-ms)
                             (lsp))))
-#+end_src
-
-* Company
-
-#+begin_src emacs-lisp
-  (use-package company
-    :after lsp-mode
-    :hook (lsp-mode . company-mode)
-    :bind ((:map company-active-map
-                ("<tab>" . company-complete-selection))
-           (:map lsp-mode-map
-                 ("<tab>" . company-indent-or-complete-common)))
-    :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.5))
-#+end_src
-
-* Flycheck
-
-#+begin_src emacs-lisp
-  (use-package flycheck
-    :defer t
-    :hook (lsp-mode . flycheck-mode))
 #+end_src
 
 * Shells
@@ -479,6 +502,9 @@
        "."  '(switch-to-buffer :which-key "switch to buffer")
        "d"  '(dired :which-key "dired")
 
+       "b"  '(:ignore b :which-key "buffer")
+       "br" '(revert-buffer :which-key "revert buffer")
+
        "e"  '(:ignore e :which-key "evaluate")
        "eb" '(eval-buffer :which-key "evaluate current buffer")
        "ee" '(eval-expression :which-key "evaluate expression")
@@ -496,6 +522,7 @@
        "os" '(org-schedule :which-key "schedule")
        "od" '(org-deadline :which-key "set deadline")
        "ot" '(org-time-stamp :which-key "set time stamp")
+       "op" '(org-present :which-key "presentation mode")
 
        "oc" '(org-roam-capture :which-key "capture")
        "of" '(org-roam-node-find :which-key "find node")
