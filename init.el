@@ -94,6 +94,10 @@
 
 (global-auto-revert-mode 1)
 
+(use-package ws-butler
+:hook ((text-mode . ws-butler-mode)
+        (prog-mode . ws-butler-mode)))
+
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
@@ -188,8 +192,7 @@
     '(org-crypt
         org-habit
         org-bookmark
-        org-eshell
-        org-irc)))
+        org-eshell)))
 
 (use-package org-superstar
   :after org
@@ -358,7 +361,7 @@
     "k"  '(kill-buffer :which-key "select and kill buffer")
     "q"  '(kill-buffer-and-window :which-key "kill current buffer and window")
     "."  '(switch-to-buffer :which-key "switch to buffer")
-    "d"  '(dired :which-key "dired") 
+    "d"  '(dired :which-key "dired")
 
     "e"  '(:ignore e :which-key "evaluate")
     "eb" '(eval-buffer :which-key "evaluate current buffer")
@@ -378,7 +381,13 @@
     "od" '(org-deadline :which-key "set deadline")
     "ot" '(org-time-stamp :which-key "set time stamp")
 
-    "p"  '(projectile-command-map :which-key "projectile")
+    "oc" '(org-roam-capture :which-key "capture")
+    "of" '(org-roam-node-find :which-key "find node")
+    "og" '(org-roam-graph :which-key "graph")
+    "oi" '(org-roam-insert :which-key "insert")
+
+    "p"  '(
+           projectile-command-map :which-key "projectile")
     "pg" '(counsel-projectile-grep :which-key "counsel-projectile-grep")
 
     "s"  '(eshell :which-key "eshell")
@@ -400,5 +409,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
-(custom-set-faces)
+   '(ws-butler lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

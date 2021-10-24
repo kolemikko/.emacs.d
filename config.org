@@ -134,6 +134,14 @@
   (global-auto-revert-mode 1)
 #+end_src
 
+* WS-butler
+
+#+begin_src emacs-lisp
+  (use-package ws-butler
+  :hook ((text-mode . ws-butler-mode)
+          (prog-mode . ws-butler-mode)))
+#+end_src
+
 * Rainbow delimiters
 
 #+begin_src emacs-lisp
@@ -260,8 +268,7 @@
       '(org-crypt
           org-habit
           org-bookmark
-          org-eshell
-          org-irc)))
+          org-eshell)))
 
   (use-package org-superstar
     :after org
@@ -457,54 +464,60 @@
 * General key bindings
 
 #+begin_src emacs-lisp
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-  (use-package general
-    :config
-    (general-create-definer custom-keys
-      :keymaps '(normal visual emacs dired)
-      :prefix "SPC"
-      :global-prefix "SPC")
-  
-    (custom-keys
-      "k"  '(kill-buffer :which-key "select and kill buffer")
-      "q"  '(kill-buffer-and-window :which-key "kill current buffer and window")
-      "."  '(switch-to-buffer :which-key "switch to buffer")
-      "d"  '(dired :which-key "dired") 
-    
-      "e"  '(:ignore e :which-key "evaluate")
-      "eb" '(eval-buffer :which-key "evaluate current buffer")
-      "ee" '(eval-expression :which-key "evaluate expression")
-      "er" '(eval-region :which-key "evaluate region")
+   (use-package general
+     :config
+     (general-create-definer custom-keys
+       :keymaps '(normal visual emacs dired)
+       :prefix "SPC"
+       :global-prefix "SPC")
 
-      "f"  '(:ignore f :which-key "file")
-      "ff" '(counsel-find-file :which-key "find file")
-      "fo" '(find-file-other-window :which-key "open file in new window")
-      "fr" '(counsel-recentf :which-key "find from recent files")
+     (custom-keys
+       "k"  '(kill-buffer :which-key "select and kill buffer")
+       "q"  '(kill-buffer-and-window :which-key "kill current buffer and window")
+       "."  '(switch-to-buffer :which-key "switch to buffer")
+       "d"  '(dired :which-key "dired")
 
-      "g"  '(magit-status :which-key "magit-status")
+       "e"  '(:ignore e :which-key "evaluate")
+       "eb" '(eval-buffer :which-key "evaluate current buffer")
+       "ee" '(eval-expression :which-key "evaluate expression")
+       "er" '(eval-region :which-key "evaluate region")
 
-      "o"  '(:ignore o :which-key "org")
-      "oa" '(org-agenda :which-key "agenda")
-      "os" '(org-schedule :which-key "schedule")
-      "od" '(org-deadline :which-key "set deadline")
-      "ot" '(org-time-stamp :which-key "set time stamp")
+       "f"  '(:ignore f :which-key "file")
+       "ff" '(counsel-find-file :which-key "find file")
+       "fo" '(find-file-other-window :which-key "open file in new window")
+       "fr" '(counsel-recentf :which-key "find from recent files")
 
-      "p"  '(projectile-command-map :which-key "projectile")
-      "pg" '(counsel-projectile-grep :which-key "counsel-projectile-grep")
+       "g"  '(magit-status :which-key "magit-status")
 
-      "s"  '(eshell :which-key "eshell")
+       "o"  '(:ignore o :which-key "org")
+       "oa" '(org-agenda :which-key "agenda")
+       "os" '(org-schedule :which-key "schedule")
+       "od" '(org-deadline :which-key "set deadline")
+       "ot" '(org-time-stamp :which-key "set time stamp")
 
-      "t"  '(:ignore t :which-key "toggles")
-      "tt" '(treemacs :which-key "toggle treemacs")
+       "oc" '(org-roam-capture :which-key "capture")
+       "of" '(org-roam-node-find :which-key "find node")
+       "og" '(org-roam-graph :which-key "graph")
+       "oi" '(org-roam-insert :which-key "insert")
 
-      "w"  '(:ignore w :which-key "window")
-      "TAB"'(other-window :which-key "switch window")
-      "wd" '(delete-window :which-key "delete window")
-      "wo" '(delete-other-windows :which-key "delete other windows")
-      "wb" '(split-window-below :which-key "split window below")
-      "wr" '(split-window-right :which-key "split window right")
-      "wl" '(split-window-left :which-key "split window left")))
+       "p"  '(
+              projectile-command-map :which-key "projectile")
+       "pg" '(counsel-projectile-grep :which-key "counsel-projectile-grep")
+
+       "s"  '(eshell :which-key "eshell")
+
+       "t"  '(:ignore t :which-key "toggles")
+       "tt" '(treemacs :which-key "toggle treemacs")
+
+       "w"  '(:ignore w :which-key "window")
+       "TAB"'(other-window :which-key "switch window")
+       "wd" '(delete-window :which-key "delete window")
+       "wo" '(delete-other-windows :which-key "delete other windows")
+       "wb" '(split-window-below :which-key "split window below")
+       "wr" '(split-window-right :which-key "split window right")
+       "wl" '(split-window-left :which-key "split window left")))
 #+end_src
     
 * Custom set variables
