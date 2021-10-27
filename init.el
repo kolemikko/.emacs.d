@@ -49,12 +49,13 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 
-(setq tramp-default-method "ssh")
-
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
   :config (setq which-key-idle-delay 0.1))
+
+(defun revert-buffer-force ()
+  (interactive) (revert-buffer t t))
 
 (setq global-auto-revert-non-file-buffers t)
 
@@ -190,6 +191,7 @@
   :defer t
   :hook (org-mode . org-mode-setup)
   :config
+  (setq org-agenda-files '("~/Org"))
   (setq org-ellipsis " ▾"
         org-hide-emphasis-markers t
         org-hide-block-startup nil
@@ -297,6 +299,11 @@
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'tangle-config)))
 
+(setq tramp-default-method "ssh")
+
+(use-package simple-httpd
+  :ensure t)
+
 (use-package lsp-mode
   :commands lsp
   :init (setq lsp-keymap-prefix "C-c l")
@@ -356,9 +363,9 @@
 (use-package general
   :config
   (general-create-definer custom-keys
-    :keymaps '(normal visual emacs dired)
-    :prefix "SPC"
-    :global-prefix "SPC")
+  :keymaps '(normal visual emacs dired)
+  :prefix "SPC"
+  :global-prefix "SPC")
 
   (custom-keys
     "k"  '(kill-buffer :which-key "select and kill buffer")
@@ -367,7 +374,7 @@
     "d"  '(dired :which-key "dired")
 
     "b"  '(:ignore b :which-key "buffer")
-    "br" '(revert-buffer :which-key "revert buffer")
+    "br" '(revert-buffer-force :which-key "revert buffer")
 
     "e"  '(:ignore e :which-key "evaluate")
     "eb" '(eval-buffer :which-key "evaluate current buffer")
