@@ -134,6 +134,10 @@
 (use-package evil-nerd-commenter
   :bind ("C-/" . evilnc-comment-or-uncomment-lines))
 
+(dolist (mode '(flycheck-error-list-mode
+                term-mode))
+  (evil-set-initial-state 'help-mode 'emacs))
+
 (use-package dired
   :ensure nil
   :commands (dired dired-jump)
