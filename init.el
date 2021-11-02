@@ -269,14 +269,19 @@
       :if-new (file+head "%<%d%m%Y>-${slug}.org" "#+title: ${title}\n")
       :unnarrowed t)
      ("j" "journal entry" entry
-      "* %<%A, %B %d, %Y>\n%?"
-      :if-new (file+head "journal.org" "#+title: Journal\n")
-      :file-name "journal.org"
+      "* %<%A, %B %d, %Y>\n${title}%?"
+      :if-new (file+head "Journal.org" "#+title: Journal\n")
+      :file-name "Journal.org"
+      :unnarrowed t)
+     ("w" "Work journal entry" entry
+      "* %<%A, %B %d, %Y>\n${title}%?"
+      :if-new (file+head "WorkJournal.org" "#+title: Work Journal\n")
+      :file-name "WorkJournal.org"
       :unnarrowed t)
      ("t" "task" entry
-      "* TODO ${title}"
-      :if-new (file+head "todo.org" "#+title: TODOlist\n")
-      :file-name "todo.org"
+      "* TODO ${title}%?"
+      :if-new (file+head "Todo.org" "#+title: TODOlist\n")
+      :file-name "Todo.org"
       :unnarrowed t
       :immediate-finish))))
 
