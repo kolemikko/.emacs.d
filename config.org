@@ -103,6 +103,16 @@
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+end_src
 
+** Kill all buffers
+
+#+begin_src emacs-lisp
+  (defun my/kill-all-buffers ()
+    (interactive)
+    (dolist (buffer (buffer-list))
+      (kill-buffer buffer))
+    (delete-other-windows))
+#+end_src
+
 ** Helpful
 
 #+begin_src emacs-lisp
@@ -505,62 +515,65 @@
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
   (use-package general
-    :config
-    (general-create-definer custom-keys
-    :keymaps '(normal visual emacs dired)
-    :prefix "SPC"
-    :global-prefix "SPC")
+      :config
+      (general-create-definer custom-keys
+      :keymaps '(normal visual emacs dired)
+      :prefix "SPC"
+      :global-prefix "SPC")
 
-    (custom-keys
-      "k"  '(kill-buffer :which-key "select and kill buffer")
-      "q"  '(kill-buffer-and-window :which-key "kill current buffer and window")
-      "."  '(switch-to-buffer :which-key "switch to buffer")
-      "d"  '(dired :which-key "dired")
+      (custom-keys
+        "k"  '(:ignore k :which-key "kill")
+        "kk" '(kill-buffer :which-key "selected buffer")
+        "kK" '(my/kill-all-buffers :which-key "all buffers")
+        "kq" '(kill-buffer-and-window :which-key "current buffer and window")
 
-      "b"  '(:ignore b :which-key "buffer")
-      "br" '(revert-buffer-force :which-key "revert buffer")
+        "b"  '(:ignore b :which-key "buffer")
+        "br" '(revert-buffer-force :which-key "revert buffer")
 
-      "e"  '(:ignore e :which-key "evaluate")
-      "eb" '(eval-buffer :which-key "evaluate current buffer")
-      "ee" '(eval-expression :which-key "evaluate expression")
-      "er" '(eval-region :which-key "evaluate region")
+        "e"  '(:ignore e :which-key "evaluate")
+        "eb" '(eval-buffer :which-key "evaluate current buffer")
+        "ee" '(eval-expression :which-key "evaluate expression")
+        "er" '(eval-region :which-key "evaluate region")
 
-      "f"  '(:ignore f :which-key "file")
-      "ff" '(counsel-find-file :which-key "find file")
-      "fo" '(find-file-other-window :which-key "open file in new window")
-      "fr" '(counsel-recentf :which-key "find from recent files")
+        "f"  '(:ignore f :which-key "file")
+        "ff" '(counsel-find-file :which-key "find file")
+        "fo" '(find-file-other-window :which-key "open file in new window")
+        "fr" '(counsel-recentf :which-key "find from recent files")
 
-      "g"  '(magit-status :which-key "magit-status")
+        "d"  '(dired :which-key "dired")
+        "g"  '(magit-status :which-key "magit-status")
 
-      "o"  '(:ignore o :which-key "org")
-      "oa" '(org-agenda :which-key "agenda")
-      "os" '(org-schedule :which-key "schedule")
-      "od" '(org-deadline :which-key "deadline")
-      "ot" '(org-time-stamp :which-key "timestamp")
-      "op" '(org-present :which-key "presentation mode")
+        "o"  '(:ignore o :which-key "org")
+        "oa" '(org-agenda :which-key "agenda")
+        "os" '(org-schedule :which-key "schedule")
+        "od" '(org-deadline :which-key "deadline")
+        "ot" '(org-time-stamp :which-key "timestamp")
+        "op" '(org-present :which-key "presentation mode")
 
-      "oc" '(org-roam-capture :which-key "capture")
-      "og" '(org-roam-graph :which-key "graph")
-      "of" '(org-roam-node-find :which-key "find node")
-      "oi" '(org-roam-node-insert :which-key "insert")
+        "oc" '(org-roam-capture :which-key "capture")
+        "og" '(org-roam-graph :which-key "graph")
+        "of" '(org-roam-node-find :which-key "find node")
+        "oi" '(org-roam-node-insert :which-key "insert")
 
-      "p"  '(
-             projectile-command-map :which-key "projectile")
-      "pg" '(counsel-projectile-grep :which-key "counsel-projectile-grep")
+        "p"  '(
+               projectile-command-map :which-key "projectile")
+        "pg" '(counsel-projectile-grep :which-key "counsel-projectile-grep")
 
-      "s"  '(eshell :which-key "eshell")
+        "s"  '(eshell :which-key "eshell")
 
-      "t"  '(:ignore t :which-key "toggle")
-      "tt" '(treemacs :which-key "treemacs")
-      "to" '(org-roam-buffer-toggle :which-key "org-roam buffer")
+        "t"  '(:ignore t :which-key "toggle")
+        "tt" '(treemacs :which-key "treemacs")
+        "to" '(org-roam-buffer-toggle :which-key "org-roam buffer")
 
-      "w"  '(:ignore w :which-key "window")
-      "TAB"'(other-window :which-key "switch window")
-      "wd" '(delete-window :which-key "delete window")
-      "wo" '(delete-other-windows :which-key "delete other windows")
-      "wb" '(split-window-below :which-key "split window below")
-      "wr" '(split-window-right :which-key "split window right")
-      "wl" '(split-window-left :which-key "split window left")))
+        "."  '(switch-to-buffer :which-key "switch to buffer")
+
+        "w"  '(:ignore w :which-key "window")
+        "TAB"'(other-window :which-key "switch window")
+        "wd" '(delete-window :which-key "delete window")
+        "wo" '(delete-other-windows :which-key "delete other windows")
+        "wb" '(split-window-below :which-key "split window below")
+        "wr" '(split-window-right :which-key "split window right")
+        "wl" '(split-window-left :which-key "split window left")))
 #+end_src
     
 * Custom set variables
