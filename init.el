@@ -37,9 +37,9 @@
 
 (set-default-coding-systems 'utf-8)
 
-(set-face-attribute 'default nil :font "Source Code Pro" :height 120)
+(set-face-attribute 'default nil :font "Source Code Pro" :height 140)
 
-(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 140 :weight 'regular)
+(set-face-attribute 'variable-pitch nil :font "Cantarell" :height 160 :weight 'regular)
 
 (use-package doom-themes
   :init (load-theme 'doom-gruvbox t))
@@ -431,6 +431,7 @@
       "s"  '(eshell :which-key "eshell")
 
       "t"  '(:ignore t :which-key "toggle")
+      "tf" '(flycheck-list-errors :which-key "flycheck error list")
       "tt" '(treemacs :which-key "treemacs")
       "to" '(org-roam-buffer-toggle :which-key "org-roam buffer")
 
