@@ -214,10 +214,7 @@
         org-cycle-separator-lines 2)
 
   (setq org-modules
-    '(org-crypt
-        org-habit
-        org-bookmark
-        org-eshell)))
+    '(org-crypt)))
 
 (use-package org-superstar
   :after org
@@ -321,14 +318,18 @@
   :ensure t)
 
 (use-package lsp-mode
-  :commands lsp
-  :init (setq lsp-keymap-prefix "C-c l")
-  :config
-  (lsp-enable-which-key-integration t)
-  (setq lsp-ui-doc-enable nil))
+    :commands lsp
+    :init (setq lsp-keymap-prefix "C-c l")
+    :config
+    (lsp-enable-which-key-integration t)
+    (setq lsp-ui-doc-enable nil))
 
-(use-package lsp-treemacs
-  :after lsp)
+  (use-package lsp-treemacs
+    :after lsp)
+
+(setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
+(setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands")))
+(require 'omnisharp)
 
 (use-package flycheck
   :defer t
@@ -338,13 +339,19 @@
   :hook ((c-mode c++-mode) .
          (lambda () (require 'ccls) (lsp))))
 
+(eval-after-load
+  'company
+  '(add-to-list 'company-backends #'company-omnisharp))
+
+(defun my/csharp-mode-setup ()
+  (omnisharp-mode)
+  (company-mode)
+  (flycheck-mode))
+
 (use-package csharp-mode
   :ensure t
   :init
-  (defun csharp-mode-setup ()
-    (setq-local lsp-auto-guess-root t)
-    (lsp))
-  (add-hook 'csharp-mode-hook #'csharp-mode-setup))
+  (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t))
 
 (use-package lsp-python-ms
   :ensure t
