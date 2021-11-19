@@ -201,9 +201,6 @@
     treemacs-expand-after-init               t
     treemacs-indentation                     2
     treemacs-indentation-string              " "
-    treemacs-is-never-other-window           nil
-    treemacs-move-forward-on-expand          nil
-    treemacs-no-png-images                   nil
     treemacs-no-delete-other-windows         t
     treemacs-project-follow-cleanup          nil
     treemacs-position                        'left
@@ -220,17 +217,19 @@
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode 'always))
 
-  (use-package treemacs-projectile
-    :after (treemacs projectile)
-    :ensure t)
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
 
-  (use-package treemacs-icons-dired
-    :hook (dired-mode . treemacs-icons-dired-enable-once)
-    :ensure t)
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :ensure t)
 
-  (use-package treemacs-magit
-    :after (treemacs magit)
-    :ensure t)
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
+
+(add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 
 (use-package magit)
 
