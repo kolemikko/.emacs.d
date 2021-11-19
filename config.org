@@ -267,6 +267,52 @@
     (company-idle-delay 0.5))
 #+end_src
 
+* Treemacs
+
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :config
+    (progn
+      treemacs-display-in-side-window          t
+      treemacs-file-follow-delay               0.2
+      treemacs-follow-after-init               t
+      treemacs-expand-after-init               t
+      treemacs-indentation                     2
+      treemacs-indentation-string              " "
+      treemacs-is-never-other-window           nil
+      treemacs-move-forward-on-expand          nil
+      treemacs-no-png-images                   nil
+      treemacs-no-delete-other-windows         t
+      treemacs-project-follow-cleanup          nil
+      treemacs-position                        'left
+      treemacs-recenter-distance               0.1
+      treemacs-recenter-after-project-jump     'always
+      treemacs-recenter-after-project-expand   'on-distance
+      treemacs-show-hidden-files               t
+      treemacs-sorting                         'alphabetic-asc
+      treemacs-select-when-already-in-treemacs 'move-back
+      treemacs-width                           35)
+
+    (treemacs-resize-icons 18)
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always))
+
+    (use-package treemacs-projectile
+      :after (treemacs projectile)
+      :ensure t)
+
+    (use-package treemacs-icons-dired
+      :hook (dired-mode . treemacs-icons-dired-enable-once)
+      :ensure t)
+
+    (use-package treemacs-magit
+      :after (treemacs magit)
+      :ensure t)
+#+end_src
+
 * Magit
 
 #+begin_src emacs-lisp
