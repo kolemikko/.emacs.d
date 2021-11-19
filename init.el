@@ -190,47 +190,6 @@
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.5))
 
-(use-package treemacs
-  :ensure t
-  :defer t
-  :config
-  (progn
-    treemacs-display-in-side-window          t
-    treemacs-file-follow-delay               0.2
-    treemacs-follow-after-init               t
-    treemacs-expand-after-init               t
-    treemacs-indentation                     2
-    treemacs-indentation-string              " "
-    treemacs-no-delete-other-windows         t
-    treemacs-project-follow-cleanup          nil
-    treemacs-position                        'left
-    treemacs-recenter-distance               0.1
-    treemacs-recenter-after-project-jump     'always
-    treemacs-recenter-after-project-expand   'on-distance
-    treemacs-show-hidden-files               t
-    treemacs-sorting                         'alphabetic-asc
-    treemacs-select-when-already-in-treemacs 'move-back
-    treemacs-width                           35)
-
-  (treemacs-resize-icons 18)
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode 'always))
-
-(use-package treemacs-projectile
-  :after (treemacs projectile)
-  :ensure t)
-
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
-
-(use-package treemacs-magit
-  :after (treemacs magit)
-  :ensure t)
-
-(add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
-
 (use-package magit)
 
 (defun org-mode-setup ()
@@ -358,6 +317,47 @@
 (use-package simple-httpd
   :ensure t)
 
+(use-package treemacs
+  :ensure t
+  :defer t
+  :config
+  (progn
+    treemacs-display-in-side-window          t
+    treemacs-file-follow-delay               0.2
+    treemacs-follow-after-init               t
+    treemacs-expand-after-init               t
+    treemacs-indentation                     2
+    treemacs-indentation-string              " "
+    treemacs-no-delete-other-windows         t
+    treemacs-project-follow-cleanup          nil
+    treemacs-position                        'left
+    treemacs-recenter-distance               0.1
+    treemacs-recenter-after-project-jump     'always
+    treemacs-recenter-after-project-expand   'on-distance
+    treemacs-show-hidden-files               t
+    treemacs-sorting                         'alphabetic-asc
+    treemacs-select-when-already-in-treemacs 'move-back
+    treemacs-width                           38)
+
+  (treemacs-resize-icons 18)
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode 'always))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :ensure t)
+
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
+
+(add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
+
 (use-package lsp-mode
     :commands lsp
     :init (setq lsp-keymap-prefix "C-c l")
@@ -401,7 +401,7 @@
                           (require 'lsp-python-ms)
                           (lsp))))
 
-(defun configure-eshell ()
+(defun my/configure-eshell ()
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
   (evil-define-key '(normal insert visual) eshell-mode-map (kbd "C-r") 'counsel-esh-history)
@@ -415,12 +415,23 @@
 (use-package eshell-git-prompt)
 
 (use-package eshell
-  :hook (eshell-first-time-mode . configure-eshell)
+  :hook (eshell-first-time-mode . my/configure-eshell)
   :config
   (with-eval-after-load 'esh-opt
     (setq eshell-destroy-buffer-when-process-dies t)
     (setq eshell-visual-commands '("htop" "zsh" "vim")))
   (eshell-git-prompt-use-theme 'powerline))
+
+(defun my/set-exec-path-from-shell-PATH ()
+  (interactive)
+  (let ((path-from-shell (replace-regexp-in-string
+                          "[ \t\n]*$" "" (shell-command-to-string
+                                          "$SHELL --login -c 'echo $PATH'"
+                                          ))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(my/set-exec-path-from-shell-PATH)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
