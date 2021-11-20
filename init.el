@@ -370,7 +370,6 @@
 
 (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
 (setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands")))
-(require 'omnisharp)
 
 (use-package flycheck
   :defer t
