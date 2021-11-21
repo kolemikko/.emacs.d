@@ -536,6 +536,19 @@
                             (lsp))))
 #+end_src
 
+** Markdown & Impatient mode
+
+#+begin_src emacs-lisp
+  (use-package impatient-mode)
+
+  (add-hook 'markdown-mode-hook 'impatient-mode)
+
+  (defun my/markdown-to-html (buffer)
+    (princ (with-current-buffer buffer
+             (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+           (current-buffer)))
+#+end_src
+
 * Shells
 
 #+begin_src emacs-lisp
