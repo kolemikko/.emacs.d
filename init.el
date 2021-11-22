@@ -409,6 +409,32 @@
            (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
          (current-buffer)))
 
+(use-package irony-eldoc
+  :defer t)
+(use-package irony
+  :defer t)
+(use-package arduino-mode
+  :defer t)
+(add-to-list 'auto-mode-alist '("\\.ino$" . arduino-mode))
+
+(use-package platformio-mode
+  :defer t)
+
+(add-hook 'c++-mode-hook (lambda ()
+                           (irony-mode)
+                           (irony-eldoc)
+                           (platformio-conditionally-enable)))
+
+(add-hook 'irony-mode-hook
+          (lambda ()
+            (define-key irony-mode-map [remap completion-at-point]
+              'irony-completion-at-point-async)
+
+            (define-key irony-mode-map [remap complete-symbol]
+              'irony-completion-at-point-async)
+
+            (irony-cdb-autosetup-compile-options)))
+
 (defun my/configure-eshell ()
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
