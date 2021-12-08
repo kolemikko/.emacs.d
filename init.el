@@ -375,6 +375,11 @@
   :defer t
   :hook (lsp-mode . flycheck-mode))
 
+(use-package rustic
+  :ensure
+  :config
+  (setq rustic-format-on-save t))
+
 (use-package ccls
   :hook ((c-mode c++-mode) .
          (lambda () (require 'ccls) (lsp))))
