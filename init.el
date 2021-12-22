@@ -475,65 +475,67 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (use-package general
-    :config
-    (general-create-definer custom-keys
-    :keymaps '(normal visual emacs dired)
+  :config
+  (general-create-definer custom-keys
+    :keymaps '(normal visual emacs dired eshell)
     :prefix "SPC"
     :global-prefix "SPC")
 
-    (custom-keys
-      "k"  '(:ignore k :which-key "kill")
-      "kk" '(kill-buffer :which-key "selected buffer")
-      "kK" '(my/kill-all-buffers :which-key "all buffers")
-      "kq" '(kill-buffer-and-window :which-key "current buffer and window")
+  (custom-keys
+    "k"  '(:ignore k :which-key "kill")
+    "kk" '(kill-buffer :which-key "selected buffer")
+    "kK" '(my/kill-all-buffers :which-key "all buffers")
+    "kq" '(kill-buffer-and-window :which-key "current buffer and window")
 
-      "b"  '(:ignore b :which-key "buffer")
-      "br" '(revert-buffer-force :which-key "revert buffer")
+    "b"  '(:ignore b :which-key "buffer")
+    "br" '(revert-buffer-force :which-key "revert buffer")
 
-      "e"  '(:ignore e :which-key "evaluate")
-      "eb" '(eval-buffer :which-key "evaluate current buffer")
-      "ee" '(eval-expression :which-key "evaluate expression")
-      "er" '(eval-region :which-key "evaluate region")
+    "e"  '(:ignore e :which-key "evaluate")
+    "eb" '(eval-buffer :which-key "evaluate current buffer")
+    "ee" '(eval-expression :which-key "evaluate expression")
+    "er" '(eval-region :which-key "evaluate region")
 
-      "f"  '(:ignore f :which-key "file")
-      "ff" '(counsel-find-file :which-key "find file")
-      "fo" '(find-file-other-window :which-key "open file in new window")
-      "fr" '(counsel-recentf :which-key "find from recent files")
+    "f"  '(:ignore f :which-key "file")
+    "ff" '(counsel-find-file :which-key "find file")
+    "fo" '(find-file-other-window :which-key "open file in new window")
+    "fr" '(counsel-recentf :which-key "find from recent files")
 
-      "d"  '(dired :which-key "dired")
-      "g"  '(magit-status :which-key "magit-status")
+    "d"  '(dired :which-key "dired")
+    "g"  '(magit-status :which-key "magit-status")
 
-      "o"  '(:ignore o :which-key "org")
-      "oa" '(org-agenda :which-key "agenda")
-      "os" '(org-schedule :which-key "schedule")
-      "od" '(org-deadline :which-key "deadline")
-      "ot" '(org-time-stamp :which-key "timestamp")
-      "op" '(org-present :which-key "presentation mode")
+    "o"  '(:ignore o :which-key "org")
+    "oa" '(org-agenda :which-key "agenda")
+    "os" '(org-schedule :which-key "schedule")
+    "od" '(org-deadline :which-key "deadline")
+    "ot" '(org-time-stamp :which-key "timestamp")
+    "op" '(org-present :which-key "presentation mode")
 
-      "oc" '(org-roam-capture :which-key "capture")
-      "og" '(org-roam-graph :which-key "graph")
-      "of" '(org-roam-node-find :which-key "find node")
-      "oi" '(org-roam-node-insert :which-key "insert")
+    "oc" '(org-roam-capture :which-key "capture")
+    "og" '(org-roam-graph :which-key "graph")
+    "of" '(org-roam-node-find :which-key "find node")
+    "oi" '(org-roam-node-insert :which-key "insert")
 
-      "p"  '(
-             projectile-command-map :which-key "projectile")
-      "pg" '(counsel-projectile-grep :which-key "counsel-projectile-grep")
+    "p"  '(
+           projectile-command-map :which-key "projectile")
+    "pg" '(counsel-projectile-grep :which-key "counsel-projectile-grep")
 
-      "s"  '(eshell :which-key "eshell")
+    "s"  '(eshell :which-key "eshell")
 
-      "t"  '(:ignore t :which-key "toggle")
-      "tf" '(flycheck-list-errors :which-key "flycheck error list")
-      "tt" '(treemacs :which-key "treemacs")
+    "t"  '(:ignore t :which-key "toggle")
+    "tf" '(flycheck-list-errors :which-key "flycheck error list")
+    "tt" '(treemacs :which-key "treemacs")
 
-      "."  '(switch-to-buffer :which-key "switch to buffer")
+    "."  '(switch-to-buffer :which-key "switch to buffer")
+    "/"  '(switch-to-buffer-other-window :which-key "switch to buffer with other window")
 
-      "w"  '(:ignore w :which-key "window")
-      "TAB"'(other-window :which-key "switch window")
-      "wd" '(delete-window :which-key "delete window")
-      "wo" '(delete-other-windows :which-key "delete other windows")
-      "wb" '(split-window-below :which-key "split window below")
-      "wr" '(split-window-right :which-key "split window right")
-      "wl" '(split-window-left :which-key "split window left")))
+
+    "w"  '(:ignore w :which-key "window")
+    "TAB"'(other-window :which-key "switch window")
+    "wd" '(delete-window :which-key "delete window")
+    "wo" '(delete-other-windows :which-key "delete other windows")
+    "wb" '(split-window-below :which-key "split window below")
+    "wr" '(split-window-right :which-key "split window right")
+    "wl" '(split-window-left :which-key "split window left")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
