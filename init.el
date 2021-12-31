@@ -288,6 +288,15 @@
       :unnarrowed t
       :immediate-finish))))
 
+(use-package org-roam-ui
+    :after org-roam
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+
 (defun org-present-quit-hook ()
   (setq-local face-remapping-alist '((default variable-pitch default)))
   (setq header-line-format nil)
@@ -316,6 +325,9 @@
 
 (use-package simple-httpd
   :ensure t)
+
+(use-package websocket
+  :after org-roam)
 
 (use-package treemacs
   :ensure t

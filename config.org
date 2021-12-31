@@ -378,6 +378,20 @@
         :immediate-finish))))
 #+end_src
 
+
+** Org-Roam-UI
+
+#+begin_src emacs-lisp
+(use-package org-roam-ui
+    :after org-roam
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+#+end_src
+
 ** Presentation
 
 #+begin_src emacs-lisp
@@ -426,6 +440,13 @@
 #+begin_src emacs-lisp
   (use-package simple-httpd
     :ensure t)
+#+end_src
+
+** Websocket
+
+#+begin_src emacs-lisp
+  (use-package websocket
+    :after org-roam)
 #+end_src
 
 * Treemacs
