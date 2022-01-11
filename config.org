@@ -384,7 +384,6 @@
         :immediate-finish))))
 #+end_src
 
-
 ** Org-Roam-UI
 
 #+begin_src emacs-lisp
@@ -417,8 +416,9 @@
   (require 'org-tempo)
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("ru" . "src rust"))
   (add-to-list 'org-structure-template-alist '("go" . "src go"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("json" . "src json"))
 #+end_src
 
