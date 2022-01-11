@@ -143,6 +143,12 @@
     :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+** Diminish
+
+#+begin_src emacs-lisp
+  (use-package diminish)
+#+end_src
+
 ** Command log
 
 #+begin_src emacs-lisp
