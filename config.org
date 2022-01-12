@@ -220,15 +220,25 @@
 #+begin_src emacs-lisp
   (use-package dired
     :ensure nil
+    :defer 1
     :commands (dired dired-jump)
-    :custom ((dired-listing-switches "-agho --group-directories-first"))
     :config
-    (define-key dired-mode-map [remap dired-find-file] 'dired-single-buffer)
-    (define-key dired-mode-map [remap dired-mouse-find-file-other-window] 'dired-single-buffer-mouse)
-    (define-key dired-mode-map [remap dired-up-directory] 'dired-single-up-directory))
+    (setq dired-listing-switches "-agho --group-directories-first"
+          dired-omit-verbose nil
+          dired-hide-details-hide-symlink-targets nil
+          delete-by-moving-to-trash t)
+    (add-hook 'dired-load-hook
+              (lambda ()
+                (interactive)
+                (dired-collapse))))
 
   (use-package dired-single
-    :ensure t
+    :defer t)
+
+  (use-package dired-ranger
+    :defer t)
+
+  (use-package dired-collapse
     :defer t)
 
   (use-package all-the-icons-dired
@@ -239,6 +249,12 @@
     :config
     (evil-collection-define-key 'normal 'dired-mode-map
       "H" 'dired-hide-dotfiles-mode))
+
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "-" 'dired-single-up-directory
+    (kbd "RET") 'dired-single-buffer
+    "y" 'dired-ranger-copy
+    "p" 'dired-ranger-paste)
 
   (when (equal system-type 'darwin)
     (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.0/libexec/gnubin/ls"))
@@ -661,8 +677,9 @@
 
   (use-package general
     :config
+    (general-evil-setup t)
     (general-create-definer custom-keys
-      :keymaps '(normal visual emacs dired eshell)
+      :keymaps '(normal visual emacs dired)
       :prefix "SPC"
       :global-prefix "SPC")
 
