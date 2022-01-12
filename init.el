@@ -168,6 +168,9 @@
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
 
+(when (equal system-type 'darwin)
+  (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.0/libexec/gnubin/ls"))
+
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
