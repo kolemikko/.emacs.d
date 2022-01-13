@@ -679,9 +679,9 @@
     :config
     (general-evil-setup t)
     (general-create-definer custom-keys
-      :keymaps '(normal visual emacs dired)
-      :prefix "SPC"
-      :global-prefix "SPC")
+      :states 'normal
+      :keymaps '(override visual)
+      :prefix "SPC")
 
     (custom-keys
       "k"  '(:ignore k :which-key "kill")
