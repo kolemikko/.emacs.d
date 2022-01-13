@@ -152,25 +152,20 @@
   :commands (dired dired-jump)
   :config
   (setq dired-listing-switches "-agho --group-directories-first"
+        dired-kill-when-opening-new-dired-buffer t
         dired-omit-verbose nil
         dired-hide-details-hide-symlink-targets nil
         delete-by-moving-to-trash t)
-  (add-hook 'dired-load-hook
-            (lambda ()
-              (interactive)
-              (dired-collapse))))
+
+  (evil-collection-define-key 'normal 'dired-mode-map
+    (kbd "<left>") 'dired-single-up-directory
+    (kbd "<right>") 'dired-single-buffer
+    "p" 'dired-view-file
+    "P" 'dired-display-file
+    "=" 'my/diff-with-marked-file))
 
 (use-package dired-single
   :defer t)
-
-(use-package dired-ranger
-  :defer t)
-
-(use-package dired-collapse
-  :defer t)
-
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode))
 
 (use-package dired-hide-dotfiles
   :hook (dired-mode . dired-hide-dotfiles-mode)
@@ -178,14 +173,28 @@
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
 
-(evil-collection-define-key 'normal 'dired-mode-map
-  "-" 'dired-single-up-directory
-  (kbd "RET") 'dired-single-buffer
-  "y" 'dired-ranger-copy
-  "p" 'dired-ranger-paste)
-
 (when (equal system-type 'darwin)
   (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.0/libexec/gnubin/ls"))
+
+(defun my/diff-with-marked-file ()
+  (interactive)
+  (let* ((marked-files (dired-get-marked-files nil nil))
+         (other-win (get-window-with-predicate
+                     (lambda (window)
+                       (with-current-buffer (window-buffer window)
+                         (and (not (eq window (selected-window)))
+                              (eq major-mode 'dired-mode))))))
+         (other-marked-files (and other-win
+                                  (with-current-buffer (window-buffer other-win)
+                                    (dired-get-marked-files nil)))))
+    (error "Files: '%s' '%s'" (length marked-files) (length other-marked-files))
+    (cond ((and (= (length marked-files) 1)
+                (= (length other-marked-files) 0))
+           (dired-diff (nth 0 marked-files)))
+          ((and (= (length other-marked-files) 1)
+                (= (length marked-files) 0))
+           (dired-diff (nth 0 other-marked-files)))
+          (t (error "Mark one file first")))))
 
 (use-package projectile
   :diminish projectile-mode
@@ -513,7 +522,7 @@
   (general-evil-setup t)
   (general-create-definer custom-keys
     :states 'normal
-    :keymaps '(override visual)
+    :keymaps 'override
     :prefix "SPC")
 
   (custom-keys
