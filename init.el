@@ -517,6 +517,10 @@
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
+(when (eq system-type 'darwin)
+  (setq mac-option-modifier 'meta)
+  (setq mac-command-modifier 'control))
+
 (use-package general
   :config
   (general-evil-setup t)
