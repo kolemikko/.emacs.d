@@ -19,6 +19,8 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(load-file "~/code/which-os/which-os.el")
+
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
@@ -173,7 +175,7 @@
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
 
-(when (equal system-type 'darwin)
+(when (is-mac)
   (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.0/libexec/gnubin/ls"))
 
 (defun my/diff-with-marked-file ()
@@ -517,7 +519,7 @@
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(when (eq system-type 'darwin)
+(when (is-mac)
   (setq mac-option-modifier 'meta)
   (setq mac-command-modifier 'control))
 
