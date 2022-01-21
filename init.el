@@ -164,7 +164,7 @@
     (kbd "<right>") 'dired-single-buffer
     "p" 'dired-view-file
     "P" 'dired-display-file
-    "=" 'my/diff-marked-file))
+    "=" 'my/diff-marked-files))
 
 (use-package dired-single
   :defer t)
@@ -178,7 +178,7 @@
 (when (is-mac)
   (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.0/libexec/gnubin/ls"))
 
-(defun my/diff-marked-file ()
+(defun my/diff-marked-files ()
   (interactive)
   (let ((marked-files  ())
         (here   ()))
