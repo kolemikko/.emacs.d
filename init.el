@@ -162,7 +162,7 @@
     (kbd "<right>") 'dired-single-buffer
     "p" 'dired-view-file
     "P" 'dired-display-file
-    "=" 'my/diff-with-marked-file))
+    "=" 'my/diff-marked-file))
 
 (use-package dired-single
   :defer t)
@@ -176,25 +176,20 @@
 (when (equal system-type 'darwin)
   (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.0/libexec/gnubin/ls"))
 
-(defun my/diff-with-marked-file ()
+(defun my/diff-marked-file ()
   (interactive)
-  (let* ((marked-files (dired-get-marked-files nil nil))
-         (other-win (get-window-with-predicate
-                     (lambda (window)
-                       (with-current-buffer (window-buffer window)
-                         (and (not (eq window (selected-window)))
-                              (eq major-mode 'dired-mode))))))
-         (other-marked-files (and other-win
-                                  (with-current-buffer (window-buffer other-win)
-                                    (dired-get-marked-files nil)))))
-    (error "Files: '%s' '%s'" (length marked-files) (length other-marked-files))
-    (cond ((and (= (length marked-files) 1)
-                (= (length other-marked-files) 0))
-           (dired-diff (nth 0 marked-files)))
-          ((and (= (length other-marked-files) 1)
-                (= (length marked-files) 0))
-           (dired-diff (nth 0 other-marked-files)))
-          (t (error "Mark one file first")))))
+  (let ((marked-files  ())
+        (here   ()))
+    (dolist (buf  (mapcar #'cdr dired-buffers))
+      (when (buffer-live-p buf)
+        (with-current-buffer buf
+          (setq here  (dired-get-marked-files nil nil nil t)))
+        (when (or (null (cdr here))  (eq t (car here)))
+          (setq here  (cdr here)))
+        (setq marked-files  (nconc here marked-files))))
+    (setq marked-files  (delete-dups marked-files))
+    (when (= (length marked-files) 1)
+      (dired-diff (nth 0 marked-files)))))
 
 (use-package projectile
   :diminish projectile-mode
