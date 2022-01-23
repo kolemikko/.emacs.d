@@ -75,7 +75,6 @@
   (delete-other-windows))
 
 (use-package helpful
-  :ensure t
   :custom
   (counsel-describe-function-function #'helpful-callable)
   (counsel-describe-variable-function #'helpful-variable)
@@ -149,7 +148,6 @@
   (evil-set-initial-state 'help-mode 'emacs))
 
 (use-package dired
-  :ensure nil
   :defer 1
   :commands (dired dired-jump)
   :config
@@ -289,7 +287,6 @@
   :hook (org-mode . org-mode-visual-fill))
 
 (use-package org-roam
-  :ensure t
   :init
   (setq org-roam-v2-ack t)
   :hook
@@ -356,14 +353,12 @@
 
 (setq tramp-default-method "ssh")
 
-(use-package simple-httpd
-  :ensure t)
+(use-package simple-httpd)
 
 (use-package websocket
   :after org-roam)
 
 (use-package treemacs
-  :ensure t
   :defer t
   :config
   (progn
@@ -390,16 +385,13 @@
   (treemacs-fringe-indicator-mode 'always))
 
 (use-package treemacs-projectile
-  :after (treemacs projectile)
-  :ensure t)
+  :after (treemacs projectile))
 
 (use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
 (use-package treemacs-magit
-  :after (treemacs magit)
-  :ensure t)
+  :after (treemacs magit))
 
 (add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 
@@ -421,7 +413,6 @@
   :hook (lsp-mode . flycheck-mode))
 
 (use-package rustic
-  :ensure
   :config
   (setq rustic-format-on-save t))
 
@@ -439,12 +430,10 @@
   (flycheck-mode))
 
 (use-package csharp-mode
-  :ensure t
   :init
   (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t))
 
 (use-package lsp-python-ms
-  :ensure t
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
