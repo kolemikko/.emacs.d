@@ -28,6 +28,12 @@
 
   (require 'use-package)
   (setq use-package-always-ensure t)
+
+  (use-package auto-package-update
+    :config
+    (setq auto-package-update-delete-old-versions t)
+    (setq auto-package-update-hide-results t)
+    (auto-package-update-maybe))
 #+end_src
 
 * Own packages
@@ -224,6 +230,7 @@
 
 #+begin_src emacs-lisp
   (use-package dired
+    :ensure nil
     :defer 1
     :commands (dired dired-jump)
     :config

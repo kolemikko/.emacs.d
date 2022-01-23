@@ -19,6 +19,12 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
 (load-file "~/code/which-os/which-os.el")
 
 (scroll-bar-mode -1)
@@ -148,6 +154,7 @@
   (evil-set-initial-state 'help-mode 'emacs))
 
 (use-package dired
+  :ensure nil
   :defer 1
   :commands (dired dired-jump)
   :config
