@@ -10,7 +10,8 @@
   (setq inhibit-startup-message t)
 #+end_src
 
-* Package handling
+* Package management
+** Package & use-package
 
 #+begin_src emacs-lisp
   (require 'package)
@@ -28,18 +29,35 @@
 
   (require 'use-package)
   (setq use-package-always-ensure t)
+#+end_src
 
+** Straight
+
+#+begin_src emacs-lisp
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+  (straight-use-package 'use-package)
+#+end_src
+
+** Auto-package-update
+
+#+begin_src emacs-lisp
   (use-package auto-package-update
     :config
     (setq auto-package-update-delete-old-versions t)
     (setq auto-package-update-hide-results t)
     (auto-package-update-maybe))
-#+end_src
-
-* Own packages
-
-#+begin_src emacs-lisp
-(load-file "~/code/which-os/which-os.el")
 #+end_src
 
 * UI
@@ -86,6 +104,15 @@
 #+end_src
 
 * Useful misc
+** Which-OS
+
+#+begin_src emacs-lisp
+  (use-package "which-os"
+    :straight '(which-os :host github
+                         :branch "master"
+                         :repo "kolemikko/which-os"))
+#+end_src
+
 ** Which-key
 
 #+begin_src emacs-lisp
@@ -231,6 +258,7 @@
 #+begin_src emacs-lisp
   (use-package dired
     :ensure nil
+    :straight nil
     :defer 1
     :commands (dired dired-jump)
     :config

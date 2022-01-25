@@ -19,13 +19,26 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+
 (use-package auto-package-update
   :config
   (setq auto-package-update-delete-old-versions t)
   (setq auto-package-update-hide-results t)
   (auto-package-update-maybe))
-
-(load-file "~/code/which-os/which-os.el")
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -56,6 +69,11 @@
   :after eshell
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
+
+(use-package "which-os"
+  :straight '(which-os :host github
+                       :branch "master"
+                       :repo "kolemikko/which-os"))
 
 (use-package which-key
   :init (which-key-mode)
@@ -155,6 +173,7 @@
 
 (use-package dired
   :ensure nil
+  :straight nil
   :defer 1
   :commands (dired dired-jump)
   :config
