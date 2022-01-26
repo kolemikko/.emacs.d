@@ -135,11 +135,12 @@
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history)))
 
+(setq evil-want-keybinding nil)
+
 (use-package evil
   :init
   (setq evil-undo-system 'undo-fu)
   (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
   (setq evil-want-C-i-jump nil)
   (setq evil-respect-visual-line-mode t)
@@ -218,12 +219,12 @@
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
-  :custom ((projectile-completion-system 'ivy))
-  :bind-keymap ("C-c p" . projectile-command-map)
+  :custom (projectile-completion-system 'ivy)
   :init
   (when (file-directory-p "~/code")
     (setq projectile-project-search-path '("~/code")))
-  (setq projectile-switch-project-action #'projectile-dired))
+  (setq projectile-switch-project-action #'projectile-dired)
+  (setq projectile-sort-order 'recentf))
 
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
@@ -384,11 +385,9 @@
     (lsp-enable-which-key-integration t)
     (setq lsp-ui-doc-enable nil))
 
-  (use-package lsp-treemacs
-    :after lsp)
-
+(when (is-mac)
 (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
-(setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands")))
+(setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
 
 (use-package treemacs
   :defer t
@@ -418,6 +417,9 @@
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
+
+(use-package lsp-treemacs
+    :after lsp)
 
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))
@@ -600,7 +602,7 @@
 
     "p"  '(
            projectile-command-map :which-key "projectile")
-    "pg" '(counsel-projectile-grep :which-key "counsel-projectile-grep")
+    "pg" '(projectile-ripgrep :which-key "projectile-ripgrep")
 
     "s"  '(eshell :which-key "eshell")
 
@@ -610,7 +612,6 @@
 
     "."  '(switch-to-buffer :which-key "switch to buffer")
     "/"  '(switch-to-buffer-other-window :which-key "switch to buffer with other window")
-
 
     "w"  '(:ignore w :which-key "window")
     "TAB"'(other-window :which-key "switch window")
