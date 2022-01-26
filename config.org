@@ -1,4 +1,4 @@
-#+title: Emacs configuration 2021
+#+title: Emacs configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ./init.el
 
 * Startup
@@ -107,10 +107,8 @@
 ** Which-OS
 
 #+begin_src emacs-lisp
-  (use-package "which-os"
-    :straight '(which-os :host github
-                         :branch "master"
-                         :repo "kolemikko/which-os"))
+  (use-package which-os
+    :straight (:host github :repo "kolemikko/which-os" :branch "master"))
 #+end_src
 
 ** Which-key
@@ -227,6 +225,7 @@
 #+begin_src emacs-lisp
   (use-package evil
     :init
+    (setq evil-undo-system 'undo-fu)
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
     (setq evil-want-C-u-scroll t)
@@ -238,7 +237,8 @@
     (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
 
     (evil-set-initial-state 'messages-buffer-mode 'normal)
-    (evil-set-initial-state 'dashboard-mode 'normal))
+    (evil-set-initial-state 'dashboard-mode 'motion)
+    (evil-set-initial-state 'pdf-view-mode 'motion))
 
   (use-package evil-collection
     :after evil
@@ -251,6 +251,15 @@
   (dolist (mode '(flycheck-error-list-mode
                   term-mode))
     (evil-set-initial-state 'help-mode 'emacs))
+#+end_src
+
+** Undo-fu
+
+#+begin_src emacs-lisp
+  (use-package undo-fu
+    :config
+    (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+    (define-key evil-normal-state-map "U" 'undo-fu-only-redo))
 #+end_src
 
 * Dired
@@ -414,8 +423,8 @@
 
 #+begin_src emacs-lisp
   (use-package org-roam
-    :init
-    (setq org-roam-v2-ack t)
+    :ensure t
+    :straight nil
     :hook
     (after-init . org-roam-mode)
     :custom
@@ -424,33 +433,33 @@
     (org-roam-completion-system 'default)
     (org-roam-capture-templates
      '(("d" "default" plain
-        "%?"
-        :if-new (file+head "%<%d%m%Y>-${slug}.org" "#+title: ${title}\n")
-        :unnarrowed t)
+	"%?"
+	:if-new (file+head "%<%d%m%Y>-${slug}.org" "#+title: ${title}\n")
+	:unnarrowed t)
        ("j" "journal entry" entry
-        "* %<%A, %B %d, %Y>\n${title}%?"
-        :if-new (file+head "Journal.org" "#+title: Journal\n")
-        :file-name "Journal.org"
-        :unnarrowed t)
+	"* %<%A, %B %d, %Y>\n${title}%?"
+	:if-new (file+head "Journal.org" "#+title: Journal\n")
+	:file-name "Journal.org"
+	:unnarrowed t)
        ("w" "Work journal entry" entry
-        "* %<%A, %B %d, %Y>\n${title}%?"
-        :if-new (file+head "WorkJournal.org" "#+title: Work Journal\n")
-        :file-name "WorkJournal.org"
-        :unnarrowed t)
+	"* %<%A, %B %d, %Y>\n${title}%?"
+	:if-new (file+head "WorkJournal.org" "#+title: Work Journal\n")
+	:file-name "WorkJournal.org"
+	:unnarrowed t)
        ("t" "task" entry
-        "* TODO ${title}%?"
-        :if-new (file+head "Todo.org" "#+title: TODOlist\n")
-        :file-name "Todo.org"
-        :unnarrowed t
-        :immediate-finish))))
+	"* TODO ${title}%?"
+	:if-new (file+head "Todo.org" "#+title: TODOlist\n")
+	:file-name "Todo.org"
+	:unnarrowed t
+	:immediate-finish))))
 #+end_src
 
 ** Org-Roam-UI
 
 #+begin_src emacs-lisp
-(use-package org-roam-ui
+  (use-package org-roam-ui
     :after org-roam
-;;  :hook (after-init . org-roam-ui-mode)
+    :hook (after-init . org-roam-ui-mode)
     :config
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
@@ -515,6 +524,20 @@
     :after org-roam)
 #+end_src
 
+** Impatient mode
+
+#+begin_src emacs-lisp
+  (use-package impatient-mode
+    :straight t)
+
+  (add-hook 'markdown-mode-hook 'impatient-mode)
+
+  (defun my/markdown-to-html (buffer)
+    (princ (with-current-buffer buffer
+             (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+           (current-buffer)))
+#+end_src
+
 * Treemacs
 
 #+begin_src emacs-lisp
@@ -560,6 +583,7 @@
 
 #+begin_src emacs-lisp
     (use-package lsp-mode
+      :straight t
       :commands lsp
       :init (setq lsp-keymap-prefix "C-c l")
       :config
@@ -625,17 +649,26 @@
                             (lsp))))
 #+end_src
 
-** Markdown & Impatient mode
+** Markdown
 
 #+begin_src emacs-lisp
-  (use-package impatient-mode)
+  (use-package markdown-mode
+    :straight t
+    :mode "\\.md\\'"
+    :config
+    (setq markdown-command "marked")
+    (defun dw/set-markdown-header-font-sizes ()
+      (dolist (face '((markdown-header-face-1 . 1.2)
+                      (markdown-header-face-2 . 1.1)
+                      (markdown-header-face-3 . 1.0)
+                      (markdown-header-face-4 . 1.0)
+                      (markdown-header-face-5 . 1.0)))
+        (set-face-attribute (car face) nil :weight 'normal :height (cdr face))))
 
-  (add-hook 'markdown-mode-hook 'impatient-mode)
+    (defun dw/markdown-mode-hook ()
+      (dw/set-markdown-header-font-sizes))
 
-  (defun my/markdown-to-html (buffer)
-    (princ (with-current-buffer buffer
-             (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
-           (current-buffer)))
+    (add-hook 'markdown-mode-hook 'dw/markdown-mode-hook))
 #+end_src
 
 * PlatformIO & Arduino

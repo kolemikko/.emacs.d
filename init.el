@@ -70,10 +70,8 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 
-(use-package "which-os"
-  :straight '(which-os :host github
-                       :branch "master"
-                       :repo "kolemikko/which-os"))
+(use-package which-os
+  :straight (:host github :repo "kolemikko/which-os" :branch "master"))
 
 (use-package which-key
   :init (which-key-mode)
@@ -146,6 +144,7 @@
 
 (use-package evil
   :init
+  (setq evil-undo-system 'undo-fu)
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
@@ -157,7 +156,8 @@
   (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
 
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+  (evil-set-initial-state 'dashboard-mode 'motion)
+  (evil-set-initial-state 'pdf-view-mode 'motion))
 
 (use-package evil-collection
   :after evil
@@ -170,6 +170,11 @@
 (dolist (mode '(flycheck-error-list-mode
                 term-mode))
   (evil-set-initial-state 'help-mode 'emacs))
+
+(use-package undo-fu
+  :config
+  (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
+  (define-key evil-normal-state-map "U" 'undo-fu-only-redo))
 
 (use-package dired
   :ensure nil
@@ -308,8 +313,8 @@
   :hook (org-mode . org-mode-visual-fill))
 
 (use-package org-roam
-  :init
-  (setq org-roam-v2-ack t)
+  :ensure t
+  :straight nil
   :hook
   (after-init . org-roam-mode)
   :custom
@@ -339,13 +344,13 @@
       :immediate-finish))))
 
 (use-package org-roam-ui
-    :after org-roam
-;;  :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
+  :after org-roam
+  :hook (after-init . org-roam-ui-mode)
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 (defun org-present-quit-hook ()
   (setq-local face-remapping-alist '((default variable-pitch default)))
@@ -378,6 +383,16 @@
 
 (use-package websocket
   :after org-roam)
+
+(use-package impatient-mode
+  :straight t)
+
+(add-hook 'markdown-mode-hook 'impatient-mode)
+
+(defun my/markdown-to-html (buffer)
+  (princ (with-current-buffer buffer
+           (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+         (current-buffer)))
 
 (use-package treemacs
   :defer t
@@ -417,6 +432,7 @@
 (add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 
 (use-package lsp-mode
+    :straight t
     :commands lsp
     :init (setq lsp-keymap-prefix "C-c l")
     :config
@@ -460,14 +476,23 @@
                           (require 'lsp-python-ms)
                           (lsp))))
 
-(use-package impatient-mode)
+(use-package markdown-mode
+  :straight t
+  :mode "\\.md\\'"
+  :config
+  (setq markdown-command "marked")
+  (defun dw/set-markdown-header-font-sizes ()
+    (dolist (face '((markdown-header-face-1 . 1.2)
+                    (markdown-header-face-2 . 1.1)
+                    (markdown-header-face-3 . 1.0)
+                    (markdown-header-face-4 . 1.0)
+                    (markdown-header-face-5 . 1.0)))
+      (set-face-attribute (car face) nil :weight 'normal :height (cdr face))))
 
-(add-hook 'markdown-mode-hook 'impatient-mode)
+  (defun dw/markdown-mode-hook ()
+    (dw/set-markdown-header-font-sizes))
 
-(defun my/markdown-to-html (buffer)
-  (princ (with-current-buffer buffer
-           (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
-         (current-buffer)))
+  (add-hook 'markdown-mode-hook 'dw/markdown-mode-hook))
 
 (use-package irony-eldoc
   :defer t)
@@ -603,5 +628,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
-(custom-set-faces)
+   '(lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode))
+ '(warning-suppress-log-types '((comp))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
