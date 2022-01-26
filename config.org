@@ -60,6 +60,13 @@
     (auto-package-update-maybe))
 #+end_src
 
+** Which-OS
+
+#+begin_src emacs-lisp
+  (use-package which-os
+    :straight (:host github :repo "kolemikko/which-os" :branch "master"))
+#+end_src
+
 * UI
 ** General
 
@@ -81,7 +88,7 @@
   (setq visible-bell 1)
 #+end_src
 
-** Fonts and coding
+** Fonts
 
 #+begin_src emacs-lisp
   (set-default-coding-systems 'utf-8)
@@ -103,23 +110,7 @@
     :custom ((doom-modeline-height 15)))
 #+end_src
 
-* Useful misc
-** Which-OS
-
-#+begin_src emacs-lisp
-  (use-package which-os
-    :straight (:host github :repo "kolemikko/which-os" :branch "master"))
-#+end_src
-
-** Which-key
-
-#+begin_src emacs-lisp
-  (use-package which-key
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config (setq which-key-idle-delay 0.1))
-#+end_src
-
+* Usability
 ** Buffer-reverting
 
 #+begin_src emacs-lisp
@@ -185,13 +176,7 @@
   (use-package diminish)
 #+end_src
 
-** Command log
-
-#+begin_src emacs-lisp
-  (use-package command-log-mode)
-#+end_src
-
-* Ivy
+** Ivy
 
 #+begin_src emacs-lisp
   (use-package ivy
@@ -220,7 +205,8 @@
            ("C-r" . 'counsel-minibuffer-history)))
 #+end_src
 
-* Evil-mode
+* Text editing
+** Evil-mode
 
 #+begin_src emacs-lisp
   (use-package evil
@@ -262,7 +248,8 @@
     (define-key evil-normal-state-map "U" 'undo-fu-only-redo))
 #+end_src
 
-* Dired
+* File and project management
+** Dired
 
 #+begin_src emacs-lisp
   (use-package dired
@@ -312,7 +299,7 @@
         (dired-diff (nth 0 marked-files)))))
 #+end_src
 
-* Projectile
+** Projectile
 
 #+begin_src emacs-lisp
   (use-package projectile
@@ -329,28 +316,14 @@
     :config (counsel-projectile-mode))
 #+end_src
 
-* Company
-
-#+begin_src emacs-lisp
-  (use-package company
-    :after lsp-mode
-    :hook (lsp-mode . company-mode)
-    :bind ((:map company-active-map
-                ("<tab>" . company-complete-selection))
-           (:map lsp-mode-map
-                 ("<tab>" . company-indent-or-complete-common)))
-    :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.5))
-#+end_src
-
-* Magit
+* Version Control
+** Magit
 
 #+begin_src emacs-lisp
   (use-package magit)
 #+end_src
 
-* Org-mode & Org-Roam
+* Org
 ** Org-mode
 
 #+begin_src emacs-lisp
@@ -504,7 +477,7 @@
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'tangle-config)))
 #+end_src
 
-* Web stuff
+* Web
 ** Tramp
 
 #+begin_src emacs-lisp
@@ -538,7 +511,26 @@
            (current-buffer)))
 #+end_src
 
-* Treemacs
+* Programming
+** LSP
+
+#+begin_src emacs-lisp
+    (use-package lsp-mode
+      :straight t
+      :commands lsp
+      :init (setq lsp-keymap-prefix "C-c l")
+      :config
+      (lsp-enable-which-key-integration t)
+      (setq lsp-ui-doc-enable nil))
+
+    (use-package lsp-treemacs
+      :after lsp)
+
+  (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
+  (setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands")))
+#+end_src
+
+** Treemacs
 
 #+begin_src emacs-lisp
   (use-package treemacs
@@ -579,25 +571,22 @@
   (add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 #+end_src
 
-* LSP
+** Company
 
 #+begin_src emacs-lisp
-    (use-package lsp-mode
-      :straight t
-      :commands lsp
-      :init (setq lsp-keymap-prefix "C-c l")
-      :config
-      (lsp-enable-which-key-integration t)
-      (setq lsp-ui-doc-enable nil))
-
-    (use-package lsp-treemacs
-      :after lsp)
-
-  (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
-  (setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands")))
+  (use-package company
+    :after lsp-mode
+    :hook (lsp-mode . company-mode)
+    :bind ((:map company-active-map
+                ("<tab>" . company-complete-selection))
+           (:map lsp-mode-map
+                 ("<tab>" . company-indent-or-complete-common)))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.5))
 #+end_src
 
-* Flycheck
+** Flycheck
 
 #+begin_src emacs-lisp
   (use-package flycheck
@@ -605,8 +594,8 @@
     :hook (lsp-mode . flycheck-mode))
 #+end_src
 
-* Language modes
-** Rust
+** Language modes
+*** Rust
 
 #+begin_src emacs-lisp
 (use-package rustic
@@ -614,7 +603,7 @@
   (setq rustic-format-on-save t))
 #+end_src
 
-** C++
+*** C++
 
 #+begin_src emacs-lisp
   (use-package ccls
@@ -622,7 +611,7 @@
            (lambda () (require 'ccls) (lsp))))
 #+end_src
 
-** C#
+*** C#
 
 #+begin_src emacs-lisp
   (eval-after-load
@@ -639,7 +628,7 @@
     (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t))
 #+end_src
 
-** Python
+*** Python
 
 #+begin_src emacs-lisp
   (use-package lsp-python-ms
@@ -649,7 +638,7 @@
                             (lsp))))
 #+end_src
 
-** Markdown
+*** Markdown
 
 #+begin_src emacs-lisp
   (use-package markdown-mode
@@ -671,7 +660,7 @@
     (add-hook 'markdown-mode-hook 'dw/markdown-mode-hook))
 #+end_src
 
-* PlatformIO & Arduino
+** PlatformIO & Arduino
 
 #+begin_src emacs-lisp
   (use-package irony-eldoc
@@ -737,7 +726,17 @@
   (my/set-exec-path-from-shell-PATH)
 #+end_src
 
-* General key bindings
+* Key bindings
+** Which-key
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config (setq which-key-idle-delay 0.1))
+#+end_src
+
+** General
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
