@@ -408,7 +408,8 @@
     treemacs-show-hidden-files               t
     treemacs-sorting                         'alphabetic-asc
     treemacs-select-when-already-in-treemacs 'move-back
-    treemacs-width                           38)
+    treemacs-width                           38
+    treemacs-width-is-initially-locked       nil)
 
   (treemacs-resize-icons 18)
   (treemacs-follow-mode t)
@@ -575,10 +576,11 @@
     "b"  '(:ignore b :which-key "buffer")
     "br" '(revert-buffer-force :which-key "revert buffer")
 
-    "e"  '(:ignore e :which-key "evaluate")
-    "eb" '(eval-buffer :which-key "evaluate current buffer")
-    "ee" '(eval-expression :which-key "evaluate expression")
-    "er" '(eval-region :which-key "evaluate region")
+    "e"  '(:ignore e :which-key "eval")
+    "eb" '(eval-buffer :which-key "buffer")
+    "ee" '(eval-expression :which-key "expression")
+    "er" '(eval-region :which-key "region")
+    "es" '(org-babel-execute-src-block :which-key "source block")
 
     "f"  '(:ignore f :which-key "file")
     "ff" '(counsel-find-file :which-key "find file")
@@ -600,8 +602,7 @@
     "of" '(org-roam-node-find :which-key "find node")
     "oi" '(org-roam-node-insert :which-key "insert")
 
-    "p"  '(
-           projectile-command-map :which-key "projectile")
+    "p"  '(projectile-command-map :which-key "projectile")
     "pg" '(projectile-ripgrep :which-key "projectile-ripgrep")
 
     "s"  '(eshell :which-key "eshell")
@@ -618,8 +619,7 @@
     "wd" '(delete-window :which-key "delete window")
     "wo" '(delete-other-windows :which-key "delete other windows")
     "wb" '(split-window-below :which-key "split window below")
-    "wr" '(split-window-right :which-key "split window right")
-    "wl" '(split-window-left :which-key "split window left")))
+    "wr" '(split-window-right :which-key "split window right")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
