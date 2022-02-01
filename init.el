@@ -110,14 +110,6 @@
 
 (use-package diminish)
 
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
-         ("C-x C-f" . counsel-find-file)
-         ("C-M-l" . counsel-imenu)
-         :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history)))
-
 (use-package vertico
   :custom
   (vertico-cycle t)
@@ -134,6 +126,9 @@
   (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :init
   (marginalia-mode))
+
+(use-package orderless
+  :custom (completion-styles '(orderless)))
 
 (setq evil-want-keybinding nil)
 
@@ -605,11 +600,15 @@
     "p"  '(projectile-command-map :which-key "projectile")
     "pg" '(projectile-ripgrep :which-key "projectile-ripgrep")
 
-    "s"  '(eshell :which-key "eshell")
+    "s"  '(:ignore s :which-key "shell")
+    "ss" '(eshell :which-key "eshell")
 
     "t"  '(:ignore t :which-key "toggle")
     "tf" '(flycheck-list-errors :which-key "flycheck error list")
     "tt" '(treemacs :which-key "treemacs")
+
+    "q"  '(:ignore q :which-key "quit")
+    "qq" '(evil-quit-all :which-key "quit all")
 
     "."  '(switch-to-buffer :which-key "switch to buffer")
     "/"  '(switch-to-buffer-other-window :which-key "switch to buffer with other window")
