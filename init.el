@@ -92,13 +92,8 @@
   (delete-other-windows))
 
 (use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
   :bind
-  ([remap describe-function] . counsel-describe-function)
   ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
 (use-package ws-butler
@@ -214,15 +209,11 @@
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
-  :custom (projectile-completion-system 'ivy)
   :init
   (when (file-directory-p "~/code")
     (setq projectile-project-search-path '("~/code")))
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-sort-order 'recentf))
-
-(use-package counsel-projectile
-  :config (counsel-projectile-mode))
 
 (use-package magit)
 
@@ -514,7 +505,6 @@
 (defun my/configure-eshell ()
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-  (evil-define-key '(normal insert visual) eshell-mode-map (kbd "C-r") 'counsel-esh-history)
   (evil-define-key '(normal insert visual) eshell-mode-map (kbd "<home>") 'eshell-bol)
   (evil-normalize-keymaps)
   (setq eshell-history-size         10000
@@ -578,9 +568,9 @@
     "es" '(org-babel-execute-src-block :which-key "source block")
 
     "f"  '(:ignore f :which-key "file")
-    "ff" '(counsel-find-file :which-key "find file")
+    "ff" '(find-file :which-key "find file")
     "fo" '(find-file-other-window :which-key "open file in new window")
-    "fr" '(counsel-recentf :which-key "find from recent files")
+    "fr" '(recentf-open-files :which-key "find from recent files")
 
     "d"  '(dired :which-key "dired")
     "g"  '(magit-status :which-key "magit-status")
@@ -626,5 +616,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit counsel-projectile projectile general evil-collection evil which-key use-package rainbow-delimiters ivy-rich helpful doom-themes doom-modeline counsel command-log-mode)))
+   '(lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit projectile general evil-collection evil which-key use-package rainbow-delimiters helpful doom-themes doom-modeline command-log-mode)))
 (custom-set-faces)
