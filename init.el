@@ -113,7 +113,8 @@
 
 (use-package savehist
   :init
-  (savehist-mode))
+  (setq history-length 20)
+  (savehist-mode 1))
 
 (use-package marginalia
   :after vertico
@@ -127,8 +128,6 @@
 
 (use-package consult
   :demand t
-  :bind (:map minibuffer-local-map
-         ("C-r" . consult-history))
   :custom
   (completion-in-region-function #'consult-completion-in-region))
 
