@@ -125,6 +125,13 @@
 (use-package orderless
   :custom (completion-styles '(orderless)))
 
+(use-package consult
+  :demand t
+  :bind (:map minibuffer-local-map
+         ("C-r" . consult-history))
+  :custom
+  (completion-in-region-function #'consult-completion-in-region))
+
 (setq evil-want-keybinding nil)
 
 (use-package evil
@@ -210,6 +217,7 @@
   :diminish projectile-mode
   :config (projectile-mode)
   :init
+  (recentf-mode)
   (when (file-directory-p "~/code")
     (setq projectile-project-search-path '("~/code")))
   (setq projectile-switch-project-action #'projectile-dired)
@@ -560,6 +568,12 @@
 
     "b"  '(:ignore b :which-key "buffer")
     "br" '(revert-buffer-force :which-key "revert buffer")
+
+    "c"  '(:ignore c :which-key "consult")
+    "cr" '(consult-ripgrep :which-key "ripgrep")
+    "co" '(consult-outline :which-key "outline")
+    "ch" '(consult-history :which-key "history")
+    "ce" '(consult-file-externally :which-key "open file externally")
 
     "e"  '(:ignore e :which-key "eval")
     "eb" '(eval-buffer :which-key "buffer")
