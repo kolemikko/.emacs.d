@@ -70,8 +70,10 @@
 
 (use-package doom-modeline
   :after eshell
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+  :hook (after-init . doom-modeline-init)
+  :custom
+  (doom-modeline-height 15)
+  (doom-modeline-bar-width 5))
 
 (defun revert-buffer-force ()
   (interactive) (revert-buffer t t))
@@ -105,11 +107,21 @@
 
 (use-package diminish)
 
-(use-package vertico
-  :custom
-  (vertico-cycle t)
-  :init
-  (vertico-mode))
+(defun my/vertigo-backward-kill (arg)
+  (interactive "p")
+  (if minibuffer-completing-file-name
+      (if (string-match-p "/." (minibuffer-contents))
+          (zap-up-to-char (- arg) ?/)
+        (delete-minibuffer-contents))
+      (backward-kill-word arg)))
+
+  (use-package vertico
+    :bind
+    (:map minibuffer-local-map ("<backspace>" . my/vertigo-backward-kill))
+    :custom
+    (vertico-cycle t)
+    :init
+    (vertico-mode))
 
 (use-package savehist
   :init
