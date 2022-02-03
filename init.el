@@ -130,24 +130,6 @@
   :custom
   (completion-in-region-function #'consult-completion-in-region))
 
-(defun revert-buffer-force ()
-  (interactive) (revert-buffer t t))
-
-(setq global-auto-revert-non-file-buffers t)
-(global-auto-revert-mode 1)
-
-(defun my/kill-all-buffers ()
-  (interactive)
-  (dolist (buffer (buffer-list))
-    (kill-buffer buffer))
-  (delete-other-windows))
-
-(use-package bufler
-  :config
-  (evil-collection-define-key 'normal 'bufler-list-mode-map
-    (kbd "RET")   'bufler-list-buffer-switch
-    "D"           'bufler-list-buffer-kill))
-
 (setq evil-want-keybinding nil)
 
 (use-package evil
@@ -182,6 +164,29 @@
   :config
   (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
   (define-key evil-normal-state-map "U" 'undo-fu-only-redo))
+
+(defun revert-buffer-force ()
+  (interactive) (revert-buffer t t))
+
+(setq global-auto-revert-non-file-buffers t)
+(global-auto-revert-mode 1)
+
+(defun my/kill-all-buffers ()
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (kill-buffer buffer))
+  (delete-other-windows))
+
+(defun my/switch-recent-buffer ()
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(use-package bufler
+  :config
+  (evil-collection-define-key 'normal 'bufler-list-mode-map
+    (kbd "RET")   'bufler-list-buffer-switch
+    (kbd "TAB")     'bufler-list-buffer-peek
+    "D"           'bufler-list-buffer-kill))
 
 (use-package dired
   :ensure nil
@@ -577,14 +582,12 @@
     :prefix "SPC")
 
   (custom-keys
-    "k"  '(:ignore k :which-key "kill")
-    "kk" '(kill-buffer :which-key "selected buffer")
-    "kK" '(my/kill-all-buffers :which-key "all buffers")
-    "kq" '(kill-buffer-and-window :which-key "current buffer and window")
-
     "b"  '(:ignore b :which-key "buffer")
     "br" '(revert-buffer-force :which-key "revert buffer")
-    "bl" '(bufler-list :which-key "list buffers")
+    "bk" '(kill-buffer-and-window :which-key "kill buffer and window")
+
+    "."  '(bufler :which-key "list buffers")
+    "/"  '(my/switch-recent-buffer :which-key "switch to recent buffer")
 
     "c"  '(:ignore c :which-key "consult")
     "cr" '(consult-ripgrep :which-key "ripgrep")
@@ -630,9 +633,7 @@
 
     "q"  '(:ignore q :which-key "quit")
     "qq" '(evil-quit-all :which-key "quit all")
-
-    "."  '(bufler-switch-buffer :which-key "switch to buffer")
-    "/"  '(switch-to-buffer-other-window :which-key "switch to buffer with other window")
+    "qk" '(my/kill-all-buffers :which-key "kill all")
 
     "w"  '(:ignore w :which-key "window")
     "TAB"'(other-window :which-key "switch window")
