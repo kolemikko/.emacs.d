@@ -113,17 +113,6 @@
 #+end_src
 
 * Usability
-** Buffer-reverting
-
-#+begin_src emacs-lisp
-  (defun revert-buffer-force ()
-    (interactive) (revert-buffer t t))
-
-  (setq global-auto-revert-non-file-buffers t)
-
-  (global-auto-revert-mode 1)
-#+end_src
-
 ** No littering
 
 #+begin_src emacs-lisp
@@ -131,16 +120,6 @@
 
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-#+end_src
-
-** Kill all buffers
-
-#+begin_src emacs-lisp
-  (defun my/kill-all-buffers ()
-    (interactive)
-    (dolist (buffer (buffer-list))
-      (kill-buffer buffer))
-    (delete-other-windows))
 #+end_src
 
 ** Helpful
@@ -186,7 +165,7 @@
 
     (use-package vertico
       :bind
-      (:map minibuffer-local-map ("<backspace>" . my/vertigo-backward-kill))
+      (:map minibuffer-local-map ("<left>" . my/vertigo-backward-kill))
       :custom
       (vertico-cycle t)
       :init
@@ -227,6 +206,37 @@
     :demand t
     :custom
     (completion-in-region-function #'consult-completion-in-region))
+#+end_src
+
+* Buffer management
+** Buffer-reverting
+
+#+begin_src emacs-lisp
+  (defun revert-buffer-force ()
+    (interactive) (revert-buffer t t))
+
+  (setq global-auto-revert-non-file-buffers t)
+  (global-auto-revert-mode 1)
+#+end_src
+
+** Kill all buffers
+
+#+begin_src emacs-lisp
+  (defun my/kill-all-buffers ()
+    (interactive)
+    (dolist (buffer (buffer-list))
+      (kill-buffer buffer))
+    (delete-other-windows))
+#+end_src
+
+** Bufler
+
+#+begin_src emacs-lisp
+  (use-package bufler
+    :config
+    (evil-collection-define-key 'normal 'bufler-list-mode-map
+      (kbd "RET")   'bufler-list-buffer-switch
+      "D"           'bufler-list-buffer-kill))
 #+end_src
 
 * Text editing
@@ -784,6 +794,7 @@
 
       "b"  '(:ignore b :which-key "buffer")
       "br" '(revert-buffer-force :which-key "revert buffer")
+      "bl" '(bufler-list :which-key "list buffers")
 
       "c"  '(:ignore c :which-key "consult")
       "cr" '(consult-ripgrep :which-key "ripgrep")
@@ -830,7 +841,7 @@
       "q"  '(:ignore q :which-key "quit")
       "qq" '(evil-quit-all :which-key "quit all")
 
-      "."  '(switch-to-buffer :which-key "switch to buffer")
+      "."  '(bufler-switch-buffer :which-key "switch to buffer")
       "/"  '(switch-to-buffer-other-window :which-key "switch to buffer with other window")
 
       "w"  '(:ignore w :which-key "window")

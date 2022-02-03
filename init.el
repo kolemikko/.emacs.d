@@ -75,23 +75,10 @@
   (doom-modeline-height 15)
   (doom-modeline-bar-width 5))
 
-(defun revert-buffer-force ()
-  (interactive) (revert-buffer t t))
-
-(setq global-auto-revert-non-file-buffers t)
-
-(global-auto-revert-mode 1)
-
 (use-package no-littering)
 
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-
-(defun my/kill-all-buffers ()
-  (interactive)
-  (dolist (buffer (buffer-list))
-    (kill-buffer buffer))
-  (delete-other-windows))
 
 (use-package helpful
   :bind
@@ -117,7 +104,7 @@
 
   (use-package vertico
     :bind
-    (:map minibuffer-local-map ("<backspace>" . my/vertigo-backward-kill))
+    (:map minibuffer-local-map ("<left>" . my/vertigo-backward-kill))
     :custom
     (vertico-cycle t)
     :init
@@ -142,6 +129,24 @@
   :demand t
   :custom
   (completion-in-region-function #'consult-completion-in-region))
+
+(defun revert-buffer-force ()
+  (interactive) (revert-buffer t t))
+
+(setq global-auto-revert-non-file-buffers t)
+(global-auto-revert-mode 1)
+
+(defun my/kill-all-buffers ()
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (kill-buffer buffer))
+  (delete-other-windows))
+
+(use-package bufler
+  :config
+  (evil-collection-define-key 'normal 'bufler-list-mode-map
+    (kbd "RET")   'bufler-list-buffer-switch
+    "D"           'bufler-list-buffer-kill))
 
 (setq evil-want-keybinding nil)
 
@@ -579,6 +584,7 @@
 
     "b"  '(:ignore b :which-key "buffer")
     "br" '(revert-buffer-force :which-key "revert buffer")
+    "bl" '(bufler-list :which-key "list buffers")
 
     "c"  '(:ignore c :which-key "consult")
     "cr" '(consult-ripgrep :which-key "ripgrep")
@@ -625,7 +631,7 @@
     "q"  '(:ignore q :which-key "quit")
     "qq" '(evil-quit-all :which-key "quit all")
 
-    "."  '(switch-to-buffer :which-key "switch to buffer")
+    "."  '(bufler-switch-buffer :which-key "switch to buffer")
     "/"  '(switch-to-buffer-other-window :which-key "switch to buffer with other window")
 
     "w"  '(:ignore w :which-key "window")
