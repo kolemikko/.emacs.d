@@ -188,6 +188,15 @@
     (kbd "TAB")     'bufler-list-buffer-peek
     "D"           'bufler-list-buffer-kill))
 
+(use-package default-text-scale
+  :defer 1
+  :bind
+  (:map default-text-scale-mode-map
+        ("C-+" . default-text-scale-increase)
+        ("C--" . default-text-scale-decrease))
+  :config
+  (default-text-scale-mode))
+
 (use-package dired
   :ensure nil
   :straight nil
