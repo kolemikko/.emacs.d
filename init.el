@@ -255,14 +255,16 @@
 
 (use-package magit)
 
-(defun org-mode-setup ()
+(defun my/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
+  (auto-fill-mode 0)
   (visual-line-mode 1))
 
 (use-package org
   :defer t
-  :hook (org-mode . org-mode-setup)
+  :hook (org-mode . my/org-mode-setup)
+  :diminish org-indent-mode
   :config
   (setq org-agenda-files '("~/Org"))
   (setq org-ellipsis " ▾"
@@ -273,7 +275,7 @@
         org-src-preserve-indentation nil
         org-edit-src-content-indentation 2
         org-hide-block-startup nil
-        org-startup-folded 'content
+        org-startup-folded t
         org-cycle-separator-lines 2)
 
   (setq org-modules
@@ -284,7 +286,7 @@
   :hook (org-mode . org-superstar-mode)
   :custom
   (org-superstar-remove-leading-stars t)
-  (org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")))
+  (org-superstar-headline-bullets-list '("●" "○" "●" "○" "●" "○" "●")))
 
 (require 'org-indent)
 
