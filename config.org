@@ -874,6 +874,8 @@
       "od" '(org-deadline :which-key "deadline")
       "ot" '(org-time-stamp :which-key "timestamp")
       "op" '(org-present :which-key "presentation mode")
+      "ob" '(:ignore ob :which-key "babel")
+      "obt"'(org-babel-tangle :which-key "tangle")
 
       "oc" '(org-roam-capture :which-key "capture")
       "og" '(org-roam-graph :which-key "graph")
