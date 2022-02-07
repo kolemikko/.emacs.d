@@ -75,6 +75,25 @@
   (doom-modeline-height 15)
   (doom-modeline-bar-width 5))
 
+(use-package dashboard
+  :init
+  (add-hook 'after-init-hook 'dashboard-refresh-buffer)
+  :config
+  (setq dashboard-items '((recents . 8)))
+  (setq dashboard-banner-logo-title "Emacs FTW!")
+  (setq dashboard-footer-messages '(""))
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-center-content t
+        dashboard-set-heading-icons nil
+        dashboard-set-file-icons nil
+        dashboard-week-agenda t
+        dashboard-center-content t
+        dashboard-set-init-info t
+        dashboard-set-navigator t
+        dashboard-items-default-length 30
+        dashboard-page-separator "\n\n\n\n")
+  (dashboard-setup-startup-hook))
+
 (use-package no-littering)
 
 (setq auto-save-file-name-transforms
