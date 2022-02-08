@@ -507,8 +507,8 @@
   '(add-to-list 'company-backends #'company-omnisharp))
 
 (defun my/csharp-mode-setup ()
-  (setq c-basic-offset 8)
-  (c-set-offset 'substatement-open 0)
+  ;; (setq c-basic-offset 8)
+  ;; (c-set-offset 'substatement-open 0)
   (omnisharp-mode)
   (company-mode)
   (flycheck-mode))
