@@ -422,6 +422,7 @@
     :diminish org-indent-mode
     :config
     (setq org-agenda-files '("~/Org"))
+    (setq org-export-coding-system 'utf-8)
     (setq org-ellipsis " ▾"
           org-hide-emphasis-markers t
           org-fontify-quote-and-verse-blocks t
