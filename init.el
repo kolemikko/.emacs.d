@@ -507,11 +507,17 @@
   '(add-to-list 'company-backends #'company-omnisharp))
 
 (defun my/csharp-mode-setup ()
-  ;; (setq c-basic-offset 8)
-  ;; (c-set-offset 'substatement-open 0)
   (omnisharp-mode)
   (company-mode)
-  (flycheck-mode))
+  (flycheck-mode)
+
+  (setq indent-tabs-mode nil)
+  (setq c-syntactic-indentation t)
+  (setq c-default-style "linux")
+  (setq c-basic-offset 4)
+  (setq truncate-lines t)
+  (setq tab-width 4)
+  (setq evil-shift-width 4))
 
 (use-package csharp-mode
   :init
