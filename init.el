@@ -58,6 +58,7 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq visible-bell 1)
+(setq use-dialog-box nil)
 
 (set-default-coding-systems 'utf-8)
 
