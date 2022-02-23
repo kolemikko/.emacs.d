@@ -897,6 +897,10 @@
       "t"  '(:ignore t :which-key "toggle")
       "tt" '(treemacs :which-key "treemacs")
 
+      "m"  '(:ignore m :which-key "move")
+      "mn" '(flycheck-next-error :which-key "next error")
+      "mN" '(flycheck-previous-error :which-key "previous error")
+
       "q"  '(:ignore q :which-key "quit")
       "qq" '(evil-quit-all :which-key "quit all")
       "qk" '(my/kill-all-buffers :which-key "kill all")
