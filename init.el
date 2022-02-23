@@ -189,11 +189,8 @@
   (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
   (define-key evil-normal-state-map "U" 'undo-fu-only-redo))
 
-(defun revert-buffer-force ()
-  (interactive) (revert-buffer t t))
-
-(setq global-auto-revert-non-file-buffers t)
 (global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
 
 (defun my/kill-all-buffers ()
   (interactive)
@@ -622,7 +619,7 @@
 
   (custom-keys
     "b"  '(:ignore b :which-key "buffer")
-    "br" '(revert-buffer-force :which-key "revert buffer")
+    "br" '(revert-buffer-quick :which-key "revert buffer")
     "bk" '(kill-buffer-and-window :which-key "kill buffer and window")
 
     "."  '(bufler :which-key "list buffers")
