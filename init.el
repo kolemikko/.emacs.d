@@ -324,25 +324,25 @@
                 (org-level-8 . 1.1)))
   (set-face-attribute (car face) nil :font "Cantarell" :weight 'medium :height (cdr face)))
 
-(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-(set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
-(set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-(set-face-attribute 'org-code nil   :inherit '(fixed-pitch))
+(set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-code nil :inherit 'fixed-pitch)
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-(set-face-attribute 'org-verbatim nil :inherit '(fixed-pitch))
+(set-face-attribute 'org-verbatim nil :inherit 'fixed-pitch)
 (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
 (set-face-attribute 'org-column nil :background nil)
 (set-face-attribute 'org-column-title nil :background nil)
 
-(defun org-mode-visual-fill ()
-  (setq visual-fill-column-width 90
+(defun my/org-mode-visual-fill ()
+  (setq visual-fill-column-width 110
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
-  :hook (org-mode . org-mode-visual-fill))
+  :hook (org-mode . my/org-mode-visual-fill))
 
 (use-package org-roam
   :ensure t
