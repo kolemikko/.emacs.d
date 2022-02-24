@@ -503,7 +503,7 @@
          (lambda () (require 'ccls) (lsp))))
 
 (eval-after-load
-  'company
+    'company
   '(add-to-list 'company-backends #'company-omnisharp))
 
 (defun my/csharp-mode-setup ()
@@ -522,6 +522,12 @@
 (use-package csharp-mode
   :init
   (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t))
+
+(evil-define-key 'normal omnisharp-mode-map (kbd "g u") 'omnisharp-find-usages)
+(evil-define-key 'normal omnisharp-mode-map (kbd "g f") 'omnisharp-fix-code-issue-at-point)
+(evil-define-key 'normal omnisharp-mode-map (kbd "g F") 'omnisharp-fix-usings)
+(evil-define-key 'normal omnisharp-mode-map (kbd "g r") 'omnisharp-rename)
+(evil-define-key 'normal omnisharp-mode-map (kbd "g e") 'omnisharp-code-format-entire-file)
 
 (use-package lsp-python-ms
   :init (setq lsp-python-ms-auto-install-server t)
