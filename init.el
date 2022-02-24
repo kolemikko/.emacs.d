@@ -523,12 +523,6 @@
   :init
   (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t))
 
-(evil-define-key 'normal omnisharp-mode-map (kbd "g u") 'omnisharp-find-usages)
-(evil-define-key 'normal omnisharp-mode-map (kbd "g f") 'omnisharp-fix-code-issue-at-point)
-(evil-define-key 'normal omnisharp-mode-map (kbd "g F") 'omnisharp-fix-usings)
-(evil-define-key 'normal omnisharp-mode-map (kbd "g r") 'omnisharp-rename)
-(evil-define-key 'normal omnisharp-mode-map (kbd "g e") 'omnisharp-code-format-entire-file)
-
 (use-package lsp-python-ms
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
@@ -659,15 +653,7 @@
 
     "o"  '(:ignore o :which-key "org")
     "oa" '(org-agenda :which-key "agenda")
-    "os" '(org-schedule :which-key "schedule")
-    "od" '(org-deadline :which-key "deadline")
-    "ot" '(org-time-stamp :which-key "timestamp")
-    "op" '(org-present :which-key "presentation mode")
-    "ob" '(:ignore ob :which-key "babel")
-    "obt"'(org-babel-tangle :which-key "tangle")
-
     "oc" '(org-roam-capture :which-key "capture")
-    "og" '(org-roam-graph :which-key "graph")
     "of" '(org-roam-node-find :which-key "find node")
     "oi" '(org-roam-node-insert :which-key "insert")
 
@@ -680,10 +666,6 @@
     "t"  '(:ignore t :which-key "toggle")
     "tt" '(treemacs :which-key "treemacs")
 
-    "m"  '(:ignore m :which-key "move")
-    "mn" '(flycheck-next-error :which-key "next error")
-    "mN" '(flycheck-previous-error :which-key "previous error")
-
     "q"  '(:ignore q :which-key "quit")
     "qq" '(evil-quit-all :which-key "quit all")
     "qk" '(my/kill-all-buffers :which-key "kill all")
@@ -694,6 +676,34 @@
     "wo" '(delete-other-windows :which-key "delete other windows")
     "wb" '(split-window-below :which-key "split window below")
     "wr" '(split-window-right :which-key "split window right")))
+
+(general-define-key
+ :prefix "SPC"
+ :states 'normal
+ :keymaps 'omnisharp-mode-map
+ "l"  '(:ignore l :which-key "lsp")
+ "lu" '(omnisharp-find-usages :which-key "find usages")
+ "lf" '(omnisharp-fix-code-issues-at-point :which-key "fix issue at point")
+ "lF" '(omnisharp-fix-usings :which-key "fix usings")
+ "lr" '(omnisharp-rename :which-key "rename")
+ "lR" '(omnisharp-reload-solution :which-key "reload solution")
+ "le" '(omnisharp-code-format-entire-file :which-key "format file")
+ "la" '(omnisharp-run-code-action-refactoring :which-key "action refactoring")
+ "]" '(flycheck-next-error :which-key "next error")
+ "[" '(flycheck-previous-error :which-key "previous error"))
+
+(general-define-key
+ :prefix "SPC"
+ :states 'normal
+ :keymaps 'org-mode-map
+ "o"  '(:ignore o :which-key "org")
+ "os" '(org-schedule :which-key "schedule")
+ "od" '(org-deadline :which-key "deadline")
+ "ot" '(org-time-stamp :which-key "timestamp")
+ "op" '(org-present :which-key "presentation mode")
+ "ob" '(:ignore ob :which-key "babel")
+ "obt"'(org-babel-tangle :which-key "tangle")
+ "og" '(org-roam-graph :which-key "graph"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
