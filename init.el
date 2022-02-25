@@ -104,6 +104,8 @@
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
+(setq completion-ignored-extensions '(".meta"))
+
 (use-package helpful
   :bind
   ([remap describe-command] . helpful-command)

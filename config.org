@@ -150,6 +150,12 @@
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+end_src
 
+** Ignored extensions
+
+#+begin_src emacs-lisp
+  (setq completion-ignored-extensions '(".meta"))
+#+end_src
+
 ** Helpful
 
 #+begin_src emacs-lisp
