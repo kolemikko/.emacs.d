@@ -888,7 +888,10 @@
       "ss" '(eshell :which-key "eshell")
 
       "t"  '(:ignore t :which-key "toggle")
-      "tt" '(treemacs :which-key "treemacs")
+      "tT" '(toggle-truncate-lines :which-key "truncate lines")
+      "tv" '(visual-line-mode :which-key "visual line mode")
+      "tn" '(display-line-numbers-mode :which-key "display line numbers")
+      "tR" '(read-only-mode :which-key "read only mode")
 
       "q"  '(:ignore q :which-key "quit")
       "qq" '(evil-quit-all :which-key "quit all")
@@ -917,8 +920,9 @@
    "lR" '(omnisharp-reload-solution :which-key "reload solution")
    "le" '(omnisharp-code-format-entire-file :which-key "format file")
    "la" '(omnisharp-run-code-action-refactoring :which-key "action refactoring")
-   "]" '(flycheck-next-error :which-key "next error")
-   "[" '(flycheck-previous-error :which-key "previous error"))
+   "]"  '(flycheck-next-error :which-key "next error")
+   "["  '(flycheck-previous-error :which-key "previous error")
+   "tt" '(treemacs :which-key "treemacs"))
 #+end_src
 
 **** Org bindings
