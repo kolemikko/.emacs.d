@@ -99,6 +99,8 @@
    dashboard-items-default-length 30)
   (dashboard-setup-startup-hook))
 
+(fset 'yes-or-no-p 'y-or-n-p)
+
 (use-package no-littering)
 
 (setq auto-save-file-name-transforms

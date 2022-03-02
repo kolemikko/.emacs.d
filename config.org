@@ -141,6 +141,12 @@
 #+end_src
 
 * Usability
+** Yes-No
+
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
 ** No littering
 
 #+begin_src emacs-lisp
