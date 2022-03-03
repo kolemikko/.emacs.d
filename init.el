@@ -498,6 +498,18 @@
   :defer t
   :hook (lsp-mode . flycheck-mode))
 
+(defun my/next-error()
+  (interactive)
+  (unless (flycheck-next-error)
+    (flycheck-first-error)))
+  ;; (let (error-count (length flycheck-current-errors)))
+  ;; (when (> error-count 0)
+    ;; (let* ((req-n (if (numberp n) n 1))
+    ;;        (curr-pos (if (> req-n 0) (- error-count 1) 0))
+    ;;        (next-pos (mod (+ curr-pos req-n) error-count)))
+    ;;   (apply flycheck-next-error (list (+ 1 next-pos) 'reset))
+    ;;   (message "No more Flycheck errors"))
+
 (use-package rustic
   :config
   (setq rustic-format-on-save t))
@@ -696,8 +708,7 @@
  "lR" '(omnisharp-reload-solution :which-key "reload solution")
  "le" '(omnisharp-code-format-entire-file :which-key "format file")
  "la" '(omnisharp-run-code-action-refactoring :which-key "action refactoring")
- "]"  '(flycheck-next-error :which-key "next error")
- "["  '(flycheck-previous-error :which-key "previous error")
+ ";"  '(my/next-error :which-key "next error")
  "tt" '(treemacs :which-key "treemacs"))
 
 (general-define-key
