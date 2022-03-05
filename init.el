@@ -431,12 +431,14 @@
          (current-buffer)))
 
 (use-package lsp-mode
-    :straight t
-    :commands lsp
-    :init (setq lsp-keymap-prefix "C-c l")
-    :config
-    (lsp-enable-which-key-integration t)
-    (setq lsp-ui-doc-enable nil))
+  :straight t
+  :commands lsp
+  :init (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t)
+  (setq lsp-ui-doc-enable nil))
+
+(use-package lsp-ui)
 
 (when (is-mac)
 (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
