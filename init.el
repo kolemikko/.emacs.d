@@ -228,7 +228,7 @@
   :defer 1
   :commands (dired dired-jump)
   :config
-  (setq insert-directory-program "gls" dired-use-ls-dired t
+  (setq insert-directory-program "ls" dired-use-ls-dired t
         dired-listing-switches "-al --group-directories-first"
         dired-kill-when-opening-new-dired-buffer t
         dired-omit-verbose nil
@@ -252,6 +252,7 @@
     "H" 'dired-hide-dotfiles-mode))
 
 (when (is-mac)
+  (setq insert-directory-program "gls" dired-use-ls-dired t)
   (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.0_1/libexec/gnubin/ls"))
 
 (defun my/diff-marked-files ()
