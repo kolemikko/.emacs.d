@@ -564,6 +564,8 @@
 
   (add-hook 'markdown-mode-hook 'dw/markdown-mode-hook))
 
+(use-package yaml-mode)
+
 (use-package irony-eldoc
   :defer t)
 (use-package irony

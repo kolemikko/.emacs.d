@@ -779,6 +779,12 @@
     (add-hook 'markdown-mode-hook 'dw/markdown-mode-hook))
 #+end_src
 
+*** Yaml
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode)
+#+end_src
+
 ** PlatformIO & Arduino
 
 #+begin_src emacs-lisp
