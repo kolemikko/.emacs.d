@@ -1,5 +1,3 @@
-;;This init.el file was generated from config.org file 
-
 (server-start)
 (setq inhibit-startup-message t)
 
