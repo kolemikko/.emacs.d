@@ -194,6 +194,12 @@
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
 
+(defun my/kill-buffer-other-window ()
+    (interactive)
+    (other-window 1)
+    (kill-buffer (current-buffer))
+    (other-window 1))
+
 (defun my/kill-all-buffers ()
   (interactive)
   (dolist (buffer (buffer-list))
@@ -646,6 +652,7 @@
     "b"  '(:ignore b :which-key "buffer")
     "br" '(revert-buffer-quick :which-key "revert buffer")
     "bk" '(kill-buffer-and-window :which-key "kill buffer and window")
+    "bo" '(my/kill-buffer-other-window :which-key "kill buffer in other window")
 
     "."  '(bufler :which-key "list buffers")
     "/"  '(my/switch-recent-buffer :which-key "switch to recent buffer")
