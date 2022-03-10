@@ -644,8 +644,8 @@
   :config
   (general-evil-setup t)
   (general-create-definer custom-keys
-    :states 'normal
-    :keymaps 'override
+    :states '(normal visual motion)
+    :keymaps '(override dashboard)
     :prefix "SPC")
 
   (custom-keys
