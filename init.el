@@ -249,6 +249,9 @@
 (use-package dired-single
   :defer t)
 
+(use-package dired-collapse
+  :defer t)
+
 (use-package dired-hide-dotfiles
   :hook (dired-mode . dired-hide-dotfiles-mode)
   :config
