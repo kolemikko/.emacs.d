@@ -504,6 +504,9 @@
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.5))
 
+(use-package symbol-overlay
+  :hook (prog-mode . symbol-overlay-mode))
+
 (use-package flycheck
   :defer t
   :hook (lsp-mode . flycheck-mode))

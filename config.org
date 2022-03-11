@@ -698,6 +698,13 @@
     (company-idle-delay 0.5))
 #+end_src
 
+** Symbol-overlay
+
+#+begin_src emacs-lisp
+  (use-package symbol-overlay
+    :hook (prog-mode . symbol-overlay-mode))
+#+end_src
+
 ** Flycheck
 
 #+begin_src emacs-lisp
