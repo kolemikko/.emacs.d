@@ -620,24 +620,6 @@
 #+end_src
 
 * Programming
-** LSP
-
-#+begin_src emacs-lisp
-  (use-package lsp-mode
-    :straight t
-    :commands lsp
-    :init (setq lsp-keymap-prefix "C-c l")
-    :config
-    (lsp-enable-which-key-integration t)
-    (setq lsp-ui-doc-enable nil))
-
-  (use-package lsp-ui)
-
-  (when (is-mac)
-  (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
-  (setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
-#+end_src
-
 ** Treemacs
 
 #+begin_src emacs-lisp
@@ -671,9 +653,6 @@
   (use-package treemacs-projectile
     :after (treemacs projectile))
 
-  (use-package lsp-treemacs
-      :after lsp)
-
   (use-package treemacs-icons-dired
     :hook (dired-mode . treemacs-icons-dired-enable-once))
 
@@ -695,7 +674,7 @@
                  ("<tab>" . company-indent-or-complete-common)))
     :custom
     (company-minimum-prefix-length 1)
-    (company-idle-delay 0.5))
+    (company-idle-delay 0.2))
 #+end_src
 
 ** Symbol-overlay
@@ -723,6 +702,39 @@
       ;;        (next-pos (mod (+ curr-pos req-n) error-count)))
       ;;   (apply flycheck-next-error (list (+ 1 next-pos) 'reset))
       ;;   (message "No more Flycheck errors"))
+#+end_src
+
+** LSP
+*** LSP-Mode
+
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :straight t
+    :commands lsp
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :config
+    (lsp-enable-which-key-integration t))
+
+  (when (is-mac)
+  (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
+  (setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
+#+end_src
+
+*** LSP-UI
+
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :hook (lsp-mode . lsp-ui-mode)
+    :custom
+    (lsp-ui-doc-position 'bottom))
+#+end_src
+
+*** LSP-Treemacs
+
+#+begin_src emacs-lisp
+  (use-package lsp-treemacs
+    :after lsp)
 #+end_src
 
 ** Language modes

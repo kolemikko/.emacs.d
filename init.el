@@ -438,20 +438,6 @@
            (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
          (current-buffer)))
 
-(use-package lsp-mode
-  :straight t
-  :commands lsp
-  :init (setq lsp-keymap-prefix "C-c l")
-  :config
-  (lsp-enable-which-key-integration t)
-  (setq lsp-ui-doc-enable nil))
-
-(use-package lsp-ui)
-
-(when (is-mac)
-(setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
-(setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
-
 (use-package treemacs
   :defer t
   :config
@@ -482,9 +468,6 @@
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
-(use-package lsp-treemacs
-    :after lsp)
-
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))
 
@@ -502,7 +485,7 @@
                ("<tab>" . company-indent-or-complete-common)))
   :custom
   (company-minimum-prefix-length 1)
-  (company-idle-delay 0.5))
+  (company-idle-delay 0.2))
 
 (use-package symbol-overlay
   :hook (prog-mode . symbol-overlay-mode))
@@ -522,6 +505,26 @@
     ;;        (next-pos (mod (+ curr-pos req-n) error-count)))
     ;;   (apply flycheck-next-error (list (+ 1 next-pos) 'reset))
     ;;   (message "No more Flycheck errors"))
+
+(use-package lsp-mode
+  :straight t
+  :commands lsp
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+(when (is-mac)
+(setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
+(setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+
+(use-package lsp-treemacs
+  :after lsp)
 
 (use-package rustic
   :config
