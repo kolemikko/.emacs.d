@@ -587,7 +587,8 @@
   (dap-ui-mode 1)
   (dap-ui-controls-mode 1))
 
-(require 'dap-unity)
+(when (is-mac)
+  (require 'dap-unity))
 
 (use-package irony-eldoc
   :defer t)

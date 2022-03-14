@@ -831,7 +831,8 @@
 **** dap-unity
 
 #+begin_src emacs-lisp
-  (require 'dap-unity)
+  (when (is-mac)
+    (require 'dap-unity))
 #+end_src
 
 ** PlatformIO & Arduino
