@@ -817,6 +817,23 @@
   (use-package yaml-mode)
 #+end_src
 
+** Debugging
+*** Dap-mode
+
+#+begin_src emacs-lisp
+  (use-package dap-mode
+    :ensure
+    :config
+    (dap-ui-mode 1)
+    (dap-ui-controls-mode 1))
+#+end_src
+
+**** dap-unity
+
+#+begin_src emacs-lisp
+  (require 'dap-unity)
+#+end_src
+
 ** PlatformIO & Arduino
 
 #+begin_src emacs-lisp
