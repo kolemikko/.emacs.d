@@ -616,11 +616,16 @@
 
             (irony-cdb-autosetup-compile-options)))
 
+(use-package term
+  :config
+  (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
+
+(use-package eterm-256color
+  :hook (term-mode . eterm-256color-mode))
+
 (defun my/configure-eshell ()
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-  (evil-define-key '(normal insert visual) eshell-mode-map (kbd "<home>") 'eshell-bol)
-  (evil-normalize-keymaps)
   (setq eshell-history-size         10000
         eshell-buffer-maximum-lines 10000
         eshell-hist-ignoredups t
@@ -632,8 +637,7 @@
   :hook (eshell-first-time-mode . my/configure-eshell)
   :config
   (with-eval-after-load 'esh-opt
-    (setq eshell-destroy-buffer-when-process-dies t)
-    (setq eshell-visual-commands '("htop" "zsh" "vim")))
+    (setq eshell-destroy-buffer-when-process-dies t))
   (eshell-git-prompt-use-theme 'powerline))
 
 (defun my/set-exec-path-from-shell-PATH ()
