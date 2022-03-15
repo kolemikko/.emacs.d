@@ -704,7 +704,8 @@
     "p"  '(projectile-command-map :which-key "projectile")
     "pg" '(projectile-ripgrep :which-key "projectile-ripgrep")
 
-    "s"  '(:ignore s :which-key "shell")
+    "s"  '(:ignore s :which-key "shell/terminal")
+    "st" '(term :which-key "term")
     "ss" '(eshell :which-key "eshell")
 
     "t"  '(:ignore t :which-key "toggle")
