@@ -515,8 +515,8 @@
   (lsp-enable-which-key-integration t))
 
 (when (is-mac)
-(setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
-(setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
+  (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
+  (setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
 
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
@@ -586,9 +586,6 @@
   :config
   (dap-ui-mode 1)
   (dap-ui-controls-mode 1))
-
-(when (is-mac)
-  (require 'dap-unity))
 
 (use-package irony-eldoc
   :defer t)
