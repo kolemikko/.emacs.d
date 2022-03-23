@@ -737,6 +737,7 @@
  "lF" '(omnisharp-fix-usings :which-key "fix usings")
  "lr" '(omnisharp-rename :which-key "rename")
  "lR" '(omnisharp-reload-solution :which-key "reload solution")
+ "lS" '(omnisharp-start-omnisharp-server :which-key "start server")
  "le" '(omnisharp-code-format-entire-file :which-key "format file")
  "la" '(omnisharp-run-code-action-refactoring :which-key "action refactoring")
  ";"  '(my/next-error :which-key "next error")
