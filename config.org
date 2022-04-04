@@ -999,6 +999,7 @@
 #+end_src
 
 **** LSP bindings
+***** Omnisharp
 
 #+begin_src emacs-lisp
   (general-define-key
@@ -1013,6 +1014,23 @@
    "lR" '(omnisharp-reload-solution :which-key "reload solution")
    "le" '(omnisharp-code-format-entire-file :which-key "format file")
    "la" '(omnisharp-run-code-action-refactoring :which-key "action refactoring")
+   ";"  '(my/next-error :which-key "next error")
+   "tt" '(treemacs :which-key "treemacs"))
+#+end_src
+
+***** Rustic
+
+#+begin_src emacs-lisp
+  (general-define-key
+   :prefix "SPC"
+   :states 'normal
+   :keymaps 'rustic-mode-map
+   "l"  '(:ignore l :which-key "lsp")
+   "lb" '(rustic-cargo-build :which-key "build")
+   "lc" '(rustic-cargo-clippy :which-key "clippy")
+   "lC" '(rustic-cargo-clippy-fix :which-key "clippy fix")
+   "le" '(rustic-format-buffer :which-key "format buffer")
+   "lr" '(rustic-cargo-run :which-key "run")
    ";"  '(my/next-error :which-key "next error")
    "tt" '(treemacs :which-key "treemacs"))
 #+end_src

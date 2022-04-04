@@ -748,6 +748,19 @@
 (general-define-key
  :prefix "SPC"
  :states 'normal
+ :keymaps 'rustic-mode-map
+ "l"  '(:ignore l :which-key "lsp")
+ "lb" '(rustic-cargo-build :which-key "build")
+ "lc" '(rustic-cargo-clippy :which-key "clippy")
+ "lC" '(rustic-cargo-clippy-fix :which-key "clippy fix")
+ "le" '(rustic-format-buffer :which-key "format buffer")
+ "lr" '(rustic-cargo-run :which-key "run")
+ ";"  '(my/next-error :which-key "next error")
+ "tt" '(treemacs :which-key "treemacs"))
+
+(general-define-key
+ :prefix "SPC"
+ :states 'normal
  :keymaps 'org-mode-map
  "o"  '(:ignore o :which-key "org")
  "os" '(org-schedule :which-key "schedule")
