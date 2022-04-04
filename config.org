@@ -717,8 +717,8 @@
     (lsp-enable-which-key-integration t))
 
   (when (is-mac)
-  (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
-  (setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
+    (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
+    (setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
 #+end_src
 
 *** LSP-UI
@@ -826,13 +826,6 @@
     :config
     (dap-ui-mode 1)
     (dap-ui-controls-mode 1))
-#+end_src
-
-**** dap-unity
-
-#+begin_src emacs-lisp
-  (when (is-mac)
-    (require 'dap-unity))
 #+end_src
 
 ** PlatformIO & Arduino
@@ -1012,6 +1005,7 @@
    "lF" '(omnisharp-fix-usings :which-key "fix usings")
    "lr" '(omnisharp-rename :which-key "rename")
    "lR" '(omnisharp-reload-solution :which-key "reload solution")
+   "lS" '(omnisharp-start-omnisharp-server :which-key "start server")
    "le" '(omnisharp-code-format-entire-file :which-key "format file")
    "la" '(omnisharp-run-code-action-refactoring :which-key "action refactoring")
    ";"  '(my/next-error :which-key "next error")
