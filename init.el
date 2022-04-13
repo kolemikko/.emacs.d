@@ -396,14 +396,57 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
-(defun org-present-quit-hook ()
+(defun my/org-present-prepare-slide ()
+  (org-overview)
+  (org-show-all)
+  (org-show-children))
+
+(defun my/org-present-hook ()
+  (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
+                                     (header-line (:height 4.8) variable-pitch)
+                                     (org-code (:height 1.55) org-code)
+                                     (org-verbatim (:height 1.55) org-verbatim)
+                                     (org-block (:height 1.25) org-block)
+                                     (org-block-begin-line (:height 0.7) org-block)))
+  (setq header-line-format " ")
+  (org-display-inline-images)
+  (my/org-present-prepare-slide))
+
+(defun my/org-present-quit-hook ()
   (setq-local face-remapping-alist '((default variable-pitch default)))
   (setq header-line-format nil)
   (org-present-small)
   (org-remove-inline-images))
 
+(defun my/org-present-prev ()
+  (interactive)
+  (org-present-prev)
+  (my/org-present-prepare-slide))
+
+(defun my/org-present-next ()
+  (interactive)
+  (org-present-next)
+  (my/org-present-prepare-slide))
+
+(defun my/org-present-beginning()
+  (interactive)
+  (org-present-beginning)
+  (my/org-present-prepare-slide))
+
+(defun my/org-present-end ()
+  (interactive)
+  (org-present-end)
+  (my/org-present-prepare-slide))
+
 (use-package org-present
-  :hook (org-present-mode-quit . org-present-quit-hook))
+  :bind (:map org-present-mode-keymap
+              ("C-<right>" . my/org-present-next)
+              ("C-<left>" . my/org-present-prev)
+              ("C-<" . my/org-present-beginning)
+              ("C->" . my/org-present-end)
+              ("C-q" . org-present-quit))
+  :hook ((org-present-mode . my/org-present-hook)
+         (org-present-mode-quit . my/org-present-quit-hook)))
 
 (require 'org-tempo)
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
