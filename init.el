@@ -410,12 +410,14 @@
                                      (org-block-begin-line (:height 0.7) org-block)))
   (setq header-line-format " ")
   (org-display-inline-images)
+  (org-present-read-only)
   (my/org-present-prepare-slide))
 
 (defun my/org-present-quit-hook ()
   (setq-local face-remapping-alist '((default variable-pitch default)))
   (setq header-line-format nil)
   (org-present-small)
+  (org-present-read-write)
   (org-remove-inline-images))
 
 (defun my/org-present-prev ()
