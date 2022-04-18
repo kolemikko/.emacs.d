@@ -626,12 +626,6 @@
 
 (use-package yaml-mode)
 
-(use-package dap-mode
-  :ensure
-  :config
-  (dap-ui-mode 1)
-  (dap-ui-controls-mode 1))
-
 (use-package irony-eldoc
   :defer t)
 (use-package irony
