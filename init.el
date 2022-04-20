@@ -802,11 +802,17 @@
  "o"  '(:ignore o :which-key "org")
  "os" '(org-schedule :which-key "schedule")
  "od" '(org-deadline :which-key "deadline")
- "ot" '(org-time-stamp :which-key "timestamp")
- "op" '(org-present :which-key "presentation mode")
+ "ot"  '(:ignore ot :which-key "table")
+ "ots" '(org-table-sort-lines :which-key "sort lines")
+ "ote" '(org-table-export :which-key "export")
+ "otc" '(org-table-create :which-key "create")
+ "oti"  '(:ignore oti :which-key "insert")
+ "otic" '(org-table-insert-column :which-key "column")
+ "otir" '(org-table-insert-row :which-key "row")
+ "otih" '(org-table-insert-hline :which-key "horizontal line")
  "ob" '(:ignore ob :which-key "babel")
  "obt"'(org-babel-tangle :which-key "tangle")
- "og" '(org-roam-graph :which-key "graph"))
+ "op" '(org-present :which-key "presentation mode"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
