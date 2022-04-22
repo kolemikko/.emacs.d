@@ -630,6 +630,13 @@
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'tangle-config)))
 #+end_src
 
+** Auctex
+
+#+begin_src emacs-lisp
+  (use-package auctex
+  :defer t)
+#+end_src
+
 * Web
 ** Tramp
 

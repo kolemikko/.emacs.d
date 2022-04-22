@@ -466,6 +466,9 @@
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'tangle-config)))
 
+(use-package auctex
+:defer t)
+
 (setq tramp-default-method "ssh")
 
 (use-package simple-httpd)
