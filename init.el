@@ -800,6 +800,7 @@
  :states 'normal
  :keymaps 'org-mode-map
  "o"  '(:ignore o :which-key "org")
+ "oe" '(org-export-dispatch :which-key "export dispatch")
  "os" '(org-schedule :which-key "schedule")
  "od" '(org-deadline :which-key "deadline")
  "ot"  '(:ignore ot :which-key "table")
