@@ -634,7 +634,20 @@
 
 #+begin_src emacs-lisp
   (use-package auctex
-  :defer t)
+    :defer t)
+
+  (use-package company-auctex
+    :after auctex
+    :init
+    (add-to-list 'company-backends 'company-auctex)
+    (company-auctex-init))
+#+end_src
+
+** LaTeX
+
+#+begin_src emacs-lisp
+  (setq org-latex-listings t)
+  (setq org-latex-compiler "xelatex")
 #+end_src
 
 * Web

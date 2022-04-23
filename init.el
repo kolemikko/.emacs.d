@@ -467,7 +467,16 @@
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'tangle-config)))
 
 (use-package auctex
-:defer t)
+  :defer t)
+
+(use-package company-auctex
+  :after auctex
+  :init
+  (add-to-list 'company-backends 'company-auctex)
+  (company-auctex-init))
+
+(setq org-latex-listings t)
+(setq org-latex-compiler "xelatex")
 
 (setq tramp-default-method "ssh")
 
