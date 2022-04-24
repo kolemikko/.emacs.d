@@ -467,7 +467,12 @@
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'tangle-config)))
 
 (use-package auctex
-  :defer t)
+  :defer t
+  :init
+  (setq TeX-parse-self t
+        TeX-auto-save t
+        TeX-auto-local (concat user-emacs-directory "auctex/auto/")
+        TeX-style-local (concat user-emacs-directory "auctex/style/")))
 
 (use-package company-auctex
   :after auctex
