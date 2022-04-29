@@ -736,12 +736,8 @@
 
 #+begin_src emacs-lisp
   (use-package company
-    :after lsp-mode
-    :hook (lsp-mode . company-mode)
     :bind ((:map company-active-map
-                ("<tab>" . company-complete-selection))
-           (:map lsp-mode-map
-                 ("<tab>" . company-indent-or-complete-common)))
+                ("<tab>" . company-complete-selection)))
     :custom
     (company-minimum-prefix-length 1)
     (company-idle-delay 0.2))
@@ -758,8 +754,7 @@
 
 #+begin_src emacs-lisp
   (use-package flycheck
-    :defer t
-    :hook (lsp-mode . flycheck-mode))
+    :defer t)
 
   (defun my/next-error()
     (interactive)
@@ -774,39 +769,6 @@
       ;;   (message "No more Flycheck errors"))
 #+end_src
 
-** LSP
-*** LSP-Mode
-
-#+begin_src emacs-lisp
-  (use-package lsp-mode
-    :straight t
-    :commands lsp
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    :config
-    (lsp-enable-which-key-integration t))
-
-  (when (is-mac)
-    (setenv "PATH" (concat (getenv "PATH") "/Library/Frameworks/Mono.framework/Versions/Current/Commands"))
-    (setq exec-path (append exec-path '("/Library/Frameworks/Mono.framework/Versions/Current/Commands"))))
-#+end_src
-
-*** LSP-UI
-
-#+begin_src emacs-lisp
-  (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :custom
-    (lsp-ui-doc-position 'bottom))
-#+end_src
-
-*** LSP-Treemacs
-
-#+begin_src emacs-lisp
-  (use-package lsp-treemacs
-    :after lsp)
-#+end_src
-
 ** Language modes
 *** Rust
 
@@ -814,14 +776,6 @@
 (use-package rustic
   :config
   (setq rustic-format-on-save t))
-#+end_src
-
-*** C++
-
-#+begin_src emacs-lisp
-  (use-package ccls
-    :hook ((c-mode c++-mode) .
-           (lambda () (require 'ccls) (lsp))))
 #+end_src
 
 *** C#
@@ -847,16 +801,6 @@
   (use-package csharp-mode
     :init
     (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t))
-#+end_src
-
-*** Python
-
-#+begin_src emacs-lisp
-  (use-package lsp-python-ms
-    :init (setq lsp-python-ms-auto-install-server t)
-    :hook (python-mode . (lambda ()
-                            (require 'lsp-python-ms)
-                            (lsp))))
 #+end_src
 
 *** Markdown
@@ -1121,6 +1065,6 @@
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
    '(package-selected-packages
-     '(lsp-treemacs lsp-python-ms pyls dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls lsp-ui lsp-mode visual-fill-column org-bullets evil-magit magit projectile general evil-collection evil which-key use-package rainbow-delimiters helpful doom-themes doom-modeline command-log-mode)))
+     '(dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls visual-fill-column org-bullets evil-magit magit projectile general evil-collection evil which-key use-package rainbow-delimiters helpful doom-themes doom-modeline command-log-mode)))
   (custom-set-faces)
  #+end_src
