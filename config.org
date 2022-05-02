@@ -769,6 +769,12 @@
       ;;   (message "No more Flycheck errors"))
 #+end_src
 
+** Eglot
+
+#+begin_src emacs-lisp
+  (use-package eglot)
+#+end_src
+
 ** Language modes
 *** Rust
 
@@ -786,7 +792,7 @@
     '(add-to-list 'company-backends #'company-omnisharp))
 
   (defun my/csharp-mode-setup ()
-    (omnisharp-mode)
+    (eglot-ensure)
     (company-mode)
     (flycheck-mode)
 

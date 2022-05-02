@@ -563,6 +563,8 @@
     ;;   (apply flycheck-next-error (list (+ 1 next-pos) 'reset))
     ;;   (message "No more Flycheck errors"))
 
+(use-package eglot)
+
 (use-package rustic
   :config
   (setq rustic-format-on-save t))
@@ -572,7 +574,7 @@
   '(add-to-list 'company-backends #'company-omnisharp))
 
 (defun my/csharp-mode-setup ()
-  (omnisharp-mode)
+  (eglot-ensure)
   (company-mode)
   (flycheck-mode)
 
