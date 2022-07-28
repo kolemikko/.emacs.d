@@ -514,25 +514,30 @@
     (org-roam-completion-system 'default)
     (org-roam-capture-templates
      '(("d" "default" plain
-	"%?"
-	:if-new (file+head "%<%d%m%Y>-${slug}.org" "#+title: ${title}\n")
-	:unnarrowed t)
+        "%?"
+        :if-new (file+head "%<%d%m%Y>-${slug}.org" "#+title: ${title}\n")
+        :unnarrowed t)
+       ("i" "idea entry" entry
+        "* ${title}%?"
+        :if-new (file+head "Ideas.org" "#+title: Ideas\n")
+        :file-name "Ideas.org"
+        :unnarrowed t)
        ("j" "journal entry" entry
-	"* %<%A, %B %d, %Y>\n${title}%?"
-	:if-new (file+head "Journal.org" "#+title: Journal\n")
-	:file-name "Journal.org"
-	:unnarrowed t)
+        "* %<%A, %B %d, %Y>\n${title}%?"
+        :if-new (file+head "Journal.org" "#+title: Journal\n")
+        :file-name "Journal.org"
+        :unnarrowed t)
        ("w" "Work journal entry" entry
-	"* %<%A, %B %d, %Y>\n${title}%?"
-	:if-new (file+head "WorkJournal.org" "#+title: Work Journal\n")
-	:file-name "WorkJournal.org"
-	:unnarrowed t)
+        "* %<%A, %B %d, %Y>\n${title}%?"
+        :if-new (file+head "WorkJournal.org" "#+title: Work Journal\n")
+        :file-name "WorkJournal.org"
+        :unnarrowed t)
        ("t" "task" entry
-	"* TODO ${title}%?"
-	:if-new (file+head "Todo.org" "#+title: TODOlist\n")
-	:file-name "Todo.org"
-	:unnarrowed t
-	:immediate-finish))))
+        "* TODO ${title}%?"
+        :if-new (file+head "Todo.org" "#+title: TODOlist\n")
+        :file-name "Todo.org"
+        :unnarrowed t
+        :immediate-finish))))
 #+end_src
 
 ** Org-Roam-UI
