@@ -371,7 +371,7 @@
       :if-new (file+head "%<%d%m%Y>-${slug}.org" "#+title: ${title}\n")
       :unnarrowed t)
      ("i" "idea entry" entry
-      "* ${title}%?"
+      "\n* ${title}%?"
       :if-new (file+head "Ideas.org" "#+title: Ideas\n")
       :file-name "Ideas.org"
       :unnarrowed t)
