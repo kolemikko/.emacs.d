@@ -570,9 +570,23 @@
 
 (use-package eglot)
 
+(use-package lsp-ui
+  :ensure
+  :init
+  (add-hook 'lsp-ui-mode-hook 'lsp-ui-doc-mode)
+  :commands lsp-ui-mode
+  :custom
+  (lsp-ui-peek-always-show t)
+  (lsp-ui-sideline-show-hover nil)
+  (lsp-ui-doc-enable nil))
+
 (use-package rustic
+  :init
+  (add-hook 'rustic-mode-hook 'lsp-ui-mode)
   :config
-  (setq rustic-format-on-save t))
+  (setq rustic-format-on-save t)
+  :custom
+(rustic-rustfmt-config-alist '((edition . "2018"))))
 
 (eval-after-load
     'company

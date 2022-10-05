@@ -780,13 +780,31 @@
   (use-package eglot)
 #+end_src
 
+** Lsp-UI
+
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :ensure
+    :init
+    (add-hook 'lsp-ui-mode-hook 'lsp-ui-doc-mode)
+    :commands lsp-ui-mode
+    :custom
+    (lsp-ui-peek-always-show t)
+    (lsp-ui-sideline-show-hover nil)
+    (lsp-ui-doc-enable nil))
+#+end_src
+
 ** Language modes
 *** Rust
 
 #+begin_src emacs-lisp
-(use-package rustic
-  :config
-  (setq rustic-format-on-save t))
+  (use-package rustic
+    :init
+    (add-hook 'rustic-mode-hook 'lsp-ui-mode)
+    :config
+    (setq rustic-format-on-save t)
+    :custom
+  (rustic-rustfmt-config-alist '((edition . "2018"))))
 #+end_src
 
 *** C#
