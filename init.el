@@ -60,7 +60,11 @@
 
 (set-default-coding-systems 'utf-8)
 
-(set-face-attribute 'default nil :font "Source Code Pro" :height 130)
+(when (is-mac)
+  (set-face-attribute 'default nil :font "Fira Code" :height 130))
+
+(when (is-linux)
+  (set-face-attribute 'default nil :font "Source Code Pro" :height 130))
 
 (set-face-attribute 'variable-pitch nil :font "Cantarell" :height 150 :weight 'regular)
 
