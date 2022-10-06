@@ -794,11 +794,16 @@
  :states 'normal
  :keymaps 'rustic-mode-map
  "l"  '(:ignore l :which-key "lsp")
- "lb" '(rustic-cargo-build :which-key "build")
- "lc" '(rustic-cargo-clippy :which-key "clippy")
- "lC" '(rustic-cargo-clippy-fix :which-key "clippy fix")
- "le" '(rustic-format-buffer :which-key "format buffer")
- "lr" '(rustic-cargo-run :which-key "run")
+ "lf" '(rustic-format-buffer :which-key "format buffer")
+ "lr" '(lsp-rename :which-key "rename symbol")
+
+ "lc"  '(:ignore lc :which-key "cargo")
+ "lcb" '(rustic-cargo-build :which-key "build")
+ "lcc" '(rustic-cargo-clippy :which-key "clippy")
+ "lcC" '(rustic-cargo-clippy-fix :which-key "clippy fix")
+ "lcr" '(rustic-cargo-run :which-key "run")
+ "lct" '(lsp-rust-analyzer-open-cargo-toml :which-key "open cargo toml file")
+
  ";"  '(my/next-error :which-key "next error")
  "tt" '(treemacs :which-key "treemacs"))
 
