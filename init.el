@@ -560,17 +560,13 @@
 (use-package flycheck
   :defer t)
 
+(use-package flycheck-projectile
+  :defer t)
+
 (defun my/next-error()
   (interactive)
-  (unless (flycheck-next-error)
-    (flycheck-first-error)))
-  ;; (let (error-count (length flycheck-current-errors)))
-  ;; (when (> error-count 0)
-    ;; (let* ((req-n (if (numberp n) n 1))
-    ;;        (curr-pos (if (> req-n 0) (- error-count 1) 0))
-    ;;        (next-pos (mod (+ curr-pos req-n) error-count)))
-    ;;   (apply flycheck-next-error (list (+ 1 next-pos) 'reset))
-    ;;   (message "No more Flycheck errors"))
+  (unless (flycheck-first-error)
+      (flycheck-next-error)))
 
 (use-package eglot)
 
