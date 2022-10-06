@@ -792,6 +792,7 @@
     :init
     (add-hook 'lsp-ui-mode-hook 'lsp-ui-doc-mode)
     :commands lsp-ui-mode
+    :config
     :custom
     (lsp-ui-peek-always-show t)
     (lsp-ui-sideline-show-hover nil)
@@ -805,10 +806,16 @@
   (use-package rustic
     :init
     (add-hook 'rustic-mode-hook 'lsp-ui-mode)
+    (add-hook 'rustic-mode-hook 'my/rustic-mode-setup)
     :config
     (setq rustic-format-on-save t)
     :custom
   (rustic-rustfmt-config-alist '((edition . "2018"))))
+
+  (defun my/rustic-mode-setup()
+    (setq lsp-enable-snippet nil)
+    (setq lsp-rust-analyzer-completion-add-call-argument-snippets nil))
+
 #+end_src
 
 *** C#
@@ -1058,11 +1065,15 @@
    "l"  '(:ignore l :which-key "lsp")
    "lf" '(rustic-format-buffer :which-key "format buffer")
    "lr" '(lsp-rename :which-key "rename symbol")
+   "ld" '(lsp-find-definition :which-key "find definition")
 
    "lc"  '(:ignore lc :which-key "cargo")
    "lcb" '(rustic-cargo-build :which-key "build")
    "lcc" '(rustic-cargo-clippy :which-key "clippy")
-   "lcC" '(rustic-cargo-clippy-fix :which-key "clippy fix")
+   "lcf" '(rustic-cargo-clippy-fix :which-key "clippy fix")
+   "lcC" '(rustic-cargo-clean :which-key "clean")
+   "lco" '(rustic-cargo-outdated :which-key "outdated")
+   "lcu" '(rustic-cargo-update :which-key "update")
    "lcr" '(rustic-cargo-run :which-key "run")
    "lct" '(lsp-rust-analyzer-open-cargo-toml :which-key "open cargo toml file")
 
