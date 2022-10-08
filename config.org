@@ -788,8 +788,6 @@
 *** Rust
 
 #+begin_src emacs-lisp
-  (use-package toml-mode)
-
   (use-package rustic
     :ensure
     :init
@@ -846,6 +844,12 @@
       (dw/set-markdown-header-font-sizes))
 
     (add-hook 'markdown-mode-hook 'dw/markdown-mode-hook))
+#+end_src
+
+*** Toml
+
+#+begin_src emacs-lisp
+  (use-package toml-mode)
 #+end_src
 
 *** Yaml

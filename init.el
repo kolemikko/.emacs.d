@@ -574,8 +574,6 @@
   :ensure
   :defer t)
 
-(use-package toml-mode)
-
 (use-package rustic
   :ensure
   :init
@@ -624,6 +622,8 @@
     (dw/set-markdown-header-font-sizes))
 
   (add-hook 'markdown-mode-hook 'dw/markdown-mode-hook))
+
+(use-package toml-mode)
 
 (use-package yaml-mode)
 
