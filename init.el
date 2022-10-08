@@ -284,7 +284,6 @@
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
-  (define-key projectile-command-map "r" 'consult-ripgrep)
   :init
   (recentf-mode)
   (when (file-directory-p "~/code")
@@ -575,10 +574,6 @@
   :ensure
   :defer t)
 
-(use-package omnisharp
-  :ensure
-  :defer t)
-
 (use-package rustic
   :ensure
   :init
@@ -588,6 +583,10 @@
   (setq rustic-format-on-save t)
   :custom
   (rustic-rustfmt-config-alist '((edition . "2018"))))
+
+(use-package omnisharp
+  :ensure
+  :defer t)
 
 (eval-after-load
     'company
@@ -697,7 +696,8 @@
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
-  :config (setq which-key-idle-delay 0.1))
+  :config
+  (setq which-key-idle-delay 0.1))
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
@@ -736,8 +736,8 @@
 
     "f"  '(:ignore f :which-key "file")
     "ff" '(find-file :which-key "find file")
+    "fr" '(consult-recent-file :which-key "find from recent files")
     "fo" '(find-file-other-window :which-key "open file in new window")
-    "fr" '(recentf-open-files :which-key "find from recent files")
 
     "d"  '(dired :which-key "dired")
     "m"  '(magit-status :which-key "magit-status")
@@ -748,7 +748,14 @@
     "of" '(org-roam-node-find :which-key "find node")
     "oi" '(org-roam-node-insert :which-key "insert")
 
-    "p"  '(projectile-command-map :which-key "projectile")
+    "p"  '(:ignore p :which-key "projectile")
+    "pf" '(projectile-find-file :which-key "find file")
+    "pF" '(projectile-find-in-known-projects :which-key "find file in known projects")
+    "pe" '(projectile-recentf :which-key "find from recent files")
+    "pp" '(projectile-switch-project :which-key "switch project")
+    "pr" '(consult-ripgrep :which-key "ripgrep")
+    "pb" '(consult-project-buffer :which-key "switch to project buffer")
+    "p/" '(projectile-project-buffers-other-buffer :which-key "switch to recent project buffer")
 
     "s"  '(:ignore s :which-key "shell/terminal")
     "st" '(term :which-key "term")
