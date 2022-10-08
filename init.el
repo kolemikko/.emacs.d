@@ -788,7 +788,7 @@
  :prefix "SPC"
  :states 'normal
  :keymaps 'omnisharp-mode-map
- "l"  '(:ignore l :which-key "lsp")
+ "l"  '(:ignore l :which-key "C#")
  "lu" '(omnisharp-find-usages :which-key "find usages")
  "lf" '(omnisharp-fix-code-issues-at-point :which-key "fix issue at point")
  "lF" '(omnisharp-fix-usings :which-key "fix usings")
@@ -805,7 +805,7 @@
  :prefix "SPC"
  :states 'normal
  :keymaps 'rustic-mode-map
- "l"  '(:ignore l :which-key "lsp")
+ "l"  '(:ignore l :which-key "Rust")
  "lf" '(eglot-code-action-quickfix :which-key "quickfix")
  "la" '(eglot-code-actions :which-key "code actions")
  "lr" '(eglot-rename :which-key "rename symbol")
@@ -817,9 +817,15 @@
  "lcc" '(rustic-cargo-clippy :which-key "clippy")
  "lcf" '(rustic-cargo-clippy-fix :which-key "clippy fix")
  "lcC" '(rustic-cargo-clean :which-key "clean")
- "lco" '(rustic-cargo-outdated :which-key "outdated")
+ "lco" '(rustic-cargo-outdated :which-key "cargo-outdated")
  "lcu" '(rustic-cargo-update :which-key "update")
  "lcr" '(rustic-cargo-run :which-key "run")
+
+ "le"  '(:ignore le :which-key "cargo-edit")
+ "lea" '(rustic-cargo-add :which-key "add crate")
+ "leA" '(rustic-cargo-add-missing-dependencies :which-key "add missing crates")
+ "ler" '(rustic-cargo-rm :which-key "remove crate")
+ "let" '(rustic-open-dependency-file :which-key "open cargo.toml file")
 
  ";"  '(flymake-goto-next-error :which-key "next error")
  "tt" '(treemacs :which-key "treemacs"))
