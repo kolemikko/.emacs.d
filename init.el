@@ -748,7 +748,7 @@
     "oi" '(org-roam-node-insert :which-key "insert")
 
     "p"  '(projectile-command-map :which-key "projectile")
-    "pg" '(projectile-ripgrep :which-key "projectile-ripgrep")
+    "pg" '(consult-ripgrep :which-key "projectile-ripgrep")
 
     "s"  '(:ignore s :which-key "shell/terminal")
     "st" '(term :which-key "term")
