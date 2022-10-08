@@ -284,6 +284,7 @@
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
+  (define-key projectile-command-map "r" 'consult-ripgrep)
   :init
   (recentf-mode)
   (when (file-directory-p "~/code")
@@ -748,7 +749,6 @@
     "oi" '(org-roam-node-insert :which-key "insert")
 
     "p"  '(projectile-command-map :which-key "projectile")
-    "pg" '(consult-ripgrep :which-key "projectile-ripgrep")
 
     "s"  '(:ignore s :which-key "shell/terminal")
     "st" '(term :which-key "term")
