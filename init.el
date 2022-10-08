@@ -558,41 +558,33 @@
   :hook (prog-mode . symbol-overlay-mode))
 
 (use-package flycheck
-  :defer t)
+  :defer
+  :init
+  (add-hook 'prog-mode 'flycheck-mode))
 
 (use-package flycheck-projectile
-  :defer t)
+  :defer)
 
 (defun my/next-error()
   (interactive)
   (unless (flycheck-first-error)
       (flycheck-next-error)))
 
-(use-package eglot)
-
-(use-package lsp-ui
+(use-package eglot
   :ensure
-  :init
-  (add-hook 'lsp-ui-mode-hook 'lsp-ui-doc-mode)
-  :commands lsp-ui-mode
-  :config
-  :custom
-  (lsp-ui-peek-always-show t)
-  (lsp-ui-sideline-show-hover nil)
-  (lsp-ui-doc-enable nil))
+  :defer t)
+
+(use-package toml-mode)
 
 (use-package rustic
+  :ensure
   :init
-  (add-hook 'rustic-mode-hook 'lsp-ui-mode)
-  (add-hook 'rustic-mode-hook 'my/rustic-mode-setup)
+  (add-hook 'rustic-mode-hook 'company-mode)
   :config
+  (setq rustic-lsp-client 'eglot)
   (setq rustic-format-on-save t)
   :custom
-(rustic-rustfmt-config-alist '((edition . "2018"))))
-
-(defun my/rustic-mode-setup()
-  (setq lsp-enable-snippet nil)
-  (setq lsp-rust-analyzer-completion-add-call-argument-snippets nil))
+  (rustic-rustfmt-config-alist '((edition . "2018"))))
 
 (eval-after-load
     'company
@@ -743,7 +735,7 @@
     "fr" '(recentf-open-files :which-key "find from recent files")
 
     "d"  '(dired :which-key "dired")
-    "g"  '(magit-status :which-key "magit-status")
+    "m"  '(magit-status :which-key "magit-status")
 
     "o"  '(:ignore o :which-key "org")
     "oa" '(org-agenda :which-key "agenda")
@@ -796,9 +788,11 @@
  :states 'normal
  :keymaps 'rustic-mode-map
  "l"  '(:ignore l :which-key "lsp")
- "lf" '(rustic-format-buffer :which-key "format buffer")
- "lr" '(lsp-rename :which-key "rename symbol")
- "ld" '(lsp-find-definition :which-key "find definition")
+ "lf" '(eglot-code-action-quickfix :which-key "quickfix")
+ "la" '(eglot-code-actions :which-key "code actions")
+ "lr" '(eglot-rename :which-key "rename symbol")
+ "ld" '(eldoc-doc-buffer :which-key "show doc buffer")
+ "li" '(eglot-find-implementation :which-key "find implementation")
 
  "lc"  '(:ignore lc :which-key "cargo")
  "lcb" '(rustic-cargo-build :which-key "build")
@@ -808,9 +802,8 @@
  "lco" '(rustic-cargo-outdated :which-key "outdated")
  "lcu" '(rustic-cargo-update :which-key "update")
  "lcr" '(rustic-cargo-run :which-key "run")
- "lct" '(lsp-rust-analyzer-open-cargo-toml :which-key "open cargo toml file")
 
- ";"  '(my/next-error :which-key "next error")
+ ";"  '(flymake-goto-next-error :which-key "next error")
  "tt" '(treemacs :which-key "treemacs"))
 
 (general-define-key
