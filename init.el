@@ -558,12 +558,12 @@
   :hook (prog-mode . symbol-overlay-mode))
 
 (use-package flycheck
-  :defer
+  :defer t
   :init
   (add-hook 'prog-mode 'flycheck-mode))
 
 (use-package flycheck-projectile
-  :defer)
+  :defer t)
 
 (defun my/next-error()
   (interactive)
@@ -571,6 +571,10 @@
       (flycheck-next-error)))
 
 (use-package eglot
+  :ensure
+  :defer t)
+
+(use-package omnisharp
   :ensure
   :defer t)
 
@@ -589,7 +593,6 @@
   '(add-to-list 'company-backends #'company-omnisharp))
 
 (defun my/csharp-mode-setup ()
-  (eglot-ensure)
   (company-mode)
   (flycheck-mode)
 
@@ -603,7 +606,8 @@
 
 (use-package csharp-mode
   :init
-  (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t))
+  (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t)
+  (add-hook 'csharp-mode-hook 'omnisharp-mode))
 
 (use-package markdown-mode
   :straight t
@@ -780,6 +784,7 @@
  "lS" '(omnisharp-start-omnisharp-server :which-key "start server")
  "le" '(omnisharp-code-format-entire-file :which-key "format file")
  "la" '(omnisharp-run-code-action-refactoring :which-key "action refactoring")
+
  ";"  '(my/next-error :which-key "next error")
  "tt" '(treemacs :which-key "treemacs"))
 
