@@ -992,6 +992,12 @@
       "fr" '(consult-recent-file :which-key "find from recent files")
       "fo" '(find-file-other-window :which-key "open file in new window")
 
+      "g"  '(:ignore g :which-key "goto")
+      "gd" '(evil-goto-definition :which-key "go to definition")
+      "gb" '(evil-jump-backward :which-key "go to last jump position")
+      "gc" '(evil-goto-last-change :which-key "go to last change")
+      "gl" '(consult-goto-line :which-key "go to line N")
+
       "d"  '(dired :which-key "dired")
       "m"  '(magit-status :which-key "magit-status")
 
