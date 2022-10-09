@@ -574,6 +574,25 @@
   :ensure
   :defer t)
 
+(require 'dap-lldb)
+(require 'dap-gdb-lldb)
+
+(use-package dap-mode
+  :ensure
+  :config
+  (dap-ui-mode)
+  (dap-ui-controls-mode 1)
+  (dap-gdb-lldb-setup)
+
+  (dap-register-debug-template
+   "Rust::LLDB Run Configuration"
+   (list :type "lldb"
+         :request "launch"
+         :name "LLDB::Run"
+         :gdbpath "rust-lldb"
+         :target "${WorkspaceFolder}/target/debug/${WorkspaceFolderBasename}"
+         :cwd nil)))
+
 (use-package rustic
   :ensure
   :init
@@ -584,7 +603,7 @@
   :custom
   (rustic-rustfmt-config-alist '((edition . "2018"))))
 
-(defun my/rust-build-with-arguments()
+(defun my/rustic-build-with-arguments()
   (interactive)
   (rustic-cargo-build ""))
 
@@ -817,7 +836,7 @@
  "li" '(eglot-find-implementation :which-key "find implementation")
 
  "lc"  '(:ignore lc :which-key "cargo")
- "lcb" '(my/rust-build-with-arguments :which-key "build with arguments")
+ "lcb" '(my/rustic-build-with-arguments :which-key "build with arguments")
  "lcc" '(rustic-cargo-clippy :which-key "clippy")
  "lcf" '(rustic-cargo-clippy-fix :which-key "clippy fix")
  "lcC" '(rustic-cargo-clean :which-key "clean")
