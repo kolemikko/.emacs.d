@@ -584,6 +584,10 @@
   :custom
   (rustic-rustfmt-config-alist '((edition . "2018"))))
 
+(defun my/rust-build-with-arguments()
+  (interactive)
+  (rustic-cargo-build ""))
+
 (use-package omnisharp
   :ensure
   :defer t)
@@ -813,7 +817,7 @@
  "li" '(eglot-find-implementation :which-key "find implementation")
 
  "lc"  '(:ignore lc :which-key "cargo")
- "lcb" '(rustic-cargo-build :which-key "build")
+ "lcb" '(my/rust-build-with-arguments :which-key "build with arguments")
  "lcc" '(rustic-cargo-clippy :which-key "clippy")
  "lcf" '(rustic-cargo-clippy-fix :which-key "clippy fix")
  "lcC" '(rustic-cargo-clean :which-key "clean")
