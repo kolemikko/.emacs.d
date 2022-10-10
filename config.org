@@ -824,6 +824,10 @@
   (defun my/rustic-build-with-arguments()
     (interactive)
     (rustic-cargo-build ""))
+
+  (defun my/rust-cargo-tree()
+    (interactive)
+    (shell-command "cargo tree"))
 #+end_src
 
 *** C#
@@ -1109,6 +1113,7 @@
    "lco" '(rustic-cargo-outdated :which-key "cargo-outdated")
    "lcu" '(rustic-cargo-update :which-key "update")
    "lcr" '(rustic-cargo-run :which-key "run")
+   "lct" '(my/rust-cargo-tree :which-key "cargo tree")
 
    "le"  '(:ignore le :which-key "cargo-edit")
    "lea" '(rustic-cargo-add :which-key "add crate")

@@ -607,6 +607,10 @@
   (interactive)
   (rustic-cargo-build ""))
 
+(defun my/rust-cargo-tree()
+  (interactive)
+  (shell-command "cargo tree"))
+
 (use-package omnisharp
   :ensure
   :defer t)
@@ -843,6 +847,7 @@
  "lco" '(rustic-cargo-outdated :which-key "cargo-outdated")
  "lcu" '(rustic-cargo-update :which-key "update")
  "lcr" '(rustic-cargo-run :which-key "run")
+ "lct" '(my/rust-cargo-tree :which-key "cargo tree")
 
  "le"  '(:ignore le :which-key "cargo-edit")
  "lea" '(rustic-cargo-add :which-key "add crate")
