@@ -294,6 +294,13 @@
     (define-key evil-normal-state-map "U" 'undo-fu-only-redo))
 #+end_src
 
+** Flyspell
+
+#+begin_src emacs-lisp
+  (use-package flyspell
+    :hook (markdown-mode . flyspell-mode))
+#+end_src
+
 * Buffer management
 ** Auto-revert
 
@@ -764,8 +771,7 @@
 #+begin_src emacs-lisp
   (use-package flycheck
     :defer t
-    :init
-    (add-hook 'prog-mode 'flycheck-mode))
+    :hook (prog-mode . flycheck-mode))
 
   (use-package flycheck-projectile
     :defer t)
@@ -813,8 +819,7 @@
 #+begin_src emacs-lisp
   (use-package rustic
     :ensure
-    :init
-    (add-hook 'rustic-mode-hook 'company-mode)
+    :hook (rustic-mode-hook . company-mode)
     :config
     (setq rustic-lsp-client 'eglot)
     (setq rustic-format-on-save t)
