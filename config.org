@@ -699,9 +699,9 @@
 
   (add-hook 'markdown-mode-hook 'impatient-mode)
 
-  (defun my/markdown-to-html (buffer)
+  (defun my/markdown-html (buffer)
     (princ (with-current-buffer buffer
-             (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+             (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://ndossougbe.github.io/strapdown/dist/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
            (current-buffer)))
 #+end_src
 
