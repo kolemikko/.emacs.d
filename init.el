@@ -198,6 +198,8 @@
 (use-package flyspell
   :hook (markdown-mode . flyspell-mode))
 
+;; NOTE: requires ispell on macos and hunspell on linux
+
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
 
@@ -507,10 +509,18 @@
 
 (add-hook 'markdown-mode-hook 'impatient-mode)
 
-(defun my/markdown-html (buffer)
+(defun my/markdown-html-filter (buffer)
   (princ (with-current-buffer buffer
            (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://ndossougbe.github.io/strapdown/dist/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
          (current-buffer)))
+
+(defun my/preview-markdown ()
+  (interactive)
+  (impatient-mode)
+  (httpd-start)
+  (setq impatient-mode-delay 1)
+  (setq imp-user-filter 'my/markdown-html-filter)
+  (imp-visit-buffer))
 
 (use-package treemacs
   :defer t
@@ -645,7 +655,7 @@
   :mode "\\.md\\'"
   :config
   (setq markdown-command "marked")
-  (defun dw/set-markdown-header-font-sizes ()
+  (defun my/set-markdown-header-font-sizes ()
     (dolist (face '((markdown-header-face-1 . 1.2)
                     (markdown-header-face-2 . 1.1)
                     (markdown-header-face-3 . 1.0)
@@ -653,10 +663,10 @@
                     (markdown-header-face-5 . 1.0)))
       (set-face-attribute (car face) nil :weight 'normal :height (cdr face))))
 
-  (defun dw/markdown-mode-hook ()
-    (dw/set-markdown-header-font-sizes))
+  (defun my/markdown-mode-hook ()
+    (my/set-markdown-header-font-sizes))
 
-  (add-hook 'markdown-mode-hook 'dw/markdown-mode-hook))
+  (add-hook 'markdown-mode-hook 'my/markdown-mode-hook))
 
 (use-package toml-mode)
 
