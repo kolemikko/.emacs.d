@@ -562,7 +562,8 @@
 
 (use-package flycheck
   :defer t
-  :hook (prog-mode . flycheck-mode))
+  :init
+  (add-hook 'prog-mode 'flycheck-mode))
 
 (use-package flycheck-projectile
   :defer t)
@@ -597,7 +598,8 @@
 
 (use-package rustic
   :ensure
-  :hook (rustic-mode-hook . company-mode)
+  :init
+  (add-hook 'rustic-mode-hook 'company-mode)
   :config
   (setq rustic-lsp-client 'eglot)
   (setq rustic-format-on-save t)

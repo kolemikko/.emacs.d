@@ -769,17 +769,18 @@
 ** Flycheck
 
 #+begin_src emacs-lisp
-  (use-package flycheck
-    :defer t
-    :hook (prog-mode . flycheck-mode))
+    (use-package flycheck
+      :defer t
+      :init
+      (add-hook 'prog-mode 'flycheck-mode))
 
-  (use-package flycheck-projectile
-    :defer t)
+    (use-package flycheck-projectile
+      :defer t)
 
-  (defun my/next-error()
-    (interactive)
-    (unless (flycheck-first-error)
-        (flycheck-next-error)))
+    (defun my/next-error()
+      (interactive)
+      (unless (flycheck-first-error)
+          (flycheck-next-error)))
 #+end_src
 
 ** Eglot
@@ -819,7 +820,8 @@
 #+begin_src emacs-lisp
   (use-package rustic
     :ensure
-    :hook (rustic-mode-hook . company-mode)
+    :init
+    (add-hook 'rustic-mode-hook 'company-mode)
     :config
     (setq rustic-lsp-client 'eglot)
     (setq rustic-format-on-save t)
