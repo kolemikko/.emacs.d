@@ -217,7 +217,9 @@
 
 (defun my/switch-recent-buffer ()
   (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) 1)))
+  (if (> (length (window-list)) 1)
+      (evil-window-mru)
+    (switch-to-buffer (other-buffer (current-buffer) 1))))
 
 (use-package bufler
   :config
