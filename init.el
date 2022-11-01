@@ -92,7 +92,9 @@
    dashboard-page-separator "\n\n\n"
 
    dashboard-week-agenda t
+   dashboard-filter-agenda-entry 'dashboard-no-filter-agenda
    dashboard-match-agenda-entry "TODO=\"TODO\"|TODO=\"INPROGRESS\""
+   dashboard-agenda-sort-strategy '(time-up todo-state-up)
 
    dashboard-center-content t
    dashboard-set-heading-icons nil
