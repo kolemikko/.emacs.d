@@ -326,8 +326,13 @@
         org-startup-folded t
         org-cycle-separator-lines 2)
 
+  (setq org-todo-keywords
+        '((sequence "TODO"
+                    "INPROGRESS"
+                    "DONE")))
+
   (setq org-modules
-    '(org-crypt)))
+        '(org-crypt)))
 
 (use-package org-superstar
   :after org
