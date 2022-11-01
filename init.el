@@ -84,17 +84,19 @@
   :config
   (setq dashboard-items '((recents . 6)
                           (projects . 5)
-                          (agenda . 5)))
+                          (agenda . 7)))
   (setq
    dashboard-banner-logo-title "Emacs FTW!"
    dashboard-footer-messages '("")
    dashboard-startup-banner 'logo
    dashboard-page-separator "\n\n\n"
+
    dashboard-week-agenda t
+   dashboard-match-agenda-entry "TODO=\"TODO\"|TODO=\"INPROGRESS\""
+
    dashboard-center-content t
    dashboard-set-heading-icons nil
    dashboard-set-file-icons nil
-   dashboard-week-agenda t
    dashboard-center-content t
    dashboard-set-init-info t
    dashboard-set-navigator t
