@@ -91,14 +91,15 @@
 
 #+begin_src emacs-lisp
   (set-default-coding-systems 'utf-8)
+  (setq my/default-font-size '140)
 
   (when (is-mac)
-    (set-face-attribute 'default nil :font "Fira Code" :height 130))
+    (set-face-attribute 'default nil :font "Fira Code" :height my/default-font-size))
 
   (when (is-linux)
-    (set-face-attribute 'default nil :font "Source Code Pro" :height 130))
+    (set-face-attribute 'default nil :font "Source Code Pro" :height my/default-font-size))
 
-  (set-face-attribute 'variable-pitch nil :font "Cantarell" :height 150 :weight 'regular)
+  (set-face-attribute 'variable-pitch nil :font "Cantarell" :height my/default-font-size :weight 'regular)
 #+end_src
 
 ** Theme
@@ -453,7 +454,6 @@
 #+begin_src emacs-lisp
   (defun my/org-mode-setup ()
     (org-indent-mode)
-    (variable-pitch-mode 1)
     (auto-fill-mode 0)
     (visual-line-mode 1))
 
