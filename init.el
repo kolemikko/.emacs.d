@@ -79,30 +79,34 @@
   (doom-modeline-height 15)
   (doom-modeline-bar-width 5))
 
+(use-package all-the-icons
+  :if (display-graphic-p))
+
 (use-package dashboard
   :init
   (add-hook 'after-init-hook 'dashboard-refresh-buffer)
   :config
   (setq dashboard-items '((recents . 6)
                           (projects . 5)
-                          (agenda . 7)))
+                          (agenda . 9)))
   (setq
    dashboard-banner-logo-title "Emacs FTW!"
    dashboard-footer-messages '("")
    dashboard-startup-banner 'logo
    dashboard-page-separator "\n\n\n"
 
+   dashboard-item-names '(("Agenda for the coming week:" . "Agenda:"))
+
    dashboard-week-agenda t
    dashboard-filter-agenda-entry 'dashboard-no-filter-agenda
    dashboard-match-agenda-entry "TODO=\"TODO\"|TODO=\"INPROGRESS\""
-   dashboard-agenda-sort-strategy '(time-up todo-state-up)
+   dashboard-agenda-sort-strategy '(todo-state-down)
 
    dashboard-center-content t
    dashboard-set-heading-icons nil
    dashboard-set-file-icons nil
    dashboard-center-content t
    dashboard-set-init-info t
-   dashboard-set-navigator t
    dashboard-items-default-length 30)
   (dashboard-setup-startup-hook))
 
