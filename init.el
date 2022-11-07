@@ -867,6 +867,7 @@
  "lr" '(eglot-rename :which-key "rename symbol")
  "ld" '(eldoc-doc-buffer :which-key "show doc buffer")
  "li" '(eglot-find-implementation :which-key "find implementation")
+ "lu" '(xref-find-references :which-key "find usages")
 
  "lc"  '(:ignore lc :which-key "cargo")
  "lcb" '(my/rustic-build-with-arguments :which-key "build with arguments")
