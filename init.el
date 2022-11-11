@@ -846,6 +846,7 @@
  :keymaps 'omnisharp-mode-map
  "l"  '(:ignore l :which-key "C#")
  "lu" '(omnisharp-find-usages :which-key "find usages")
+ "ld" '(omnisharp-go-to-definition :which-key "go to definition")
  "lf" '(omnisharp-fix-code-issues-at-point :which-key "fix issue at point")
  "lF" '(omnisharp-fix-usings :which-key "fix usings")
  "lr" '(omnisharp-rename :which-key "rename")
