@@ -1135,7 +1135,7 @@
   (general-define-key
    :prefix "SPC"
    :states 'normal
-   :keymaps 'rustic-mode-map
+   :keymaps '(rustic-mode-map toml-mode-map)
    "l"  '(:ignore l :which-key "Rust")
    "lf" '(eglot-code-action-quickfix :which-key "quickfix")
    "la" '(eglot-code-actions :which-key "code actions")
