@@ -665,6 +665,22 @@
   (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t)
   (add-hook 'csharp-mode-hook 'omnisharp-mode))
 
+(use-package js2-mode
+  :ensure t
+  :mode
+  (("\\.js\\'" . js2-mode))
+  :init
+  (add-hook 'js2-mode-hook 'company-mode)
+  :custom
+  (js2-include-node-externs t)
+  (js2-highlight-level 3)
+  (js2r-prefer-let-over-var t)
+  (js2r-prefered-quote-type 2)
+  (js-indent-align-list-continuation t)
+  (global-auto-highlight-symbol-mode t)
+  :config
+  (setq js-indent-level 2))
+
 (use-package markdown-mode
   :straight t
   :mode "\\.md\\'"
