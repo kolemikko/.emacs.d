@@ -513,6 +513,7 @@
 (setq org-latex-compiler "xelatex")
 
 (setq tramp-default-method "ssh")
+(setq remote-file-name-inhibit-cache nil)
 (setq tramp-verbose 1)
 (setq tramp-chunksize 500)
 
