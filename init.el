@@ -513,7 +513,7 @@
 (setq org-latex-compiler "xelatex")
 
 (setq tramp-default-method "ssh")
-(setq tramp-verbose 6)
+(setq tramp-verbose 1)
 (setq tramp-chunksize 500)
 
 (use-package simple-httpd)
