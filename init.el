@@ -41,6 +41,11 @@
 (use-package which-os
   :straight (:host github :repo "kolemikko/which-os" :branch "master"))
 
+(use-package exec-path-from-shell)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
@@ -756,17 +761,6 @@
   (with-eval-after-load 'esh-opt
     (setq eshell-destroy-buffer-when-process-dies t))
   (eshell-git-prompt-use-theme 'powerline))
-
-(defun my/set-exec-path-from-shell-PATH ()
-  (interactive)
-  (let ((path-from-shell (replace-regexp-in-string
-                          "[ \t\n]*$" "" (shell-command-to-string
-                                          "$SHELL --login -c 'echo $PATH'"
-                                          ))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
-
-(my/set-exec-path-from-shell-PATH)
 
 (use-package which-key
   :init (which-key-mode)
