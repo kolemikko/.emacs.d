@@ -368,7 +368,8 @@
 #+begin_src emacs-lisp
   (defun my/switch-to-dashboard-buffer ()
     (interactive)
-    (switch-to-buffer (get-buffer "*dashboard*")))
+    (switch-to-buffer (get-buffer "*dashboard*"))
+    (revert-buffer-quick))
 #+end_src
 
 ** Bufler

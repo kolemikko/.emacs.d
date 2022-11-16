@@ -237,7 +237,8 @@
 
 (defun my/switch-to-dashboard-buffer ()
   (interactive)
-  (switch-to-buffer (get-buffer "*dashboard*")))
+  (switch-to-buffer (get-buffer "*dashboard*"))
+  (revert-buffer-quick))
 
 (use-package bufler
   :config
