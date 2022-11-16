@@ -786,7 +786,7 @@
       treemacs-width-is-initially-locked       nil)
 
     (treemacs-resize-icons 18)
-    (treemacs-follow-mode t)
+    (treemacs-project-follow-mode t)
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode 'always))
 
