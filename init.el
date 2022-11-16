@@ -235,6 +235,10 @@
       (evil-window-mru)
     (switch-to-buffer (other-buffer (current-buffer) 1))))
 
+(defun my/switch-to-dashboard-buffer ()
+  (interactive)
+  (switch-to-buffer (get-buffer "*dashboard*")))
+
 (use-package bufler
   :config
   (evil-collection-define-key 'normal 'bufler-list-mode-map
@@ -788,8 +792,9 @@
     "bk" '(kill-buffer-and-window :which-key "kill buffer and window")
     "bo" '(my/kill-buffer-other-window :which-key "kill buffer in other window")
 
-    "."  '(bufler :which-key "list buffers")
-    "/"  '(my/switch-recent-buffer :which-key "switch to recent buffer")
+    "."   '(bufler :which-key "list buffers")
+    "/"   '(my/switch-recent-buffer :which-key "switch to recent buffer")
+    "SPC" '(my/switch-to-dashboard-buffer :which-key "switch to dashboard buffer")
 
     "c"  '(:ignore c :which-key "consult")
     "cr" '(consult-ripgrep :which-key "ripgrep")
