@@ -54,14 +54,18 @@
 (column-number-mode)
 (global-display-line-numbers-mode t)
 
-(dolist (mode '(org-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
 (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq visible-bell 1)
 (setq use-dialog-box nil)
+
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                treemacs-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (set-default-coding-systems 'utf-8)
 (setq my/default-font-size '130)
@@ -585,8 +589,6 @@
 
 (use-package treemacs-magit
   :after (treemacs magit))
-
-(add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 
 (use-package company
   :bind ((:map company-active-map
