@@ -790,11 +790,6 @@
     :prefix "SPC")
 
   (custom-keys
-    "b"  '(:ignore b :which-key "buffer")
-    "br" '(revert-buffer-quick :which-key "revert buffer")
-    "bk" '(kill-buffer-and-window :which-key "kill buffer and window")
-    "bo" '(my/kill-buffer-other-window :which-key "kill buffer in other window")
-
     "."   '(bufler :which-key "list buffers")
     "/"   '(my/switch-recent-buffer :which-key "switch to recent buffer")
     "SPC" '(my/switch-to-dashboard-buffer :which-key "switch to dashboard buffer")
@@ -854,8 +849,14 @@
     "qq" '(evil-quit-all :which-key "quit all")
     "qk" '(my/kill-all-buffers :which-key "kill all")
 
+    "b"  '(:ignore b :which-key "buffer")
+    "br" '(revert-buffer-quick :which-key "revert buffer")
+    "bk" '(kill-buffer-and-window :which-key "kill buffer and window")
+    "bo" '(my/kill-buffer-other-window :which-key "kill buffer in other window")
+
     "w"  '(:ignore w :which-key "window")
     "TAB"'(other-window :which-key "switch window")
+    "wf" '(make-frame :which-key "open active window in new frame")
     "wd" '(delete-window :which-key "delete window")
     "wo" '(delete-other-windows :which-key "delete other windows")
     "wb" '(split-window-below :which-key "split window below")
