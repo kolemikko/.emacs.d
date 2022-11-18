@@ -144,7 +144,7 @@
     (add-hook 'after-init-hook 'dashboard-refresh-buffer)
     :config
     (setq dashboard-items '((recents . 6)
-                            (projects . 5)
+                            (projects . 6)
                             (agenda . 9)))
     (setq
      dashboard-banner-logo-title "Emacs FTW!"
