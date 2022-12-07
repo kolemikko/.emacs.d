@@ -827,6 +827,7 @@
     "oi" '(org-roam-node-insert :which-key "insert")
 
     "p"  '(:ignore p :which-key "projectile")
+    "ps" '(projectile-save-project-buffers :which-key "save project buffers")
     "pf" '(projectile-find-file :which-key "find file")
     "pF" '(projectile-find-in-known-projects :which-key "find file in known projects")
     "pe" '(projectile-recentf :which-key "find from recent files")
