@@ -1,4 +1,8 @@
-(setq gc-cons-threshold #x40000000)
+(setq gc-cons-threshold most-positive-fixnum)
+
+(add-hook 'after-init-hook
+          #'(lambda () (setq gc-cons-threshold (* 8 1024 1024))))
+
 (server-start)
 (setq inhibit-startup-message t)
 
