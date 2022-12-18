@@ -1,6 +1,3 @@
-(server-start)
-(setq inhibit-startup-message t)
-
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -45,27 +42,6 @@
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
-
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(set-fringe-mode 10)
-(menu-bar-mode -1)
-(column-number-mode)
-(global-display-line-numbers-mode t)
-
-(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-(setq visible-bell 1)
-(setq use-dialog-box nil)
-
-(dolist (mode '(org-mode-hook
-                term-mode-hook
-                shell-mode-hook
-                treemacs-mode-hook
-                eshell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (set-default-coding-systems 'utf-8)
 (setq my/default-font-size '130)
@@ -213,10 +189,9 @@
   (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
   (define-key evil-normal-state-map "U" 'undo-fu-only-redo))
 
+;; NOTE: requires ispell on macos and hunspell on linux
 (use-package flyspell
   :hook (markdown-mode . flyspell-mode))
-
-;; NOTE: requires ispell on macos and hunspell on linux
 
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
@@ -252,7 +227,6 @@
     "D"           'bufler-list-buffer-kill))
 
 (use-package default-text-scale
-  :defer 1
   :bind
   (:map default-text-scale-mode-map
         ("C-+" . default-text-scale-increase)
@@ -263,7 +237,6 @@
 (use-package dired
   :ensure nil
   :straight nil
-  :defer 1
   :commands (dired dired-jump)
   :config
   (setq insert-directory-program "ls" dired-use-ls-dired t
@@ -280,11 +253,9 @@
     "P" 'dired-display-file
     "=" 'my/diff-marked-files))
 
-(use-package dired-single
-  :defer t)
+(use-package dired-single)
 
-(use-package dired-collapse
-  :defer t)
+(use-package dired-collapse)
 
 (use-package dired-hide-dotfiles
   :hook (dired-mode . dired-hide-dotfiles-mode)
@@ -329,7 +300,6 @@
   (visual-line-mode 1))
 
 (use-package org
-  :defer t
   :hook (org-mode . my/org-mode-setup)
   :diminish org-indent-mode
   :config
@@ -395,7 +365,6 @@
   :hook (org-mode . my/org-mode-visual-fill))
 
 (use-package org-roam
-  :ensure t
   :straight nil
   :hook
   (after-init . org-roam-mode)
@@ -614,11 +583,10 @@
       (flycheck-next-error)))
 
 (use-package eglot
-  :ensure
   :defer t)
 
 (use-package rustic
-  :ensure
+  :defer t
   :init
   (add-hook 'rustic-mode-hook 'company-mode)
   :config
@@ -636,7 +604,6 @@
   (shell-command "cargo tree"))
 
 (use-package omnisharp
-  :ensure
   :defer t)
 
 (eval-after-load
@@ -661,7 +628,7 @@
   (add-hook 'csharp-mode-hook 'omnisharp-mode))
 
 (use-package js2-mode
-  :ensure t
+  :defer t
   :mode
   (("\\.js\\'" . js2-mode))
   :init
@@ -677,6 +644,7 @@
   (setq js-indent-level 2))
 
 (use-package markdown-mode
+  :defer t
   :straight t
   :mode "\\.md\\'"
   :config
@@ -694,9 +662,11 @@
 
   (add-hook 'markdown-mode-hook 'my/markdown-mode-hook))
 
-(use-package toml-mode)
+(use-package toml-mode
+  :defer t)
 
-(use-package yaml-mode)
+(use-package yaml-mode
+  :defer t)
 
 (use-package irony-eldoc
   :defer t)
@@ -725,10 +695,12 @@
             (irony-cdb-autosetup-compile-options)))
 
 (use-package term
+  :defer t
   :config
   (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
 (use-package eterm-256color
+  :defer t
   :hook (term-mode . eterm-256color-mode))
 
 (defun my/configure-eshell ()
@@ -740,7 +712,8 @@
         eshell-hist-ignoredups t
         eshell-scroll-to-bottom-on-input t))
 
-(use-package eshell-git-prompt)
+(use-package eshell-git-prompt
+  :defer t)
 
 (use-package eshell
   :hook (eshell-first-time-mode . my/configure-eshell)

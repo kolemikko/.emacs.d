@@ -3,7 +3,8 @@
 
 * Startup
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle ./early-init.el
+  (setq gc-cons-threshold #x40000000)
   (server-start)
   (setq inhibit-startup-message t)
 #+end_src
@@ -77,7 +78,7 @@
 * UI
 ** General
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle ./early-init.el
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
@@ -323,10 +324,9 @@
 ** Flyspell
 
 #+begin_src emacs-lisp
+  ;; NOTE: requires ispell on macos and hunspell on linux
   (use-package flyspell
     :hook (markdown-mode . flyspell-mode))
-
-  ;; NOTE: requires ispell on macos and hunspell on linux
 #+end_src
 
 * Buffer management
@@ -392,7 +392,6 @@
 
 #+begin_src emacs-lisp
   (use-package default-text-scale
-    :defer 1
     :bind
     (:map default-text-scale-mode-map
           ("C-+" . default-text-scale-increase)
@@ -408,7 +407,6 @@
   (use-package dired
     :ensure nil
     :straight nil
-    :defer 1
     :commands (dired dired-jump)
     :config
     (setq insert-directory-program "ls" dired-use-ls-dired t
@@ -425,11 +423,9 @@
       "P" 'dired-display-file
       "=" 'my/diff-marked-files))
 
-  (use-package dired-single
-    :defer t)
+  (use-package dired-single)
 
-  (use-package dired-collapse
-    :defer t)
+  (use-package dired-collapse)
 
   (use-package dired-hide-dotfiles
     :hook (dired-mode . dired-hide-dotfiles-mode)
@@ -488,7 +484,6 @@
     (visual-line-mode 1))
 
   (use-package org
-    :defer t
     :hook (org-mode . my/org-mode-setup)
     :diminish org-indent-mode
     :config
@@ -558,7 +553,6 @@
 
 #+begin_src emacs-lisp
   (use-package org-roam
-    :ensure t
     :straight nil
     :hook
     (after-init . org-roam-mode)
@@ -839,7 +833,6 @@
 
 #+begin_src emacs-lisp
   (use-package eglot
-    :ensure
     :defer t)
 #+end_src
 
@@ -848,7 +841,7 @@
 
 #+begin_src emacs-lisp
   (use-package rustic
-    :ensure
+    :defer t
     :init
     (add-hook 'rustic-mode-hook 'company-mode)
     :config
@@ -870,7 +863,6 @@
 
 #+begin_src emacs-lisp
   (use-package omnisharp
-    :ensure
     :defer t)
 
   (eval-after-load
@@ -899,7 +891,7 @@
 
 #+begin_src emacs-lisp
   (use-package js2-mode
-    :ensure t
+    :defer t
     :mode
     (("\\.js\\'" . js2-mode))
     :init
@@ -919,6 +911,7 @@
 
 #+begin_src emacs-lisp
   (use-package markdown-mode
+    :defer t
     :straight t
     :mode "\\.md\\'"
     :config
@@ -940,13 +933,15 @@
 *** Toml
 
 #+begin_src emacs-lisp
-  (use-package toml-mode)
+  (use-package toml-mode
+    :defer t)
 #+end_src
 
 *** Yaml
 
 #+begin_src emacs-lisp
-  (use-package yaml-mode)
+  (use-package yaml-mode
+    :defer t)
 #+end_src
 
 ** PlatformIO & Arduino
@@ -984,10 +979,12 @@
 
 #+begin_src emacs-lisp
   (use-package term
+    :defer t
     :config
     (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
   (use-package eterm-256color
+    :defer t
     :hook (term-mode . eterm-256color-mode))
 #+end_src
 
@@ -1003,7 +1000,8 @@
           eshell-hist-ignoredups t
           eshell-scroll-to-bottom-on-input t))
 
-  (use-package eshell-git-prompt)
+  (use-package eshell-git-prompt
+    :defer t)
 
   (use-package eshell
     :hook (eshell-first-time-mode . my/configure-eshell)
