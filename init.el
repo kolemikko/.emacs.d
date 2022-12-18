@@ -364,6 +364,11 @@
 (use-package visual-fill-column
   :hook (org-mode . my/org-mode-visual-fill))
 
+(setq calendar-week-start-day 1)
+(add-hook 'calendar-load-hook
+          (lambda ()
+            (calendar-set-date-style 'european)))
+
 (use-package org-roam
   :straight nil
   :hook
