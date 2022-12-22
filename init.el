@@ -565,10 +565,12 @@
   :after (treemacs magit))
 
 (use-package company
+  :hook
+  (after-init . global-company-mode)
   :bind ((:map company-active-map
               ("<tab>" . company-complete-selection)))
   :custom
-  (company-minimum-prefix-length 1)
+  (company-minimum-prefix-length 2)
   (company-idle-delay 0.2))
 
 (use-package symbol-overlay
@@ -592,8 +594,8 @@
 
 (use-package rustic
   :defer t
-  :init
-  (add-hook 'rustic-mode-hook 'company-mode)
+  ;; :init
+  ;; (add-hook 'rustic-mode-hook 'company-mode)
   :config
   (setq rustic-lsp-client 'eglot)
   (setq rustic-format-on-save t)
@@ -607,30 +609,6 @@
 (defun my/rust-cargo-tree()
   (interactive)
   (shell-command "cargo tree"))
-
-(use-package omnisharp
-  :defer t)
-
-(eval-after-load
-    'company
-  '(add-to-list 'company-backends #'company-omnisharp))
-
-(defun my/csharp-mode-setup ()
-  (company-mode)
-  (flycheck-mode)
-
-  (setq indent-tabs-mode nil)
-  (setq c-syntactic-indentation t)
-  (setq c-default-style "linux")
-  (setq c-basic-offset 4)
-  (setq truncate-lines t)
-  (setq tab-width 4)
-  (setq evil-shift-width 4))
-
-(use-package csharp-mode
-  :init
-  (add-hook 'csharp-mode-hook 'my/csharp-mode-setup t)
-  (add-hook 'csharp-mode-hook 'omnisharp-mode))
 
 (use-package js2-mode
   :defer t
