@@ -491,12 +491,6 @@
         TeX-auto-local (concat user-emacs-directory "auctex/auto/")
         TeX-style-local (concat user-emacs-directory "auctex/style/")))
 
-(use-package company-auctex
-  :after auctex
-  :init
-  (add-to-list 'company-backends 'company-auctex)
-  (company-auctex-init))
-
 (setq org-latex-listings t)
 (setq org-latex-compiler "xelatex")
 
@@ -564,22 +558,28 @@
 (use-package treemacs-magit
   :after (treemacs magit))
 
-(use-package company
-  :hook
-  (after-init . global-company-mode)
-  :bind ((:map company-active-map
-              ("<tab>" . company-complete-selection)))
+(use-package corfu
   :custom
-  (company-minimum-prefix-length 2)
-  (company-idle-delay 0.2))
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+  :init
+  (global-corfu-mode))
 
 (use-package symbol-overlay
   :hook (prog-mode . symbol-overlay-mode))
 
 (use-package flycheck
-  :defer t
+  :ensure t
   :init
   (add-hook 'prog-mode 'flycheck-mode))
+(setq flycheck-relevant-error-other-file-show t)
 
 (use-package flycheck-projectile
   :defer t)
@@ -589,18 +589,16 @@
   (unless (flycheck-first-error)
       (flycheck-next-error)))
 
-(use-package eglot
-  :defer t)
-
 (use-package rustic
-  :defer t
-  ;; :init
-  ;; (add-hook 'rustic-mode-hook 'company-mode)
+  :init
+  (add-hook 'rustic-mode-hook 'flycheck-mode)
   :config
   (setq rustic-lsp-client 'eglot)
   (setq rustic-format-on-save t)
   :custom
   (rustic-rustfmt-config-alist '((edition . "2018"))))
+
+(add-to-list 'flycheck-checkers 'rustic-clippy)
 
 (defun my/rustic-build-with-arguments()
   (interactive)
@@ -614,8 +612,6 @@
   :defer t
   :mode
   (("\\.js\\'" . js2-mode))
-  :init
-  (add-hook 'js2-mode-hook 'company-mode)
   :custom
   (js2-include-node-externs t)
   (js2-highlight-level 3)
@@ -802,24 +798,6 @@
 (general-define-key
  :prefix "SPC"
  :states 'normal
- :keymaps 'omnisharp-mode-map
- "l"  '(:ignore l :which-key "C#")
- "lu" '(omnisharp-find-usages :which-key "find usages")
- "ld" '(omnisharp-go-to-definition :which-key "go to definition")
- "lf" '(omnisharp-fix-code-issues-at-point :which-key "fix issue at point")
- "lF" '(omnisharp-fix-usings :which-key "fix usings")
- "lr" '(omnisharp-rename :which-key "rename")
- "lR" '(omnisharp-reload-solution :which-key "reload solution")
- "lS" '(omnisharp-start-omnisharp-server :which-key "start server")
- "le" '(omnisharp-code-format-entire-file :which-key "format file")
- "la" '(omnisharp-run-code-action-refactoring :which-key "action refactoring")
-
- ";"  '(my/next-error :which-key "next error")
- "tt" '(treemacs :which-key "treemacs"))
-
-(general-define-key
- :prefix "SPC"
- :states 'normal
  :keymaps '(rustic-mode-map toml-mode-map)
  "l"  '(:ignore l :which-key "Rust")
  "lf" '(eglot-code-action-quickfix :which-key "quickfix")
@@ -876,5 +854,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter company flycheck ccls visual-fill-column org-bullets evil-magit magit projectile general evil-collection evil which-key use-package rainbow-delimiters helpful doom-themes doom-modeline command-log-mode)))
+   '(dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter ccls visual-fill-column org-bullets evil-magit magit projectile general evil-collection evil which-key use-package rainbow-delimiters helpful doom-themes doom-modeline command-log-mode)))
 (custom-set-faces)
