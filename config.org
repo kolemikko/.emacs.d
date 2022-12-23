@@ -306,10 +306,6 @@
 
   (use-package evil-nerd-commenter
     :bind ("C-/" . evilnc-comment-or-uncomment-lines))
-
-  (dolist (mode '(flycheck-error-list-mode
-                  term-mode))
-    (evil-set-initial-state 'help-mode 'emacs))
 #+end_src
 
 ** Undo-fu
@@ -593,19 +589,6 @@
         :immediate-finish))))
 #+end_src
 
-** Org-Roam-UI
-
-#+begin_src emacs-lisp
-  (use-package org-roam-ui
-    :after org-roam
-    :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
-#+end_src
-
 ** Presentation
 
 #+begin_src emacs-lisp
@@ -818,22 +801,27 @@
     :hook (prog-mode . symbol-overlay-mode))
 #+end_src
 
-** Flycheck
+** Next error
 
 #+begin_src emacs-lisp
-  (use-package flycheck
-    :ensure t
-    :init
-    (add-hook 'prog-mode 'flycheck-mode))
-  (setq flycheck-relevant-error-other-file-show t)
+  ;; (defun my/next-error()
+  ;;   (interactive)
+  ;;   (unless (flymake-next-error)
+  ;;     (flymake-first-error)))
+#+end_src
 
-  (use-package flycheck-projectile
-    :defer t)
+** Eglot
 
-  (defun my/next-error()
-    (interactive)
-    (unless (flycheck-first-error)
-        (flycheck-next-error)))
+#+begin_src emacs-lisp
+  ;; (use-package eglot
+  ;;   :config
+  ;;   (add-to-list 'eglot-stay-out-of 'flymake))
+#+end_src
+
+** Flymake
+
+#+begin_src emacs-lisp
+  ;; (add-hook 'prog-mode 'flymake-mode)
 #+end_src
 
 ** Language modes
@@ -841,15 +829,11 @@
 
 #+begin_src emacs-lisp
   (use-package rustic
-    :init
-    (add-hook 'rustic-mode-hook 'flycheck-mode)
     :config
     (setq rustic-lsp-client 'eglot)
     (setq rustic-format-on-save t)
     :custom
     (rustic-rustfmt-config-alist '((edition . "2018"))))
-
-  (add-to-list 'flycheck-checkers 'rustic-clippy)
 
   (defun my/rustic-build-with-arguments()
     (interactive)

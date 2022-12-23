@@ -180,10 +180,6 @@
 (use-package evil-nerd-commenter
   :bind ("C-/" . evilnc-comment-or-uncomment-lines))
 
-(dolist (mode '(flycheck-error-list-mode
-                term-mode))
-  (evil-set-initial-state 'help-mode 'emacs))
-
 (use-package undo-fu
   :config
   (define-key evil-normal-state-map "u" 'undo-fu-only-undo)
@@ -404,15 +400,6 @@
       :unnarrowed t
       :immediate-finish))))
 
-(use-package org-roam-ui
-  :after org-roam
-  :hook (after-init . org-roam-ui-mode)
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
-
 (defun my/org-present-prepare-slide ()
   (org-overview)
   (org-show-all)
@@ -575,30 +562,23 @@
 (use-package symbol-overlay
   :hook (prog-mode . symbol-overlay-mode))
 
-(use-package flycheck
-  :ensure t
-  :init
-  (add-hook 'prog-mode 'flycheck-mode))
-(setq flycheck-relevant-error-other-file-show t)
+;; (defun my/next-error()
+;;   (interactive)
+;;   (unless (flymake-next-error)
+;;     (flymake-first-error)))
 
-(use-package flycheck-projectile
-  :defer t)
+;; (use-package eglot
+;;   :config
+;;   (add-to-list 'eglot-stay-out-of 'flymake))
 
-(defun my/next-error()
-  (interactive)
-  (unless (flycheck-first-error)
-      (flycheck-next-error)))
+;; (add-hook 'prog-mode 'flymake-mode)
 
 (use-package rustic
-  :init
-  (add-hook 'rustic-mode-hook 'flycheck-mode)
   :config
   (setq rustic-lsp-client 'eglot)
   (setq rustic-format-on-save t)
   :custom
   (rustic-rustfmt-config-alist '((edition . "2018"))))
-
-(add-to-list 'flycheck-checkers 'rustic-clippy)
 
 (defun my/rustic-build-with-arguments()
   (interactive)
