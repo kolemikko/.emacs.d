@@ -559,19 +559,17 @@
   :init
   (global-corfu-mode))
 
-(use-package symbol-overlay
-  :hook (prog-mode . symbol-overlay-mode))
+(use-package idle-highlight-mode
+  :straight (:host github :repo "nonsequitur/idle-highlight-mode" :branch "master"))
 
-;; (defun my/next-error()
-;;   (interactive)
-;;   (unless (flymake-next-error)
-;;     (flymake-first-error)))
+(setq idle-highlight-idle-time 0.2)
+(add-hook 'prog-mode 'idle-highlight-mode)
 
-;; (use-package eglot
-;;   :config
-;;   (add-to-list 'eglot-stay-out-of 'flymake))
+(setq flymake-wrap-around nil)
 
-;; (add-hook 'prog-mode 'flymake-mode)
+(use-package eglot
+  :init
+  (add-hook 'prog-mode 'eglot-ensure))
 
 (use-package rustic
   :config
