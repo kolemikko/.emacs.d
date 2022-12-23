@@ -353,6 +353,16 @@
     (delete-other-windows))
 #+end_src
 
+** Shackle
+
+#+begin_src emacs-lisp
+  (use-package shackle)
+  (setq shackle-rules
+        '((compilation-mode :noselect t))
+        shackle-default-rule
+        '(:select t))
+#+end_src
+
 ** Switch to recent buffer
 
 #+begin_src emacs-lisp

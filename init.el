@@ -204,6 +204,12 @@
     (kill-buffer buffer))
   (delete-other-windows))
 
+(use-package shackle)
+(setq shackle-rules
+      '((compilation-mode :noselect t))
+      shackle-default-rule
+      '(:select t))
+
 (defun my/switch-recent-buffer ()
   (interactive)
   (if (> (length (window-list)) 1)
