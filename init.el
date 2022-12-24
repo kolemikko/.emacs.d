@@ -43,7 +43,6 @@
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
-(set-default-coding-systems 'utf-8)
 (setq my/default-font-size '130)
 
 (when (is-mac)
@@ -104,11 +103,6 @@
 
 (setq completion-ignored-extensions '(".meta"))
 
-(use-package helpful
-  :bind
-  ([remap describe-command] . helpful-command)
-  ([remap describe-key] . helpful-key))
-
 (use-package ws-butler
 :hook ((text-mode . ws-butler-mode)
         (prog-mode . ws-butler-mode)))
@@ -150,7 +144,6 @@
   :custom (completion-styles '(orderless)))
 
 (use-package consult
-  :demand t
   :custom
   (completion-in-region-function #'consult-completion-in-region))
 
@@ -187,6 +180,7 @@
 
 ;; NOTE: requires ispell on macos and hunspell on linux
 (use-package flyspell
+  :defer t
   :hook (markdown-mode . flyspell-mode))
 
 (global-auto-revert-mode 1)
@@ -285,6 +279,7 @@
       (dired-diff (nth 0 marked-files)))))
 
 (use-package projectile
+  :defer t
   :diminish projectile-mode
   :config (projectile-mode)
   :init
@@ -294,7 +289,8 @@
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-sort-order 'recentf))
 
-(use-package magit)
+(use-package magit
+  :defer t)
 
 (defun my/org-mode-setup ()
   (org-indent-mode)
@@ -302,6 +298,7 @@
   (visual-line-mode 1))
 
 (use-package org
+  :defer t
   :hook (org-mode . my/org-mode-setup)
   :diminish org-indent-mode
   :config
@@ -330,8 +327,7 @@
   :after org
   :hook (org-mode . org-superstar-mode)
   :custom
-  (org-superstar-remove-leading-stars t)
-  (org-superstar-headline-bullets-list '("●" "○" "●" "○" "●" "○" "●")))
+  (org-superstar-remove-leading-stars t))
 
 (require 'org-indent)
 
@@ -372,6 +368,7 @@
             (calendar-set-date-style 'european)))
 
 (use-package org-roam
+  :defer t
   :straight nil
   :hook
   (after-init . org-roam-mode)
@@ -492,12 +489,15 @@
 (setq tramp-verbose 1)
 (setq tramp-chunksize 500)
 
-(use-package simple-httpd)
+(use-package simple-httpd
+  :defer t)
 
 (use-package websocket
+  :defer t
   :after org-roam)
 
 (use-package impatient-mode
+  :defer t
   :straight t)
 
 (add-hook 'markdown-mode-hook 'impatient-mode)
@@ -574,10 +574,10 @@
 (setq flymake-wrap-around nil)
 
 (use-package eglot
-  :init
-  (add-hook 'prog-mode 'eglot-ensure))
+  :defer t)
 
 (use-package rustic
+  :defer t
   :config
   (setq rustic-lsp-client 'eglot)
   (setq rustic-format-on-save t)
@@ -591,6 +591,10 @@
 (defun my/rust-cargo-tree()
   (interactive)
   (shell-command "cargo tree"))
+
+(add-hook 'c++-mode-hook (lambda ()
+                           (eglot-ensure)
+                           (platformio-conditionally-enable)))
 
 (use-package js2-mode
   :defer t
@@ -641,21 +645,6 @@
 
 (use-package platformio-mode
   :defer t)
-
-(add-hook 'c++-mode-hook (lambda ()
-                           (irony-mode)
-                           (irony-eldoc)
-                           (platformio-conditionally-enable)))
-
-(add-hook 'irony-mode-hook
-          (lambda ()
-            (define-key irony-mode-map [remap completion-at-point]
-              'irony-completion-at-point-async)
-
-            (define-key irony-mode-map [remap complete-symbol]
-              'irony-completion-at-point-async)
-
-            (irony-cdb-autosetup-compile-options)))
 
 (use-package term
   :defer t
