@@ -835,6 +835,22 @@
 (general-define-key
  :prefix "SPC"
  :states 'normal
+ :keymaps '(typescript-mode-map)
+ "l"  '(:ignore l :which-key "Typescript")
+ "lf" '(eglot-code-action-quickfix :which-key "quickfix")
+ "la" '(eglot-code-actions :which-key "code actions")
+ "lr" '(eglot-rename :which-key "rename symbol")
+ "lR" '(eglot-reconnect :which-key "reconnect Eglot")
+ "ld" '(eldoc-doc-buffer :which-key "show doc buffer")
+ "li" '(eglot-find-implementation :which-key "find implementation")
+ "lu" '(xref-find-references :which-key "find usages")
+
+ ";"  '(flymake-goto-next-error :which-key "next error")
+ "tt" '(treemacs :which-key "treemacs"))
+
+(general-define-key
+ :prefix "SPC"
+ :states 'normal
  :keymaps 'org-mode-map
  "o"  '(:ignore o :which-key "org")
  "oe" '(org-export-dispatch :which-key "export dispatch")
