@@ -829,6 +829,19 @@
     :defer t)
 #+end_src
 
+** Tree-sitter
+
+#+begin_src emacs-lisp
+  (use-package tree-sitter
+    :ensure t
+    :config
+    (global-tree-sitter-mode)
+    (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+  (use-package tree-sitter-langs
+    :ensure t
+    :after tree-sitter)
+#+end_src
 ** Language modes
 *** Rust
 
@@ -850,7 +863,6 @@
     (shell-command "cargo tree"))
 #+end_src
 
-
 *** C++
 
 #+begin_src emacs-lisp
@@ -859,6 +871,25 @@
                              (platformio-conditionally-enable)))
 #+end_src
 
+*** Typescript
+
+#+begin_src emacs-lisp
+  (use-package typescript-mode
+    :after tree-sitter
+    :init
+    (add-hook 'typescript-mode-hook 'eglot-ensure)
+    :config
+    (define-derived-mode typescriptreact-mode typescript-mode
+      "TypeScript TSX")
+
+    (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
+
+  (use-package apheleia
+    :ensure t
+    :init
+    (add-hook 'typescript-mode-hook #'apheleia-mode))
+#+end_src
 
 *** Javascript
 

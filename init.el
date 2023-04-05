@@ -581,6 +581,16 @@
 (use-package eglot
   :defer t)
 
+(use-package tree-sitter
+  :ensure t
+  :config
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
+
 (use-package rustic
   :defer t
   :config
@@ -600,6 +610,22 @@
 (add-hook 'c++-mode-hook (lambda ()
                            (eglot-ensure)
                            (platformio-conditionally-enable)))
+
+(use-package typescript-mode
+  :after tree-sitter
+  :init
+  (add-hook 'typescript-mode-hook 'eglot-ensure)
+  :config
+  (define-derived-mode typescriptreact-mode typescript-mode
+    "TypeScript TSX")
+
+  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
+  (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
+
+(use-package apheleia
+  :ensure t
+  :init
+  (add-hook 'typescript-mode-hook #'apheleia-mode))
 
 (use-package js2-mode
   :defer t
