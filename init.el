@@ -625,7 +625,8 @@
 (use-package apheleia
   :ensure t
   :init
-  (add-hook 'typescript-mode-hook #'apheleia-mode))
+  (add-hook 'typescript-mode-hook #'apheleia-mode)
+  (add-hook 'typescript-mode-hook (lambda () (add-hook 'after-save-hook #'apheleia-format-buffer))))
 
 (use-package js2-mode
   :defer t
