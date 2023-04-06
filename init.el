@@ -804,8 +804,8 @@
 (general-define-key
  :prefix "SPC"
  :states 'normal
- :keymaps '(rustic-mode-map toml-mode-map)
- "l"  '(:ignore l :which-key "Rust")
+ :keymaps '(eglot-mode-map rustic-mode-map toml-mode-map typescript-mode-map)
+ "l"  '(:ignore l :which-key "Eglot")
  "lf" '(eglot-code-action-quickfix :which-key "quickfix")
  "la" '(eglot-code-actions :which-key "code actions")
  "lr" '(eglot-rename :which-key "rename symbol")
@@ -813,7 +813,13 @@
  "ld" '(eldoc-doc-buffer :which-key "show doc buffer")
  "li" '(eglot-find-implementation :which-key "find implementation")
  "lu" '(xref-find-references :which-key "find usages")
+ ";"  '(flymake-goto-next-error :which-key "next error")
+ "tt" '(treemacs :which-key "treemacs"))
 
+(general-define-key
+ :prefix "SPC"
+ :states 'normal
+ :keymaps '(rustic-mode-map toml-mode-map)
  "lc"  '(:ignore lc :which-key "cargo")
  "lcb" '(my/rustic-build-with-arguments :which-key "build with arguments")
  "lcc" '(rustic-cargo-clippy :which-key "clippy")
@@ -829,26 +835,7 @@
  "lea" '(rustic-cargo-add :which-key "add crate")
  "leA" '(rustic-cargo-add-missing-dependencies :which-key "add missing crates")
  "ler" '(rustic-cargo-rm :which-key "remove crate")
- "let" '(rustic-open-dependency-file :which-key "open cargo.toml file")
-
- ";"  '(flymake-goto-next-error :which-key "next error")
- "tt" '(treemacs :which-key "treemacs"))
-
-(general-define-key
- :prefix "SPC"
- :states 'normal
- :keymaps '(typescript-mode-map)
- "l"  '(:ignore l :which-key "Typescript")
- "lf" '(eglot-code-action-quickfix :which-key "quickfix")
- "la" '(eglot-code-actions :which-key "code actions")
- "lr" '(eglot-rename :which-key "rename symbol")
- "lR" '(eglot-reconnect :which-key "reconnect Eglot")
- "ld" '(eldoc-doc-buffer :which-key "show doc buffer")
- "li" '(eglot-find-implementation :which-key "find implementation")
- "lu" '(xref-find-references :which-key "find usages")
-
- ";"  '(flymake-goto-next-error :which-key "next error")
- "tt" '(treemacs :which-key "treemacs"))
+ "let" '(rustic-open-dependency-file :which-key "open cargo.toml file"))
 
 (general-define-key
  :prefix "SPC"
