@@ -48,15 +48,16 @@
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
-(setq my/default-font-size '130)
+(setq my/default-fixed-pitch-font-size '142)
+(setq my/default-variable-pitch-font-size '130)
 
 (when (is-mac)
-  (set-face-attribute 'default nil :font "Fira Code" :height my/default-font-size))
+  (set-face-attribute 'default nil :font "Source Code Pro" :height my/default-fixed-pitch-font-size))
 
 (when (is-linux)
-  (set-face-attribute 'default nil :font "Source Code Pro" :height my/default-font-size))
+  (set-face-attribute 'default nil :font "Source Code Pro" :height my/default-fixed-pitch-font-size))
 
-(set-face-attribute 'variable-pitch nil :font "Cantarell" :height my/default-font-size :weight 'regular)
+(set-face-attribute 'variable-pitch nil :font "Cantarell" :height my/default-variable-pitch-font-size :weight 'regular)
 
 (use-package doom-themes
   :init (load-theme 'doom-gruvbox t))
