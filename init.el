@@ -591,6 +591,7 @@
 
 (use-package eglot
   :defer t)
+(setq eglot-confirm-server-initiated-edits nil)
 
 (use-package rustic
   :defer t
@@ -625,9 +626,8 @@
 
 (use-package apheleia
   :ensure t
-  :init
-  (add-hook 'typescript-mode-hook #'apheleia-mode)
-  (add-hook 'typescript-mode-hook (lambda () (add-hook 'after-save-hook #'apheleia-format-buffer))))
+  :config
+  (add-hook 'typescript-mode-hook #'apheleia-mode))
 
 (use-package js2-mode
   :defer t

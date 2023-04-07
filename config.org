@@ -844,6 +844,7 @@
 #+begin_src emacs-lisp
   (use-package eglot
     :defer t)
+  (setq eglot-confirm-server-initiated-edits nil)
 #+end_src
 
 ** Language modes
@@ -891,9 +892,8 @@
 
   (use-package apheleia
     :ensure t
-    :init
-    (add-hook 'typescript-mode-hook #'apheleia-mode)
-    (add-hook 'typescript-mode-hook (lambda () (add-hook 'after-save-hook #'apheleia-format-buffer))))
+    :config
+    (add-hook 'typescript-mode-hook #'apheleia-mode))
 #+end_src
 
 *** Javascript
