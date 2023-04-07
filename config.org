@@ -1,15 +1,17 @@
 #+title: Emacs configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ./init.el
 
-* Startup
+* Startup / early init
 
 #+begin_src emacs-lisp :tangle ./early-init.el
+  (setq gc-cons-percentage 0.6)
   (setq gc-cons-threshold most-positive-fixnum)
-  (add-hook 'after-init-hook
-            #'(lambda () (setq gc-cons-threshold (* 8 1024 1024))))
+
+  (setq package-enable-at-startup nil)
+  (setq inhibit-startup-message t)
 
   (server-start)
-  (setq inhibit-startup-message t)
+  (setq native-comp-async-report-warnings-errors 'silent)
 #+end_src
 
 * Package management
@@ -823,13 +825,6 @@
   (setq flymake-wrap-around nil)
 #+end_src
 
-** Eglot
-
-#+begin_src emacs-lisp
-  (use-package eglot
-    :defer t)
-#+end_src
-
 ** Tree-sitter
 
 #+begin_src emacs-lisp
@@ -842,6 +837,13 @@
   (use-package tree-sitter-langs
     :ensure t
     :after tree-sitter)
+#+end_src
+
+** Eglot
+
+#+begin_src emacs-lisp
+  (use-package eglot
+    :defer t)
 #+end_src
 
 ** Language modes
@@ -1187,3 +1189,14 @@
      '(dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter ccls visual-fill-column org-bullets evil-magit magit projectile general evil-collection evil which-key use-package rainbow-delimiters helpful doom-themes doom-modeline command-log-mode)))
   (custom-set-faces)
  #+end_src
+
+* After init
+
+#+begin_src emacs-lisp
+  (run-with-idle-timer 4 nil
+                       (lambda ()
+                         "Clean up gc."
+                         (setq gc-cons-threshold  67108864) ; 64M
+                         (setq gc-cons-percentage 0.1) ; original value
+                         (garbage-collect)))
+#+end_src

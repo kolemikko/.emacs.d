@@ -1,9 +1,11 @@
+(setq gc-cons-percentage 0.6)
 (setq gc-cons-threshold most-positive-fixnum)
-(add-hook 'after-init-hook
-          #'(lambda () (setq gc-cons-threshold (* 8 1024 1024))))
+
+(setq package-enable-at-startup nil)
+(setq inhibit-startup-message t)
 
 (server-start)
-(setq inhibit-startup-message t)
+(setq native-comp-async-report-warnings-errors 'silent)
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)

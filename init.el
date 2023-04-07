@@ -579,9 +579,6 @@
 
 (setq flymake-wrap-around nil)
 
-(use-package eglot
-  :defer t)
-
 (use-package tree-sitter
   :ensure t
   :config
@@ -591,6 +588,9 @@
 (use-package tree-sitter-langs
   :ensure t
   :after tree-sitter)
+
+(use-package eglot
+  :defer t)
 
 (use-package rustic
   :defer t
@@ -866,3 +866,10 @@
  '(package-selected-packages
    '(dired-hide-dotfiles dired-open all-the-icons-dired dired-single eshell-git-prompt evil-nerd-commenter ccls visual-fill-column org-bullets evil-magit magit projectile general evil-collection evil which-key use-package rainbow-delimiters helpful doom-themes doom-modeline command-log-mode)))
 (custom-set-faces)
+
+(run-with-idle-timer 4 nil
+                     (lambda ()
+                       "Clean up gc."
+                       (setq gc-cons-threshold  67108864) ; 64M
+                       (setq gc-cons-percentage 0.1) ; original value
+                       (garbage-collect)))
