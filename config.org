@@ -440,7 +440,7 @@
 
   (when (is-mac)
     (setq insert-directory-program "gls" dired-use-ls-dired t)
-    (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.2/libexec/gnubin/ls"))
+    (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.3/libexec/gnubin/ls"))
 
   (defun my/diff-marked-files ()
     (interactive)
