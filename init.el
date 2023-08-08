@@ -584,15 +584,43 @@
 
 (setq flymake-wrap-around nil)
 
-(use-package tree-sitter
-  :ensure t
+(use-package treesit
+  :ensure nil
+  :commands
+  treesit-font-lock-recompute-features
+  ;; :custom
+  ;; (treesit-font-lock-level 4)
   :config
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+  (setq major-mode-remap-alist
+        '(
+          (bash-mode . bash-ts-mode)
+          (css-mode . css-ts-mode)
+          (js2-mode . js-ts-mode)
+          (typescript-mode . typescript-ts-mode)
+          (yaml-mode . yaml-ts-mode)))
+  (treesit-font-lock-recompute-features))
 
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
+(use-package treesit-auto
+  :ensure treesit-auto
+  :commands
+  global-treesit-auto-mode
+  :defines
+  treesit-auto-fallback-alist
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (add-to-list 'treesit-auto-fallback-alist '(bash-ts-mode . sh-mode))
+  (global-treesit-auto-mode))
+
+;; (use-package tree-sitter
+;;   :ensure t
+;;   :config
+;;   (global-tree-sitter-mode)
+;;   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+;; (use-package tree-sitter-langs
+;;   :ensure t
+;;   :after tree-sitter)
 
 (use-package eglot
   :defer t
@@ -638,7 +666,12 @@
   (interactive)
   (shell-command "cargo tree"))
 
-(use-package svelte-mode)
+(use-package svelte-mode
+  :ensure svelte-mode
+  :commands
+  svelte-mode
+  :hook
+  (svelte-mode . add-node-modules-path))
 
 (use-package typescript-mode
   :after tree-sitter
