@@ -590,7 +590,18 @@
   :after tree-sitter)
 
 (use-package eglot
-  :defer t)
+  :defer t
+  :hook
+  (rustic-mode . eglot-ensure)
+  (c++-mode . eglot-ensure)
+  (svelte-mode . eglot-ensure)
+  (typescript-mode . eglot-ensure)
+  :custom
+  (eglot-autoshutdown t)
+  :config
+  (add-to-list 'eglot-server-programs
+               '(svelte-mode . ("svelteserver" "--stdio"))))
+
 (setq eglot-confirm-server-initiated-edits nil)
 
 (use-package rustic
@@ -609,14 +620,10 @@
   (interactive)
   (shell-command "cargo tree"))
 
-(add-hook 'c++-mode-hook (lambda ()
-                           (eglot-ensure)
-                           (platformio-conditionally-enable)))
+(use-package svelte-mode)
 
 (use-package typescript-mode
   :after tree-sitter
-  :init
-  (add-hook 'typescript-mode-hook 'eglot-ensure)
   :config
   (define-derived-mode typescriptreact-mode typescript-mode
     "TypeScript TSX")
@@ -804,7 +811,7 @@
 (general-define-key
  :prefix "SPC"
  :states 'normal
- :keymaps '(eglot-mode-map rustic-mode-map toml-mode-map typescript-mode-map)
+ :keymaps '(eglot-mode-map rustic-mode-map toml-mode-map typescript-mode-map svelte-mode-map)
  "l"  '(:ignore l :which-key "Eglot")
  "lf" '(eglot-code-action-quickfix :which-key "quickfix")
  "la" '(eglot-code-actions :which-key "code actions")
