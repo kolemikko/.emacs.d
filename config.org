@@ -908,6 +908,15 @@
     (apheleia-global-mode +1))
 #+end_src
 
+** Add-node-modules-path
+
+#+begin_src emacs-lisp
+  (use-package add-node-modules-path
+    :ensure add-node-modules-path
+    :commands
+    add-node-modules-path)
+#+end_src
+
 ** Language modes
 *** Rust
 
@@ -944,31 +953,48 @@
 
 #+begin_src emacs-lisp
   (use-package typescript-mode
-    :after tree-sitter
+    :ensure typescript-mode
+    :after (tree-sitter)
+    :defines
+    typescript-mode-map
+    :mode
+    "\\.ts\\'"
+    :hook
+    (typescript-mode . add-node-modules-path)
+    (typescript-ts-mode . add-node-modules-path)
+    :custom
+    (typescript-indent-level 2)
     :config
-    (define-derived-mode typescriptreact-mode typescript-mode
-      "TypeScript TSX")
-
-    (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
+    (define-derived-mode typescriptreact-mode typescript-mode "TypeScript TSX"))
 #+end_src
 
 *** Javascript
 
 #+begin_src emacs-lisp
   (use-package js2-mode
-    :defer t
+    :ensure js2-mode
+    :diminish "js2"
+    :commands
+    js2-mode
+    :defines
+    js2-additional-externs
+    js2-mode-map
+    :hook
+    (js2-mode . add-node-modules-path)
+    :interpreter
+    "node"
     :mode
-    (("\\.js\\'" . js2-mode))
+    "\\.jsx?\\'"
     :custom
-    (js2-include-node-externs t)
+    (js2-global-externs '("Promise"))
     (js2-highlight-level 3)
-    (js2r-prefer-let-over-var t)
-    (js2r-prefered-quote-type 2)
-    (js-indent-align-list-continuation t)
-    (global-auto-highlight-symbol-mode t)
+    (js2-include-browser-externs nil)
+    (js2-include-node-externs t)
+    (js2-mode-assume-strict t)
     :config
-    (setq js-indent-level 2))
+    (add-to-list 'safe-local-variable-values '(js2-basic-offset . 2))
+    (add-to-list 'safe-local-variable-values '(js2-basic-offset . 4))
+    (setq-default js2-basic-offset 2))
 #+end_src
 
 *** Markdown
