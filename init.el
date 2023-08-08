@@ -577,6 +577,11 @@
 (setq idle-highlight-idle-time 0.2)
 (add-hook 'prog-mode 'idle-highlight-mode)
 
+(use-package flymake
+  :ensure flymake
+  :demand t
+  :hook (prog-mode . flymake-mode))
+
 (setq flymake-wrap-around nil)
 
 (use-package tree-sitter
@@ -604,6 +609,19 @@
 
 (setq eglot-confirm-server-initiated-edits nil)
 
+(use-package apheleia
+  :ensure apheleia
+  :diminish ""
+  :defines
+  apheleia-formatters
+  :functions
+  apheleia-global-mode
+  :config
+  (setf (alist-get 'shfmt apheleia-formatters) '("shfmt" "-i=4" "-sr" "-kp"))
+  (setf (alist-get 'prettier-json apheleia-formatters)
+        '("prettier" "--stdin-filepath" filepath))
+  (apheleia-global-mode +1))
+
 (use-package rustic
   :defer t
   :config
@@ -630,11 +648,6 @@
 
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
   (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
-
-(use-package apheleia
-  :ensure t
-  :config
-  (add-hook 'typescript-mode-hook #'apheleia-mode))
 
 (use-package js2-mode
   :defer t
