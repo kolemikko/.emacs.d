@@ -1158,7 +1158,8 @@
       "pF" '(projectile-find-in-known-projects :which-key "find file in known projects")
       "pp" '(projectile-switch-project :which-key "switch project")
       "ps" '(projectile-save-project-buffers :which-key "save project buffers")
-      "pd" '(flymake-show-project-diagnostics :which-key "show project diagnostics")
+      "pd" '(consult-flymake :which-key "jump through buffer diagnostics")
+      "pD" '(flymake-show-project-diagnostics :which-key "list project diagnostics")
       "pe" '(consult-ripgrep :which-key "ripgrep")
       "pb" '(consult-project-buffer :which-key "switch to project buffer")
 
