@@ -840,14 +840,14 @@
     "oi" '(org-roam-node-insert :which-key "insert")
 
     "p"  '(:ignore p :which-key "projectile")
-    "ps" '(projectile-save-project-buffers :which-key "save project buffers")
     "pf" '(projectile-find-file :which-key "find file")
+    "pr" '(projectile-recentf :which-key "find from recent files")
     "pF" '(projectile-find-in-known-projects :which-key "find file in known projects")
-    "pe" '(projectile-recentf :which-key "find from recent files")
     "pp" '(projectile-switch-project :which-key "switch project")
-    "pr" '(consult-ripgrep :which-key "ripgrep")
+    "ps" '(projectile-save-project-buffers :which-key "save project buffers")
+    "pd" '(flymake-show-project-diagnostics :which-key "show project diagnostics")
+    "pe" '(consult-ripgrep :which-key "ripgrep")
     "pb" '(consult-project-buffer :which-key "switch to project buffer")
-    "p/" '(projectile-project-buffers-other-buffer :which-key "switch to recent project buffer")
 
     "s"  '(:ignore s :which-key "shell/terminal")
     "st" '(term :which-key "term")
