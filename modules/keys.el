@@ -12,6 +12,14 @@
   (setq mac-option-modifier 'meta)
   (setq mac-command-modifier 'control))
 
+(defun my/consult-flymake-in-project ()
+  (interactive)
+  (let ((project-root (projectile-project-root)))
+    (if project-root
+        (consult-flymake project-root)
+      (message "Not in a Projectile project."))
+    ))
+
 (use-package general
   :config
   (general-evil-setup t)
@@ -63,7 +71,7 @@
     "pF" '(projectile-find-in-known-projects :wk "find file in known projects")
     "pp" '(projectile-switch-project :wk "switch project")
     "ps" '(projectile-save-project-buffers :wk "save project buffers")
-    "pd" '(consult-flymake :wk "jump through buffer diagnostics")
+    "pd" '(my/consult-flymake-in-project :wk "jump through project diagnostics")
     "pD" '(flymake-show-project-diagnostics :wk "list project diagnostics")
     "pe" '(consult-ripgrep :wk "ripgrep")
     "pb" '(consult-project-buffer :wk "switch to project buffer")
