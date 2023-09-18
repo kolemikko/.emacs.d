@@ -1,6 +1,5 @@
-*
-
-!*init.el
-!config.org
+/*
+!/modules
+!init.el
 !README.md
 !.gitignore
