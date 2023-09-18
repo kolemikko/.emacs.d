@@ -22,11 +22,6 @@
 
 (use-package diminish)
 
-;; NOTE: requires ispell on macos and hunspell on linux
-(use-package flyspell
-  :defer t
-  :hook (markdown-mode . flyspell-mode))
-
 (use-package shackle)
 (setq shackle-rules
       '((compilation-mode :noselect t))
