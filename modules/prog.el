@@ -44,6 +44,9 @@
   :commands
   add-node-modules-path)
 
+;; Svelte
+(use-package svelte-mode)
+
 ;; Typescript
 (use-package typescript-mode
   :ensure typescript-mode

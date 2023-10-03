@@ -50,23 +50,6 @@
  ";"  '(flymake-goto-next-error :wk "next error")
  "tt" '(treemacs :wk "treemacs"))
 
-(use-package treesit
-  :ensure nil
-  :commands
-  treesit-font-lock-recompute-features
-  ;; :custom
-  ;; (treesit-font-lock-level 4)
-  :config
-  (setq major-mode-remap-alist
-        '(
-          (bash-mode . bash-ts-mode)
-          (css-mode . css-ts-mode)
-          (js2-mode . js-ts-mode)
-          (svelte-mode . typescript-ts-mode)
-          (typescript-mode . typescript-ts-mode)
-          (yaml-mode . yaml-ts-mode)))
-  (treesit-font-lock-recompute-features))
-
 (use-package treesit-auto
   :ensure treesit-auto
   :commands
@@ -76,8 +59,20 @@
   :custom
   (treesit-auto-install 'prompt)
   :config
+  (setq major-mode-remap-alist
+        '(
+          (bash-mode . bash-ts-mode)
+          (css-mode . css-ts-mode)
+          (js2-mode . js-ts-mode)
+          (svelte-mode . typescript-ts-mode)
+          (typescript-mode . typescript-ts-mode)
+          (yaml-mode . yaml-ts-mode)))
   (add-to-list 'treesit-auto-fallback-alist '(bash-ts-mode . sh-mode))
   (global-treesit-auto-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
 
 (use-package marginalia
   :after vertico
