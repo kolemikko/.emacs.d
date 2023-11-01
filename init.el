@@ -11,22 +11,6 @@
 (server-start)
 (setq native-comp-async-report-warnings-errors 'silent)
 
-(use-package gcmh
-  :ensure gcmh
-  :diminish
-  :functions
-  gcmh-mode
-  :init
-  (gcmh-mode 1))
-
-(run-with-idle-timer 4 nil
-                     (lambda ()
-                       "Clean up gc."
-                       (setq gc-cons-threshold  67108864) ; 64M
-                       (setq gc-cons-percentage 0.1) ; original value
-                       (garbage-collect)))
-
-
 ;;; Define location of all modules of the config
 (defvar emacs-dir (expand-file-name "~/.emacs.d/")
   "Directory containing working copy of Emacs config.")
@@ -51,7 +35,6 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
-
 
 (define-obsolete-variable-alias
   'native-comp-deferred-compilation-deny-list
@@ -90,6 +73,21 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(use-package gcmh
+  :ensure gcmh
+  :diminish
+  :functions
+  gcmh-mode
+  :init
+  (gcmh-mode 1))
+
+(run-with-idle-timer 4 nil
+                     (lambda ()
+                       "Clean up gc."
+                       (setq gc-cons-threshold  67108864) ; 64M
+                       (setq gc-cons-percentage 0.1) ; original value
+                       (garbage-collect)))
+
 ;;; MODULES
 ;;;; All the rest of the config is split out into individual files, for
 ;;;; ease of use.
@@ -109,8 +107,20 @@
   "List of modules to load on startup.")
 
 (dolist (pkg my/module-list)
-   (if (file-readable-p (concat emacs-config-dir pkg ".el"))
-       (load-library pkg)))
+  (if (file-readable-p (concat emacs-config-dir pkg ".el"))
+      (load-library pkg)))
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
