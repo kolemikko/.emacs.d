@@ -101,7 +101,9 @@
     "wd" '(delete-window :wk "delete window")
     "wo" '(delete-other-windows :wk "delete other windows")
     "wb" '(split-window-below :wk "split window below")
-    "wr" '(split-window-right :wk "split window right")))
+    "wr" '(split-window-right :wk "split window right")
+
+    "x" '(execute-extended-command :wk "execute command")))
 
 (provide 'keys)
 ;;; keys.el ends here
