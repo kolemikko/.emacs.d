@@ -79,6 +79,9 @@
   (setq auto-package-update-hide-results t)
   (auto-package-update-maybe))
 
+(use-package no-littering
+  :ensure t)
+
 (use-package which-os
   :straight (:host github :repo "kolemikko/which-os" :branch "master"))
 
@@ -109,8 +112,8 @@
   "List of modules to load on startup.")
 
 (dolist (pkg my/module-list)
-   (if (file-readable-p (concat emacs-config-dir pkg ".el"))
-       (load-library pkg)))
+  (if (file-readable-p (concat emacs-config-dir pkg ".el"))
+      (load-library pkg)))
 
 (provide 'init)
 ;;; init.el ends here

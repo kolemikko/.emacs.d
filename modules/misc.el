@@ -10,15 +10,9 @@
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
-(use-package no-littering)
-
-(setq auto-save-file-name-transforms
-      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-
-
 (use-package ws-butler
-:hook ((text-mode . ws-butler-mode)
-        (prog-mode . ws-butler-mode)))
+  :hook ((text-mode . ws-butler-mode)
+         (prog-mode . ws-butler-mode)))
 
 (use-package diminish)
 
