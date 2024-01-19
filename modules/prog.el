@@ -109,10 +109,16 @@
 
   (add-hook 'markdown-mode-hook 'my/markdown-mode-hook))
 
+;; Toml
 (use-package toml-mode
   :defer t)
 
+;; YAML
 (use-package yaml-mode
+  :defer t)
+
+;; Protobuf
+(use-package protobuf-mode
   :defer t)
 
 (use-package irony-eldoc
