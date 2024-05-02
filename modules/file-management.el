@@ -31,7 +31,7 @@
 
 (when (is-mac)
   (setq insert-directory-program "gls" dired-use-ls-dired t)
-  (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.4/libexec/gnubin/ls"))
+  (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.5/libexec/gnubin/ls"))
 
 (defun my/diff-marked-files ()
   (interactive)
@@ -53,27 +53,27 @@
   :config
   (progn
     (setq treemacs-display-in-side-window t
-    treemacs-file-follow-delay 0.2
-    treemacs-follow-after-init t
-    treemacs-expand-after-init t
-    treemacs-indentation 2
-    treemacs-indentation-string " "
-    treemacs-no-delete-other-windows t
-    treemacs-project-follow-cleanup nil
-    treemacs-position 'left
-    treemacs-recenter-distance 0.1
-    treemacs-recenter-after-project-jump 'always
-    treemacs-recenter-after-project-expand 'on-distance
-    treemacs-show-hidden-files t
-    treemacs-sorting 'alphabetic-asc
-    treemacs-select-when-already-in-treemacs 'move-back
-    treemacs-width 30
-    treemacs-width-is-initially-locked nil)
+	  treemacs-file-follow-delay 0.2
+	  treemacs-follow-after-init t
+	  treemacs-expand-after-init t
+	  treemacs-indentation 2
+	  treemacs-indentation-string " "
+	  treemacs-no-delete-other-windows t
+	  treemacs-project-follow-cleanup nil
+	  treemacs-position 'left
+	  treemacs-recenter-distance 0.1
+	  treemacs-recenter-after-project-jump 'always
+	  treemacs-recenter-after-project-expand 'on-distance
+	  treemacs-show-hidden-files t
+	  treemacs-sorting 'alphabetic-asc
+	  treemacs-select-when-already-in-treemacs 'move-back
+	  treemacs-width 30
+	  treemacs-width-is-initially-locked nil)
 
-  (treemacs-resize-icons 18)
-  (treemacs-project-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode 'always)))
+    (treemacs-resize-icons 18)
+    (treemacs-project-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always)))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
