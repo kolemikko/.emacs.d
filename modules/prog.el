@@ -114,8 +114,13 @@
   :defer t)
 
 ;; YAML
+(use-package highlight-indentation
+  :defer t)
+
 (use-package yaml-mode
   :defer t)
+
+(add-hook 'yaml-mode-hook 'highlight-indentation-current-column-mode)
 
 ;; Protobuf
 (use-package protobuf-mode
