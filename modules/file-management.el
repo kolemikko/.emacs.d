@@ -84,5 +84,11 @@
 (use-package treemacs-magit
   :after (treemacs magit))
 
+(general-define-key
+ :prefix "SPC"
+ :states 'normal
+ :keymaps 'projectile-mode-map
+ "tt" '(treemacs :wk "treemacs"))
+
 (provide 'file-management)
 ;;; file-management.el ends here

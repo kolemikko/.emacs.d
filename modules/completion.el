@@ -47,8 +47,7 @@
  "ld" '(eldoc-doc-buffer :wk "show doc buffer")
  "li" '(eglot-find-implementation :wk "find implementation")
  "lu" '(xref-find-references :wk "find usages")
- ";"  '(flymake-goto-next-error :wk "next error")
- "tt" '(treemacs :wk "treemacs"))
+ ";"  '(flymake-goto-next-error :wk "next error"))
 
 (use-package treesit-auto
   :ensure treesit-auto
@@ -90,7 +89,7 @@
       (if (string-match-p "/." (minibuffer-contents))
           (zap-up-to-char (- arg) ?/)
         (delete-minibuffer-contents))
-      (backward-kill-word arg)))
+    (backward-kill-word arg)))
 
 (use-package vertico
   :bind
