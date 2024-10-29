@@ -1,5 +1,17 @@
 ;;; file-management.el -- All file manager etc. configs
 
+;; Save history
+(setq backup-directory-alist `(("." . "~/.emacs.d/save-hist")))
+
+(setq auto-save-file-name-transforms
+      `((".*" "~/.emacs.d/save-hist/\\1" t)))
+
+(setq delete-old-versions t
+      kept-new-versions 3
+      kept-old-versions 3
+      version-control t)
+
+;; Dired
 (use-package dired
   :ensure nil
   :straight nil
