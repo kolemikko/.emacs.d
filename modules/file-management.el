@@ -25,13 +25,13 @@
         delete-by-moving-to-trash t)
 
   (evil-collection-define-key 'normal 'dired-mode-map
-    (kbd "<left>") 'dired-single-up-directory
-    (kbd "<right>") 'dired-single-buffer
+    (kbd "<left>") 'dired-up-directory
+    (kbd "<right>") 'dired-find-file
     "p" 'dired-view-file
     "P" 'dired-display-file
     "=" 'my/diff-marked-files))
 
-(use-package dired-single)
+(setf dired-kill-when-opening-new-dired-buffer t)
 
 (use-package dired-collapse)
 
