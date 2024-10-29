@@ -19,7 +19,7 @@
   :config
   (setq insert-directory-program "ls" dired-use-ls-dired t
         dired-listing-switches "-al --group-directories-first"
-        dired-kill-when-opening-new-dired-buffer t
+        ;; dired-kill-when-opening-new-dired-buffer t
         dired-omit-verbose nil
         dired-hide-details-hide-symlink-targets nil
         delete-by-moving-to-trash t)
@@ -28,10 +28,7 @@
     (kbd "<left>") 'dired-up-directory
     (kbd "<right>") 'dired-find-file
     "p" 'dired-view-file
-    "P" 'dired-display-file
-    "=" 'my/diff-marked-files))
-
-(setf dired-kill-when-opening-new-dired-buffer t)
+    "P" 'dired-display-file))
 
 (use-package dired-collapse)
 
@@ -44,21 +41,6 @@
 (when (is-mac)
   (setq insert-directory-program "gls" dired-use-ls-dired t)
   (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.5/libexec/gnubin/ls"))
-
-(defun my/diff-marked-files ()
-  (interactive)
-  (let ((marked-files  ())
-        (here   ()))
-    (dolist (buf  (mapcar #'cdr dired-buffers))
-      (when (buffer-live-p buf)
-        (with-current-buffer buf
-          (setq here  (dired-get-marked-files nil nil nil t)))
-        (when (or (null (cdr here))  (eq t (car here)))
-          (setq here  (cdr here)))
-        (setq marked-files  (nconc here marked-files))))
-    (setq marked-files  (delete-dups marked-files))
-    (when (= (length marked-files) 1)
-      (dired-diff (nth 0 marked-files)))))
 
 (use-package treemacs
   :defer t
