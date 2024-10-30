@@ -69,6 +69,7 @@
 
     "p"  '(:ignore p :wk "projectile")
     "pf" '(projectile-find-file :wk "find file")
+    "po" '(projectile-find-file-other-window :wk "open file in new window")
     "pr" '(projectile-recentf :wk "find from recent files")
     "pF" '(projectile-find-in-known-projects :wk "find file in known projects")
     "pp" '(projectile-switch-project :wk "switch project")
