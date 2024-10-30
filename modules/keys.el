@@ -56,8 +56,10 @@
     "gc" '(evil-goto-last-change :wk "go to last change")
     "gl" '(consult-goto-line :wk "go to line N")
 
-    "d"  '(dired :wk "dired")
-    "m"  '(magit-status :wk "magit-status")
+    "d"  '(:ignore d :wk "dired")
+    "dj" '(dired-jump :wk "jump")
+
+    "m"  '(magit-status :wk "magit")
 
     "o"  '(:ignore o :wk "org")
     "oa" '(org-agenda :wk "agenda")

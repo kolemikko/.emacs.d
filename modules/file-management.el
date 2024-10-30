@@ -18,11 +18,10 @@
   :commands (dired dired-jump)
   :config
   (setq insert-directory-program "ls" dired-use-ls-dired t
-        dired-listing-switches "-al --group-directories-first"
-        ;; dired-kill-when-opening-new-dired-buffer t
-        dired-omit-verbose nil
-        dired-hide-details-hide-symlink-targets nil
-        delete-by-moving-to-trash t)
+        dired-listing-switches "-agho --group-directories-first"
+	delete-by-moving-to-trash t
+	dired-omit-verbose nil
+	dired-hide-details-hide-symlink-targets nil)
 
   (evil-collection-define-key 'normal 'dired-mode-map
     (kbd "<left>") 'dired-up-directory
@@ -42,6 +41,14 @@
   (setq insert-directory-program "gls" dired-use-ls-dired t)
   (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.5/libexec/gnubin/ls"))
 
+;; (general-define-key
+;;  :prefix "SPC"
+;;  :states 'normal
+;;  :keymaps 'dired-mode-map
+;;  "dd" '(dired-display-file :wk "display file")
+;;  "dv" '(dired-view-file :wk "view file"))
+
+;; Treemacs
 (use-package treemacs
   :defer t
   :config
