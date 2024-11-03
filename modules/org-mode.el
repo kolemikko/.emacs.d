@@ -35,28 +35,6 @@
   :custom
   (org-superstar-remove-leading-stars t))
 
-;; (set-face-attribute 'org-document-title nil :font "Cantarell" :weight 'bold :height 1.5)
-;; (dolist (face '((org-level-1 . 1.2)
-;;                 (org-level-2 . 1.2)
-;;                 (org-level-3 . 1.2)
-;;                 (org-level-4 . 1.2)
-;;                 (org-level-5 . 1.2)
-;;                 (org-level-6 . 1.2)
-;;                 (org-level-7 . 1.2)
-;;                 (org-level-8 . 1.2)))
-;;   (set-face-attribute (car face) nil :font "Cantarell" :weight 'medium :height (cdr face)))
-
-;; (set-face-attribute 'org-block nil :inherit 'fixed-pitch :height 1.18)
-;; (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-;; (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
-;; (set-face-attribute 'org-code nil :inherit 'fixed-pitch)
-;; (set-face-attribute 'org-verbatim nil :inherit 'fixed-pitch)
-;; (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-;; (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-;; (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
-;; (set-face-attribute 'org-column nil :background nil)
-;; (set-face-attribute 'org-column-title nil :background nil)
-
 (defun my/org-mode-visual-fill ()
   (setq visual-fill-column-width 120
         visual-fill-column-center-text t)

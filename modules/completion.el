@@ -4,15 +4,10 @@
 
 (use-package corfu
   :custom
-  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
-  (corfu-separator ?\s)          ;; Orderless field separator
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+  (corfu-auto t)
+  (corfu-separator ?\s)
+  (corfu-preview-current nil)
+  (corfu-on-exact-match nil)
   :init
   (global-corfu-mode))
 
@@ -49,30 +44,6 @@
  "lu" '(xref-find-references :wk "find usages")
  ";"  '(flymake-goto-next-error :wk "next error"))
 
-(use-package treesit-auto
-  :ensure treesit-auto
-  :commands
-  global-treesit-auto-mode
-  :defines
-  treesit-auto-fallback-alist
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (setq major-mode-remap-alist
-        '(
-          (bash-mode . bash-ts-mode)
-          (css-mode . css-ts-mode)
-          (js2-mode . js-ts-mode)
-          (svelte-mode . typescript-ts-mode)
-          (typescript-mode . typescript-ts-mode)
-          (yaml-mode . yaml-ts-mode)))
-  (add-to-list 'treesit-auto-fallback-alist '(bash-ts-mode . sh-mode))
-  (global-treesit-auto-mode))
-
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
-
 (use-package marginalia
   :after vertico
   :custom
@@ -92,17 +63,28 @@
     (backward-kill-word arg)))
 
 (use-package vertico
+  :ensure t
   :bind
   (:map minibuffer-local-map ("<left>" . my/vertigo-backward-kill))
-  :custom
-  (vertico-cycle t)
-  :init
-  (vertico-mode))
+  :hook (after-init . vertico-mode)
+  :config
+  (setq vertico-scroll-margin 0)
+  (setq vertico-count 5)
+  (setq vertico-resize t)
+  (setq vertico-cycle t)
+
+  (with-eval-after-load 'rfn-eshadow
+    (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)))
 
 (use-package savehist
-  :init
-  (setq history-length 20)
-  (savehist-mode 1))
+  :ensure nil
+  :hook (after-init . savehist-mode)
+  :config
+  (setq savehist-file (locate-user-emacs-file "savehist"))
+  (setq history-length 100)
+  (setq history-delete-duplicates t)
+  (setq savehist-save-minibuffer-history t)
+  (add-to-list 'savehist-additional-variables 'kill-ring))
 
 (provide 'completion)
 ;;; completion.el ends here

@@ -9,7 +9,6 @@
   :commands (dired dired-jump)
   :config
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
-  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
   (setq insert-directory-program "ls" dired-use-ls-dired t
         dired-listing-switches "-agho --group-directories-first"
 	dired-kill-when-opening-new-dired-buffer t
