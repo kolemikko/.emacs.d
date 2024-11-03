@@ -53,6 +53,10 @@
 (use-package no-littering
   :ensure t)
 
+(setq make-backup-files nil)
+(setq backup-inhibited nil)
+(setq create-lockfiles nil)
+
 (use-package which-os
   :straight (:host github :repo "kolemikko/which-os" :branch "master"))
 

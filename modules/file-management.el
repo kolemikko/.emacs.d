@@ -1,15 +1,6 @@
 ;;; file-management.el -- All file manager etc. configs
 
-;; Save history
-(setq backup-directory-alist `(("." . "~/.emacs.d/save-hist")))
-
-(setq auto-save-file-name-transforms
-      `((".*" "~/.emacs.d/save-hist/\\1" t)))
-
-(setq delete-old-versions t
-      kept-new-versions 3
-      kept-old-versions 3
-      version-control t)
+(file-name-shadow-mode 1)
 
 ;; Dired
 (use-package dired
@@ -17,11 +8,16 @@
   :straight nil
   :commands (dired dired-jump)
   :config
+  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
   (setq insert-directory-program "ls" dired-use-ls-dired t
         dired-listing-switches "-agho --group-directories-first"
+	dired-kill-when-opening-new-dired-buffer t
 	delete-by-moving-to-trash t
 	dired-omit-verbose nil
-	dired-hide-details-hide-symlink-targets nil)
+	dired-hide-details-hide-symlink-targets nil
+	dired-dwim-target t
+	)
 
   (evil-collection-define-key 'normal 'dired-mode-map
     (kbd "<left>") 'dired-up-directory
