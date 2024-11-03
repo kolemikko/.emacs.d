@@ -1,6 +1,5 @@
 ;;; init.el -- my main configuration file
 
-;;;; Tweak GC
 (setq read-process-output-max (* 2 1024 1024)) ;; 2mb
 (setq gc-cons-threshold most-positive-fixnum)
 (setq gc-cons-percentage 0.6)
@@ -9,16 +8,10 @@
 (setq inhibit-startup-message t)
 
 (server-start)
-(setq native-comp-async-report-warnings-errors 'silent)
 
-;;; Define location of all modules of the config
-(defvar emacs-dir (expand-file-name "~/.emacs.d/")
-  "Directory containing working copy of Emacs config.")
-
-(defvar emacs-config-dir (concat emacs-dir "modules/")
-  "Sub-directory containing config files.")
-
-(add-to-list 'load-path emacs-config-dir)
+(when (native-comp-available-p)
+  (setq native-comp-async-report-warnings-errors 'silent)
+  (setq native-compile-prune-cache t))
 
 ;;; Package managers
 (require 'package)
@@ -29,17 +22,12 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;; initialize use-package on Non-linux platforms
+;; initialize use-package
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
 (require 'use-package)
 (setq use-package-always-ensure t)
-
-(define-obsolete-variable-alias
-  'native-comp-deferred-compilation-deny-list
-  'native-comp-jit-compilation-deny-list
-  "Renamed in emacs#95692f6")
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -91,12 +79,17 @@
                        (setq gc-cons-percentage 0.1) ; original value
                        (garbage-collect)))
 
-;;; MODULES
-;;;; All the rest of the config is split out into individual files, for
-;;;; ease of use.
+
+(defvar emacs-config-dir (expand-file-name "~/.emacs.d/modules/")
+  "Sub-directory containing config files.")
+
+(add-to-list 'load-path emacs-config-dir)
+
 (defvar my/module-list
-  '(
-    "visual"
+  '("theme"
+    "modeline"
+    "icons"
+    ;;"dashboard"
     "evil-mode"
     "keys"
     "file-management"
@@ -113,7 +106,6 @@
   (if (file-readable-p (concat emacs-config-dir pkg ".el"))
       (load-library pkg)))
 
-(provide 'init)
 ;;; init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
