@@ -8,6 +8,8 @@
 (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+(load-theme 'tango)
+
 (global-display-line-numbers-mode t)
 (dolist (mode '(org-mode-hook
                 term-mode-hook
@@ -16,8 +18,8 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(setq my/default-fixed-pitch-font-size '142)
-(setq my/default-variable-pitch-font-size '130)
+(defvar my/default-fixed-pitch-font-size '142)
+(defvar my/default-variable-pitch-font-size '130)
 
 (when (is-mac)
   (set-face-attribute 'default nil :font "Source Code Pro" :height my/default-fixed-pitch-font-size))
@@ -26,9 +28,6 @@
   (set-face-attribute 'default nil :font "Source Code Pro" :height my/default-fixed-pitch-font-size))
 
 (set-face-attribute 'variable-pitch nil :font "Cantarell" :height my/default-variable-pitch-font-size :weight 'regular)
-
-(use-package doom-themes
-  :init (load-theme 'doom-gruvbox t))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -41,8 +40,8 @@
   :config
   (default-text-scale-mode))
 
-(use-package eterm-256color
-  :defer t
-  :hook (term-mode . eterm-256color-mode))
+;; (use-package eterm-256color
+;;   :defer t
+;;   :hook (term-mode . eterm-256color-mode))
 
 (provide 'theme)
