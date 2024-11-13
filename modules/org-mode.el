@@ -79,7 +79,7 @@
       :unnarrowed t)
      ("t" "task" entry
       "* TODO ${title}%?"
-      :if-new (file+head "Todo.org" "#+title: TODOlist\n")
+      :if-new (file+head "Todo.org" "#+title: TODO\n")
       :file-name "Todo.org"
       :unnarrowed t
       :immediate-finish))))
