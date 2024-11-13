@@ -110,6 +110,8 @@
   (if (file-readable-p (concat emacs-config-dir pkg ".el"))
       (load-library pkg)))
 
+(setq initial-buffer-choice (lambda () (org-agenda nil "n")))
+
 ;;; init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
