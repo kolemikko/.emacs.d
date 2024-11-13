@@ -36,52 +36,5 @@
   (setq insert-directory-program "gls" dired-use-ls-dired t)
   (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.5/libexec/gnubin/ls"))
 
-;; (general-define-key
-;;  :prefix "SPC"
-;;  :states 'normal
-;;  :keymaps 'dired-mode-map
-;;  "dd" '(dired-display-file :wk "display file")
-;;  "dv" '(dired-view-file :wk "view file"))
-
-;; Treemacs
-(use-package treemacs
-  :defer t
-  :config
-  (progn
-    (setq treemacs-display-in-side-window t
-	  treemacs-file-follow-delay 0.2
-	  treemacs-follow-after-init t
-	  treemacs-expand-after-init t
-	  treemacs-indentation 2
-	  treemacs-indentation-string " "
-	  treemacs-no-delete-other-windows t
-	  treemacs-project-follow-cleanup nil
-	  treemacs-position 'left
-	  treemacs-recenter-distance 0.1
-	  treemacs-recenter-after-project-jump 'always
-	  treemacs-recenter-after-project-expand 'on-distance
-	  treemacs-show-hidden-files t
-	  treemacs-sorting 'alphabetic-asc
-	  treemacs-select-when-already-in-treemacs 'move-back
-	  treemacs-width 30
-	  treemacs-width-is-initially-locked nil)
-
-    (treemacs-resize-icons 18)
-    (treemacs-project-follow-mode t)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode 'always)))
-
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-
-(use-package treemacs-magit
-  :after (treemacs magit))
-
-(general-define-key
- :prefix "SPC"
- :states 'normal
- :keymaps 'projectile-mode-map
- "tt" '(treemacs :wk "treemacs"))
-
 (provide 'file-management)
 ;;; file-management.el ends here
