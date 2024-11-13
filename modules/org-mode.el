@@ -1,14 +1,14 @@
 ;;; org-mode.el -- All Org-mode related configuration
 
+(defvar my/org-root-dir (expand-file-name "~/Org"))
+
 (defun my/org-mode-setup ()
   (auto-fill-mode 0)
   (visual-line-mode 1))
 
 (use-package org
-  :defer t
   :hook (org-mode . my/org-mode-setup)
   :config
-  (setq org-agenda-files '("~/Org"))
   (setq org-export-coding-system 'utf-8)
   (setq org-ellipsis " ▾"
         org-hide-emphasis-markers t
@@ -29,6 +29,11 @@
   (setq org-modules
         '(org-crypt)))
 
+(add-hook 'after-init-hook
+          (lambda ()
+            (setq org-agenda-files (list my/org-root-dir))))
+
+
 (use-package org-superstar
   :after org
   :hook (org-mode . org-superstar-mode)
@@ -37,7 +42,7 @@
 
 (defun my/org-mode-visual-fill ()
   (setq visual-fill-column-width 120
-        visual-fill-column-center-text t)
+	visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
@@ -45,16 +50,15 @@
 
 (setq calendar-week-start-day 1)
 (add-hook 'calendar-load-hook
-          (lambda ()
-            (calendar-set-date-style 'european)))
+	  (lambda ()
+	    (calendar-set-date-style 'european)))
 
 (use-package org-roam
-  :defer t
   :straight nil
   :hook
-  (after-init . org-roam-mode)
+  (after-init . org-roam-db-autosync-mode)
   :custom
-  (org-roam-directory "~/Org")
+  (org-roam-directory my/org-root-dir)
   (org-roam-completion-everywhere t)
   (org-roam-completion-system 'default)
   (org-roam-capture-templates
@@ -77,7 +81,7 @@
       :if-new (file+head "WorkJournal.org" "#+title: Work Journal\n")
       :file-name "WorkJournal.org"
       :unnarrowed t)
-     ("t" "task" entry
+     ("t" "todo task" entry
       "* TODO ${title}%?"
       :if-new (file+head "Todo.org" "#+title: TODO\n")
       :file-name "Todo.org"
@@ -91,11 +95,11 @@
 
 (defun my/org-present-hook ()
   (setq-local face-remapping-alist '((default (:height 1.5) variable-pitch)
-                                     (header-line (:height 4.8) variable-pitch)
-                                     (org-code (:height 1.55) org-code)
-                                     (org-verbatim (:height 1.55) org-verbatim)
-                                     (org-block (:height 1.25) org-block)
-                                     (org-block-begin-line (:height 0.7) org-block)))
+				     (header-line (:height 4.8) variable-pitch)
+				     (org-code (:height 1.55) org-code)
+				     (org-verbatim (:height 1.55) org-verbatim)
+				     (org-block (:height 1.25) org-block)
+				     (org-block-begin-line (:height 0.7) org-block)))
   (setq header-line-format " ")
   (org-display-inline-images)
   (org-present-read-only)
@@ -130,13 +134,13 @@
 
 (use-package org-present
   :bind (:map org-present-mode-keymap
-              ("C-<right>" . my/org-present-next)
-              ("C-<left>" . my/org-present-prev)
-              ("C-<" . my/org-present-beginning)
-              ("C->" . my/org-present-end)
-              ("C-q" . org-present-quit))
+	      ("C-<right>" . my/org-present-next)
+	      ("C-<left>" . my/org-present-prev)
+	      ("C-<" . my/org-present-beginning)
+	      ("C->" . my/org-present-end)
+	      ("C-q" . org-present-quit))
   :hook ((org-present-mode . my/org-present-hook)
-         (org-present-mode-quit . my/org-present-quit-hook)))
+	 (org-present-mode-quit . my/org-present-quit-hook)))
 
 (require 'org-tempo)
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
@@ -148,7 +152,7 @@
 
 (defun tangle-config ()
   (when (string-equal (buffer-file-name)
-                      (expand-file-name "~/.emacs.d/config.org"))
+		      (expand-file-name "~/.emacs.d/config.org"))
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
 
@@ -158,9 +162,9 @@
   :defer t
   :init
   (setq TeX-parse-self t
-        TeX-auto-save t
-        TeX-auto-local (concat user-emacs-directory "auctex/auto/")
-        TeX-style-local (concat user-emacs-directory "auctex/style/")))
+	TeX-auto-save t
+	TeX-auto-local (concat user-emacs-directory "auctex/auto/")
+	TeX-style-local (concat user-emacs-directory "auctex/style/")))
 
 (setq org-latex-listings t)
 (setq org-latex-compiler "xelatex")
