@@ -150,14 +150,6 @@
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 (add-to-list 'org-structure-template-alist '("json" . "src json"))
 
-(defun tangle-config ()
-  (when (string-equal (buffer-file-name)
-		      (expand-file-name "~/.emacs.d/config.org"))
-    (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle))))
-
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'tangle-config)))
-
 (use-package auctex
   :defer t
   :init
@@ -191,8 +183,6 @@
  "otic" '(org-table-insert-column :wk "column")
  "otir" '(org-table-insert-row :wk "row")
  "otih" '(org-table-insert-hline :wk "horizontal line")
- "ob" '(:ignore ob :wk "babel")
- "obt"'(org-babel-tangle :wk "tangle")
  "op" '(org-present :wk "presentation mode"))
 
 

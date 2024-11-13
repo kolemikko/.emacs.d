@@ -43,7 +43,6 @@
     "eb" '(eval-buffer :wk "buffer")
     "ee" '(eval-expression :wk "expression")
     "er" '(eval-region :wk "region")
-    "es" '(org-babel-execute-src-block :wk "source block")
 
     "f"  '(:ignore f :wk "file")
     "ff" '(find-file :wk "find file")
