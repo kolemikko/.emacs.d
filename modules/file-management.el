@@ -24,6 +24,9 @@
     "p" 'dired-view-file
     "P" 'dired-display-file))
 
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
 (use-package dired-collapse)
 
 (use-package dired-hide-dotfiles
