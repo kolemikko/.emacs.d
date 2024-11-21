@@ -25,13 +25,13 @@
   (general-evil-setup t)
   (general-create-definer custom-keys
     :states '(normal visual motion)
-    :keymaps '(override dashboard)
+    :keymaps '(override)
     :prefix "SPC")
 
   (custom-keys
     "."   '(bufler :wk "list buffers")
     "/"   '(my/switch-recent-buffer :wk "switch to recent buffer")
-    "SPC" '(my/switch-to-dashboard-buffer :wk "switch to dashboard buffer")
+    "SPC" '(my/switch-to-scratch-buffer :wk "switch to scratch buffer")
 
     "c"  '(:ignore c :wk "consult")
     "cr" '(consult-ripgrep :wk "ripgrep")

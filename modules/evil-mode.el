@@ -5,7 +5,6 @@
 (use-package evil
   :init
   (setq evil-undo-system 'undo-fu)
-  (setq evil-want-integration t)
   (setq evil-want-C-u-scroll t)
   (setq evil-want-C-i-jump nil)
   (setq evil-respect-visual-line-mode t)
@@ -15,7 +14,6 @@
   (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
 
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'motion)
   (evil-set-initial-state 'pdf-view-mode 'motion))
 
 (use-package evil-collection
