@@ -93,7 +93,6 @@
   '("theme"
     "modeline"
     "icons"
-    ;;"dashboard"
     "evil-mode"
     "keys"
     "file-management"
