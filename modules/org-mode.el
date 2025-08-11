@@ -54,9 +54,8 @@
 	    (calendar-set-date-style 'european)))
 
 (use-package org-roam
+  :ensure t
   :straight nil
-  :hook
-  (after-init . org-roam-db-autosync-mode)
   :custom
   (org-roam-directory my/org-root-dir)
   (org-roam-completion-everywhere t)
@@ -87,6 +86,10 @@
       :file-name "Todo.org"
       :unnarrowed t
       :immediate-finish))))
+
+(add-hook 'after-init-hook
+          (lambda ()
+            (org-roam-db-autosync-mode)))
 
 (defun my/org-present-prepare-slide ()
   (org-overview)
