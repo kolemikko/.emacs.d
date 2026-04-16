@@ -100,7 +100,6 @@
     "org-mode"
     "prog"
     "lint-and-format"
-    "llm"
     "misc"
     "utils"
     )
