@@ -37,7 +37,7 @@
 
 (when (is-mac)
   (setq insert-directory-program "gls" dired-use-ls-dired t)
-  (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.10/libexec/gnubin/ls"))
+  (setq insert-directory-program "/opt/homebrew/Cellar/coreutils/9.11/libexec/gnubin/ls"))
 
 (provide 'file-management)
 ;;; file-management.el ends here
